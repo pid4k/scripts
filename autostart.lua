@@ -27,7 +27,7 @@ local script = UI["2"]
 		game.Loaded:Wait()
 	end
 	if game.PlaceId ~= 13083893317 then script.Parent:Destroy() return end
-	local status = "lsStatus.txt"
+	local status = "BeanzHub/lsStatus.txt"
 	local player = game:GetService("Players").LocalPlayer
 	PlaceId, JobId = game.PlaceId, game.JobId
 	player.PlayerGui.DescendantAdded:Connect(function(descendant)
