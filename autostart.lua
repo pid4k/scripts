@@ -52,7 +52,7 @@ local script = UI["2"]
 		local guievent = player.PlayerGui:WaitForChild("sploit"):WaitForChild("CrateFarmStart")
 		guievent:Fire("button")
 			guievent:Fire("start")
-		task.delay(50,function()
+		task.delay(70,function()
 			local Players = game:GetService("Players")
 			local TeleportService = game:GetService("TeleportService")
 			if #Players:GetPlayers() <= 1 then
