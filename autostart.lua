@@ -4,7 +4,7 @@
 
 local UI = {}
 
--- // ServerStorage.Mobile Support.autocrate \\ --
+-- // StarterGui.autocrate \\ --
 UI["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
 UI["1"]["IgnoreGuiInset"] = true
 UI["1"]["ScreenInsets"] = Enum.ScreenInsets.DeviceSafeInsets
@@ -12,19 +12,57 @@ UI["1"]["Name"] = [[autocrate]]
 UI["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling
 UI["1"]["ResetOnSpawn"] = false
 
--- // ServerStorage.Mobile Support.autocrate.AutoCrate \\ --
+-- // StarterGui.autocrate.AutoCrate \\ --
 UI["2"] = Instance.new("LocalScript", UI["1"])
 UI["2"]["Name"] = [[AutoCrate]]
 
--- // ServerStorage.Mobile Support.autocrate.Start \\ --
+-- // StarterGui.autocrate.Start \\ --
 UI["3"] = Instance.new("BindableEvent", UI["1"])
 UI["3"]["Name"] = [[Start]]
 
--- // ServerStorage.Mobile Support.autocrate.AutoCrate \\ --
+-- // StarterGui.autocrate.AutoCrate \\ --
 local function SCRIPT_2()
 local script = UI["2"]
 	if not game:IsLoaded() then
 		game.Loaded:Wait()
+	end
+	function resetdefault(file:string,placeholder:string,slots:number)
+		local torepeat = tostring(placeholder..",")
+		torepeat = torepeat:rep(slots)
+		torepeat = torepeat:sub(0,torepeat:len()-1)
+		writefile(file,torepeat)
+	end
+	function checkvariable(file:string,variable:number):string
+		if readfile(file) == nil then
+			resetdefault(file,"nil",3)
+		end
+		local filecontents = readfile(file)
+		local splitwordstable = filecontents:split(",")
+		local putbacksentence = ""
+		for option, word in splitwordstable do
+			if option == variable then
+				return word
+			end
+		end
+	end
+	function writevariable(file:string,variable:number,check:string)
+		if readfile(file) == nil then
+			resetdefault(file,"nil",3)
+		end
+		local filecontents = readfile(file)
+		local splitwordstable = filecontents:split(",")
+		local putbacksentence = ""
+		for option, word in splitwordstable do
+			if option == variable then
+				putbacksentence = tostring(putbacksentence .. check .. ",")
+			else
+				if word ~= "" then
+					putbacksentence = tostring(putbacksentence .. word .. ",")
+				end
+			end										
+		end
+		putbacksentence = putbacksentence:sub(0,putbacksentence:len()-1)
+		writefile(file,putbacksentence)
 	end
 	if game.PlaceId ~= 13083893317 then script.Parent:Destroy() return end
 	local status = "BeanzHub/lsStatus.txt"
@@ -43,7 +81,8 @@ local script = UI["2"]
 		
 	end)
 	
-	if readfile(status) == "running" then
+	
+	if checkvariable(status,1) == "running" then
 		script.Parent.Enabled = false
 		task.wait(0.1)
 		local stringg = "https://raw.githubusercontent.com/pid4k/scripts/main/lifesentence.lua"
