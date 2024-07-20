@@ -4,7 +4,7 @@
 
 local UI = {}
 
--- // StarterGui.autocrate \\ --
+-- // ServerStorage.Mobile Support.autocrate \\ --
 UI["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
 UI["1"]["IgnoreGuiInset"] = true
 UI["1"]["ScreenInsets"] = Enum.ScreenInsets.DeviceSafeInsets
@@ -12,15 +12,15 @@ UI["1"]["Name"] = [[autocrate]]
 UI["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling
 UI["1"]["ResetOnSpawn"] = false
 
--- // StarterGui.autocrate.AutoCrate \\ --
+-- // ServerStorage.Mobile Support.autocrate.AutoCrate \\ --
 UI["2"] = Instance.new("LocalScript", UI["1"])
 UI["2"]["Name"] = [[AutoCrate]]
 
--- // StarterGui.autocrate.Start \\ --
+-- // ServerStorage.Mobile Support.autocrate.Start \\ --
 UI["3"] = Instance.new("BindableEvent", UI["1"])
 UI["3"]["Name"] = [[Start]]
 
--- // StarterGui.autocrate.AutoCrate \\ --
+-- // ServerStorage.Mobile Support.autocrate.AutoCrate \\ --
 local function SCRIPT_2()
 local script = UI["2"]
 	if not game:IsLoaded() then
@@ -91,7 +91,7 @@ local script = UI["2"]
 		local guievent = player.PlayerGui:WaitForChild("sploit"):WaitForChild("CrateFarmStart")
 		guievent:Fire("button")
 			guievent:Fire("start")
-		task.delay(70,function()
+		task.delay(150,function()
 			local Players = game:GetService("Players")
 			local TeleportService = game:GetService("TeleportService")
 			if #Players:GetPlayers() <= 1 then
