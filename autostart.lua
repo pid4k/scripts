@@ -26,6 +26,7 @@ local script = UI["2"]
 	if not game:IsLoaded() then
 		game.Loaded:Wait()
 	end
+	local CoreGui = game:GetService("CoreGui")
 	function resetdefault(file:string,placeholder:string,slots:number)
 		local torepeat = tostring(placeholder..",")
 		torepeat = torepeat:rep(slots)
