@@ -73,7 +73,7 @@ local script = UI["2"]
 			if descendant.Name == "CrateFarmStart" then
 				descendant.Event:Connect(function()
 					if readfile(status) == "running" then
-						descendant:Fire()
+			guievent:Fire("start","autostart")
 					end
 				end)
 			end
@@ -89,8 +89,8 @@ local script = UI["2"]
 		loadstring(game:HttpGet(stringg, true))()
 		task.wait(0.4)
 		local guievent = player.PlayerGui:WaitForChild("sploit"):WaitForChild("CrateFarmStart")
-		guievent:Fire("button")
-			guievent:Fire("start")
+		guievent:Fire("button","autostart")
+			guievent:Fire("start","autostart")
 		task.delay(500,function()
 			local Players = game:GetService("Players")
 			local TeleportService = game:GetService("TeleportService")
