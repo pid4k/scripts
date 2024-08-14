@@ -24,12 +24,6 @@ local script = UI["2"]
 			game.Loaded:Wait()
 		end
 		local CoreGui = game:GetService("CoreGui")
-		function resetdefault(file:string,placeholder:string,slots:number)
-			local torepeat = tostring(placeholder..",")
-			torepeat = torepeat:rep(slots)
-			torepeat = torepeat:sub(0,torepeat:len()-1)
-			writefile(file,torepeat)
-		end
 		function checkvariable(file:string,variable:number):string
 			if readfile(file) == nil then
 				resetdefault(file,"nil",3)
@@ -42,25 +36,6 @@ local script = UI["2"]
 					return word
 				end
 			end
-		end
-		function writevariable(file:string,variable:number,check:string)
-			if readfile(file) == nil then
-				resetdefault(file,"nil",3)
-			end
-			local filecontents = readfile(file)
-			local splitwordstable = filecontents:split(",")
-			local putbacksentence = ""
-			for option, word in splitwordstable do
-				if option == variable then
-					putbacksentence = tostring(putbacksentence .. check .. ",")
-				else
-					if word ~= "" then
-						putbacksentence = tostring(putbacksentence .. word .. ",")
-					end
-				end										
-			end
-			putbacksentence = putbacksentence:sub(0,putbacksentence:len()-1)
-			writefile(file,putbacksentence)
 		end
 		if game.PlaceId ~= 13083893317 then script.Parent:Destroy() return end
 		local status = "BeanzHub/lsStatus.txt"
