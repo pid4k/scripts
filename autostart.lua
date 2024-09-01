@@ -37,7 +37,7 @@ local script = UI["2"]
 				end
 			end
 		end
-		if game.PlaceId ~= 13083893317 then script.Parent:Destroy() return end
+		if game.GameId ~= 4571439504 then script.Parent:Destroy() return end
 		local status = "BeanzHub/lsStatus.txt"
 		local player = game:GetService("Players").LocalPlayer
 		PlaceId, JobId = game.PlaceId, game.JobId
@@ -63,7 +63,7 @@ local script = UI["2"]
 		local guievent = CoreGui:WaitForChild("sploit"):WaitForChild("CrateFarmStart")
 			guievent:Fire("button","autostart")
 			guievent:Fire("start","autostart")
-			task.delay(500,function()
+			task.delay(300,function()
 				local Players = game:GetService("Players")
 				local TeleportService = game:GetService("TeleportService")
 				if #Players:GetPlayers() <= 1 then
