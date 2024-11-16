@@ -774,9 +774,6 @@ function BeanzUI:new(args)
 				value = math.floor(((slideroptions.max - slideroptions.min)* percentage) + slideroptions.min)
 				sliderNumber.Text = tostring(value)
 				sliderBar.Size = UDim2.fromScale(percentage,1)
-				if slideroptions.Callback then
-					slideroptions.Callback()
-				end
 			end
 			
 			function Slider:GetValue()
@@ -796,6 +793,9 @@ function BeanzUI:new(args)
 			end)
 			sliderBackground.MouseButton1Up:Connect(function()
 				Slider.Held = false
+				if slideroptions.Callback then
+					slideroptions.Callback()
+				end
 			end)
 
 			sliderBackground.Parent.MouseMoved:Connect(function()
@@ -805,6 +805,9 @@ function BeanzUI:new(args)
 
 			sliderBackground.Parent.MouseLeave:Connect(function()
 				Slider.Held = false
+				if slideroptions.Callback then
+					slideroptions.Callback()
+				end
 			end)
 			return Slider
 		end
