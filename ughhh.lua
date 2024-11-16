@@ -782,6 +782,10 @@ function BeanzUI:new(args)
 			function Slider:GetValue()
 				return tonumber(value) or 0
 			end
+			
+			function Slider:SetCallback(fnc)
+				slideroptions.Callback = fnc
+			end
 
 			sliderBackground.MouseButton1Down:Connect(function()
 				Slider.Held = true
