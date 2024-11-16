@@ -29,7 +29,7 @@ function BeanzUI:new(args)
 		UI["2"] = Instance.new("Frame", UI["1"])
 		UI["2"]["BorderSizePixel"] = 0
 		UI["2"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46)
-		UI["2"]["Size"] = UDim2.new(0.34967, 0, 0.40667, 0)
+		UI["2"]["Size"] = UDim2.new(0.30, 0, 0.3375, 0)
 		UI["2"]["Position"] = UDim2.new(0.3, 0, 0.3, 0)
 		UI["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["2"]["Name"] = [[Main]]
@@ -1010,7 +1010,7 @@ function BeanzUI:new(args)
 			Toggle["51"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Toggle["51"]["Name"] = [[Toggle]]
 
-			Toggle["51"]["Text"] = [[Togle]]
+			Toggle["51"]["Text"] = [[]]
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle.UICorner \\ --
 			Toggle["52"] = Instance.new("UICorner", Toggle["51"])
