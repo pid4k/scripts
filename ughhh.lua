@@ -1,4 +1,4 @@
-local RunService = game:GetService("RunService")
+elocal RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local mouse = player:GetMouse()
@@ -715,8 +715,8 @@ function BeanzUI:new(args)
 			Slider["23"]["AutoButtonColor"] = false
 			Slider["23"]["Text"] = [[]]
 			Slider["23"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-			Slider["23"]["Size"] = UDim2.new(0.92981, 0, 0.16765, 0)
-			Slider["23"]["Position"] = UDim2.new(0.03509, 0, 0.72641, 0)
+			Slider["23"]["Size"] = UDim2.new(0.92981, 0, 0.2, 0)
+			Slider["23"]["Position"] = UDim2.new(0.03509, 0, 0.75, 0)
 			Slider["23"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Slider["23"]["Name"] = [[SliderBackground]]
 			Slider["23"]["BackgroundTransparency"] = 1
