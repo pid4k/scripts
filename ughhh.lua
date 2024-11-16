@@ -29,7 +29,7 @@ function BeanzUI:new(args)
 		UI["2"] = Instance.new("Frame", UI["1"])
 		UI["2"]["BorderSizePixel"] = 0
 		UI["2"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46)
-		UI["2"]["Size"] = UDim2.new(0.30, 0, 0.3375, 0)
+		UI["2"]["Size"] = args.Size
 		UI["2"]["Position"] = UDim2.new(0.3, 0, 0.3, 0)
 		UI["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["2"]["Name"] = [[Main]]
@@ -256,7 +256,7 @@ function BeanzUI:new(args)
 	
 	UI["d"].MouseButton1Click:Connect(function()
 		if UI["2"].Size == oldframesize then
-		UI["2"].Size = UDim2.fromScale(UI["2"].Size.X.Scale,0.05)
+		UI["2"].Size = args.MinimizedSize
 		UI["6"].Size = UDim2.fromScale(1,1)
 		UI["6"].ZIndex = 10 -- topbar
 		UI["2"].ZIndex = 9 -- mainframe
