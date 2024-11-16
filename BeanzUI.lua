@@ -1062,7 +1062,7 @@ function BeanzUI:new(args)
 			Toggle["58"]["CornerRadius"] = UDim.new(0.2, 0)
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle.Bool.UIStroke \\ --
-			Toggle["59"] = Instance.new("UIStroke", Toggle["57"])F
+			Toggle["59"] = Instance.new("UIStroke", Toggle["57"])
 			Toggle["59"]["Thickness"] = 1.1
 			Toggle["59"]["Color"] = Color3.fromRGB(255, 255, 255)
 
