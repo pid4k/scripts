@@ -762,9 +762,9 @@ function BeanzUI:new(args)
 			local sliderBar = Slider["26"]
 			local sliderNumber = Slider["21"]
 			
-			local percentage
-			local value
 			function Slider:SetValue(v)
+				local percentage
+				local value
 				if not v then
 					percentage = math.clamp((mouse.X - sliderBackground.AbsolutePosition.X) / (sliderBackground.AbsoluteSize.X),0,1)
 				else
@@ -777,7 +777,7 @@ function BeanzUI:new(args)
 			end
 			
 			function Slider:GetValue()
-				return tonumber(value) or 0
+				return tonumber(sliderNumber.Text) or 0
 			end
 			
 			function Slider:SetCallback(fnc)
