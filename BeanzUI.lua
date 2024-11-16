@@ -17,9 +17,9 @@ function BeanzUI:new(args)
 		CurrentTab = nil,
 		Tabs = {},
 		ondestroyed = nil,
+		minimized = false,
 	}
-	do
-		
+
 
 		-- // StarterGui.BeanzUI \\ --
 		UI["1"] = Instance.new("ScreenGui",RunService:IsStudio() and game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui") or game:GetService("CoreGui"))
@@ -173,7 +173,7 @@ function BeanzUI:new(args)
 		UI["10"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["10"]["Name"] = [[TabHolder]]
 		UI["10"]["BackgroundTransparency"] = 1
-		
+
 
 		-- // StarterGui.BeanzUI.Main.Sidebar \\ --
 		UI["75"] = Instance.new("Frame", UI["2"])
@@ -237,14 +237,44 @@ function BeanzUI:new(args)
 		UI["7c"] = Instance.new("UIListLayout", UI["7a"])
 		UI["7c"]["SortOrder"] = Enum.SortOrder.LayoutOrder
 
-	end
-	
 	UI["b"].MouseButton1Click:Connect(function()
 		if UI.ondestroyed then
-		UI.ondestroyed()
+			UI.ondestroyed()
 		end
 		UI["1"]:Destroy()
 	end) 
+	local oldtopbarsize = UI["6"].Size
+	local oldtopbarzindex = UI["6"].ZIndex
+	local oldframesize = UI["2"].Size
+	local oldframezindex = UI["2"].ZIndex
+	local oldexitsize = UI["b"].Size
+	local oldexitzindex = UI["b"].ZIndex
+	local oldminimizesize = UI["d"].Size
+	local oldminimizezindex = UI["d"].ZIndex
+	local oldtitlesize = UI["9"].Size
+	local oldtitlezindex = UI["9"].ZIndex
+	
+	UI["d"].MouseButton1Click:Connect(function()
+		if UI["2"].Size == oldframesize then
+		UI["2"].Size = UDim2.fromScale(UI["2"].Size.X.Scale,0.05)
+		UI["6"].Size = UDim2.fromScale(1,1)
+		UI["6"].ZIndex = 10 -- topbar
+		UI["2"].ZIndex = 9 -- mainframe
+		UI["b"].ZIndex = 11 -- exit
+		UI["d"].ZIndex = 11 -- minimize
+		UI["9"].ZIndex = 11 -- title
+		UI["2"].Sidebar.Visible = false
+		else
+			UI["2"].Size = oldframesize
+		UI["6"].Size = oldtopbarsize
+		UI["6"].ZIndex = oldtopbarzindex
+		UI["2"].ZIndex = oldframezindex
+		UI["b"].ZIndex = oldexitzindex
+		UI["d"].ZIndex = oldminimizezindex
+		UI["9"].ZIndex = oldtitlezindex
+			UI["2"].Sidebar.Visible = true
+		end
+	end)
 	function UI:CreateTab(taboptions)
 		local Tab = {
 			Hover = false,
@@ -280,8 +310,8 @@ function BeanzUI:new(args)
 
 		-- // StarterGui.BeanzUI.Main.Sidebar.Holder.Inactive.UITextSizeConstraint \\ --
 		Tab["82"] = Instance.new("UITextSizeConstraint", Tab["80"])
-		Tab["82"]["MaxTextSize"] = 25
-		Tab["82"]["MinTextSize"] = 12
+		Tab["82"]["MaxTextSize"] = 20
+		Tab["82"]["MinTextSize"] = 14
 
 		-- // StarterGui.BeanzUI.Main.Sidebar.Line \\ --
 		Tab["83"] = Instance.new("Frame", Tab["75"])
@@ -296,7 +326,7 @@ function BeanzUI:new(args)
 		-- // StarterGui.BeanzUI.Main.UIAspectRatioConstraint \\ --
 		Tab["84"] = Instance.new("UIAspectRatioConstraint", Tab["2"])
 		Tab["84"]["AspectRatio"] = 1.71967
-		
+
 
 		-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame \\ --
 		Tab["11"] = Instance.new("ScrollingFrame", UI["10"])
@@ -318,7 +348,7 @@ function BeanzUI:new(args)
 		Tab["13"]["PaddingTop"] = UDim.new(0.01, 0)
 		Tab["13"]["PaddingLeft"] = UDim.new(0.01, 0)
 
-		
+
 		local scrollingFrame = Tab["11"]
 		local tabButton = Tab["80"]
 
@@ -370,7 +400,7 @@ function BeanzUI:new(args)
 		if UI.CurrentTab == nil then
 			Tab:Activate()
 		end
-		
+
 		function Tab:Button(buttonoptions)
 			local Button = {}
 
@@ -432,14 +462,14 @@ function BeanzUI:new(args)
 			Button["1a"] = Instance.new("UIStroke", Button["14"])
 			Button["1a"]["Color"] = Color3.fromRGB(154, 154, 154)
 			Button["1a"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border
-			
+
 			local button = Button["14"]
 			local title = Button["16"]
 			local uistroke = Button["1a"]
 			button.MouseButton1Click:Connect(function()
 				buttonoptions.Pressed()
 			end)
-			
+
 			function Button:SetText(text)
 				title.Text = text
 			end
@@ -497,18 +527,18 @@ function BeanzUI:new(args)
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Warning.UIStroke \\ --
 			Warning["6e"] = Instance.new("UIStroke", Warning["69"])
 			Warning["6e"]["Color"] = Color3.fromRGB(198, 198, 0)
-			
+
 			local warning = Warning["6b"]
 			function Warning:SetText(text)
 				warningoptions.Text = text
 				warning.Text = text
 			end
-			
+
 			return Warning
 		end
 		function Tab:Info(infooptions)
 			local Info = {}
-			
+
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Info \\ --
 			Info["63"] = Instance.new("Frame", Tab["11"])
@@ -537,7 +567,7 @@ function BeanzUI:new(args)
 			Info["65"]["BackgroundTransparency"] = 1
 			Info["65"]["Size"] = UDim2.new(1, 0, 0.7, 0)
 			Info["65"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Info["65"]["Text"] = [[Ok]]
+			Info["65"]["Text"] = infooptions.Text
 			Info["65"]["AutomaticSize"] = Enum.AutomaticSize.Y
 			Info["65"]["Name"] = [[Title]]
 			Info["65"]["Position"] = UDim2.new(0, 0, 0.13174, 0)
@@ -554,7 +584,7 @@ function BeanzUI:new(args)
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Info.UIStroke \\ --
 			Info["68"] = Instance.new("UIStroke", Info["63"])
 			Info["68"]["Color"] = Color3.fromRGB(0, 145, 217)
-			
+
 			local info = Info["65"]
 			function Info:SetText(text)
 				infooptions.Text = text
@@ -617,7 +647,7 @@ function BeanzUI:new(args)
 			Message["7a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Message["7a"]["Name"] = [[Holder]]
 			Message["7a"]["BackgroundTransparency"] = 1
-			
+
 			local message = Message["71"]
 			function Message:SetText(text)
 				messageoptions.Text = text
@@ -626,7 +656,9 @@ function BeanzUI:new(args)
 			return Message
 		end
 		function Tab:Slider(slideroptions)
-			local Slider = {}
+			local Slider = {
+				Callback = nil
+			}
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider \\ --
 			Slider["1b"] = Instance.new("Frame", Tab["11"])
 			Slider["1b"]["BorderSizePixel"] = 0
@@ -653,7 +685,7 @@ function BeanzUI:new(args)
 			Slider["1d"]["BackgroundTransparency"] = 1
 			Slider["1d"]["Size"] = UDim2.new(1, 0, 0.45282, 0)
 			Slider["1d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Slider["1d"]["Text"] = [[Speed]]
+			Slider["1d"]["Text"] = slideroptions.Text
 			Slider["1d"]["AutomaticSize"] = Enum.AutomaticSize.Y
 			Slider["1d"]["Name"] = [[Title]]
 			Slider["1d"]["Position"] = UDim2.new(0, 0, 0.15, 0)
@@ -725,40 +757,44 @@ function BeanzUI:new(args)
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider.SliderBackground.Bar.UICorner \\ --
 			Slider["27"] = Instance.new("UICorner", Slider["26"])
 			Slider["27"]["CornerRadius"] = UDim.new(1, 0)
-			
+
 			local sliderBackground = Slider["23"]
 			local sliderBar = Slider["26"]
 			local sliderNumber = Slider["21"]
-			
+
 			function Slider:SetValue(v)
 				local percentage
+				local value
 				if not v then
 					percentage = math.clamp((mouse.X - sliderBackground.AbsolutePosition.X) / (sliderBackground.AbsoluteSize.X),0,1)
 				else
-					percentage = v
+					percentage = v / slideroptions.max
 				end
-				local value = math.floor(((slideroptions.max - slideroptions.min)* percentage) + slideroptions.min)
-
+				
+				value = math.floor(((slideroptions.max - slideroptions.min)* percentage) + slideroptions.min)
 				sliderNumber.Text = tostring(value)
 				sliderBar.Size = UDim2.fromScale(percentage,1)
+				if slideroptions.Callback then
+					slideroptions.Callback()
+				end
 			end
-			
+
 			sliderBackground.MouseButton1Down:Connect(function()
 				Slider.Held = true
 			end)
-			
+
 			sliderNumber.FocusLost:Connect(function()
-				Slider:SetValue((tonumber(sliderNumber.Text) or 0) / 100)
+				Slider:SetValue(tonumber(sliderNumber.Text) or 0)
 			end)
 			sliderBackground.MouseButton1Up:Connect(function()
 				Slider.Held = false
 			end)
-			
+
 			sliderBackground.Parent.MouseMoved:Connect(function()
 				if not Slider.Held then return end
 				Slider:SetValue()
 			end)
-			
+
 			sliderBackground.Parent.MouseLeave:Connect(function()
 				Slider.Held = false
 			end)
@@ -769,7 +805,7 @@ function BeanzUI:new(args)
 				Selected = nil,
 				Closed = true,
 			}
-			
+
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown \\ --
 			Dropdown["28"] = Instance.new("TextButton", Tab["11"])
@@ -848,37 +884,37 @@ function BeanzUI:new(args)
 			Dropdown["30"] = Instance.new("UIListLayout", Dropdown["2f"])
 			Dropdown["30"]["Padding"] = UDim.new(0.05, 0)
 			Dropdown["30"]["SortOrder"] = Enum.SortOrder.LayoutOrder
-			
+
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Options.UIPadding \\ --
 			Dropdown["34"] = Instance.new("UIPadding", Dropdown["2f"])
 			Dropdown["34"]["PaddingTop"] = UDim.new(0.1, 0)
-			
+
 			local dropdown = Dropdown["28"]
 			dropdown.ClipsDescendants = true
 			local text = Dropdown["2a"]
 			local arrow = Dropdown["2d"]
-			
+
 			local dropdownclosedsize = UDim2.fromScale(0.9,0.064)
 			local dropdownclosedtextsize = UDim2.fromScale(1,0.7)
 			local dropdownclosedtextposition = UDim2.fromScale(0.5,0.5)
 			local arrowclosedsize = UDim2.fromScale(0.076,0.711)
 			local arrowclosedposition = UDim2.fromScale(0.875,0.139)
-			
+
 
 			local dropdownopensize = UDim2.fromScale(dropdown.Size.X.Scale,dropdown.Size.Y.Scale)
 			local dropdownopentextsize = UDim2.fromScale(text.Size.X.Scale,text.Size.Y.Scale)
 			local dropdownopentextposition = UDim2.fromScale(text.Position.X.Scale,text.Position.Y.Scale)
 			local arrowopensize = UDim2.fromScale(arrow.Size.X.Scale,arrow.Size.Y.Scale)
 			local arrowopenposition = UDim2.fromScale(arrow.Position.X.Scale,arrow.Position.Y.Scale)
-			
+
 			dropdown.Size = dropdownclosedsize
 			text.Size = dropdownclosedtextsize
 			text.Position = dropdownclosedtextposition
 			arrow.Size = arrowclosedsize
 			arrow.Position = arrowclosedposition
-			
+
 			local debounce = false
-			
+
 			local function toggledropdown()
 				if debounce then return end
 				debounce = true
@@ -901,7 +937,7 @@ function BeanzUI:new(args)
 					BeanzUI:Tween(arrow,nil,{Size = arrowopensize, Position = arrowopenposition, Rotation = -90})
 				end
 			end
-			
+
 			function Dropdown:Select(buzzon)
 				for _, button in dropdown.Options:GetChildren() do
 					if button:IsA("TextButton") then
@@ -915,7 +951,7 @@ function BeanzUI:new(args)
 
 			function Dropdown:Option(option)
 				local Option = {}
-				
+
 
 				-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Options.Option1 \\ --
 				Option["31"] = Instance.new("TextButton", Dropdown["2f"])
@@ -942,7 +978,7 @@ function BeanzUI:new(args)
 				-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Options.Option1.UICorner \\ --
 				Option["33"] = Instance.new("UICorner", Option["31"])
 				Option["33"]["CornerRadius"] = UDim.new(1, 0)
-				
+
 				-- manual uistroke
 				Option["34"] = Instance.new("UIStroke", Option["31"])
 				Option["34"]["Enabled"] = false
@@ -954,17 +990,17 @@ function BeanzUI:new(args)
 					Dropdown:Select(button)
 				end)
 
-				
+
 				return Option
 			end
 			dropdown.Options.Visible = false	
 			dropdown.MouseButton1Click:Connect(toggledropdown)
 			return Dropdown
 		end
-		
+
 		function Tab:Toggle(toggleoptions)
 			local Toggle = {}
-			
+
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle \\ --
 			Toggle["51"] = Instance.new("TextButton", Tab["11"])
 			Toggle["51"]["BorderSizePixel"] = 0
@@ -994,7 +1030,7 @@ function BeanzUI:new(args)
 			Toggle["53"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
 			Toggle["53"]["Size"] = UDim2.new(1, 0, 0.7, 0)
 			Toggle["53"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Toggle["53"]["Text"] = [[Click me]]
+			Toggle["53"]["Text"] = toggleoptions.Text
 			Toggle["53"]["AutomaticSize"] = Enum.AutomaticSize.Y
 			Toggle["53"]["Name"] = [[Title]]
 			Toggle["53"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
@@ -1032,7 +1068,7 @@ function BeanzUI:new(args)
 
 			local button = Toggle["51"]
 			local status = Toggle["57"]
-			
+
 			button.MouseButton1Click:Connect(function()
 				-- change transparency
 				if status.BackgroundTransparency == 1 then
@@ -1046,10 +1082,10 @@ function BeanzUI:new(args)
 			end
 			return Toggle
 		end
-			
+
 		return Tab
 	end
-	
+
 	if args.Movable then
 		local drag = Instance.new("UIDragDetector")
 		drag.Parent = UI["2"]
