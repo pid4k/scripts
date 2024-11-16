@@ -299,7 +299,7 @@ function BeanzUI:new(args)
 		Tab["80"]["Size"] = UDim2.new(1, 0, 0.1, 0)
 		Tab["80"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		Tab["80"]["Text"] = taboptions.Name or "Tab"
-		Tab["80"]["AutomaticSize"] = Enum.AutomaticSize.Y
+		Tab["80"]["AutomaticSize"] = Enum.AutomaticSize.None
 		Tab["80"]["Name"] = [[Inactive]]
 		Tab["80"]["Position"] = UDim2.new(-0, 0, 0.188, 0)
 
@@ -308,10 +308,6 @@ function BeanzUI:new(args)
 		Tab["81"]["PaddingTop"] = UDim.new(0.05, 0)
 		Tab["81"]["PaddingLeft"] = UDim.new(0.05, 0)
 
-		-- // StarterGui.BeanzUI.Main.Sidebar.Holder.Inactive.UITextSizeConstraint \\ --
-		Tab["82"] = Instance.new("UITextSizeConstraint", Tab["80"])
-		Tab["82"]["MaxTextSize"] = 20
-		Tab["82"]["MinTextSize"] = 14
 
 		-- // StarterGui.BeanzUI.Main.Sidebar.Line \\ --
 		Tab["83"] = Instance.new("Frame", Tab["75"])
@@ -409,7 +405,7 @@ function BeanzUI:new(args)
 			Button["14"]["Text"] = [[]]
 			Button["14"]["BorderSizePixel"] = 0
 			Button["14"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
-			Button["14"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Button["14"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Button["14"]["Size"] = UDim2.new(0.9, 0, 0.06407, 0)
 			Button["14"]["Position"] = UDim2.new(0, 0, 0.0101, 0)
 			Button["14"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
@@ -433,7 +429,7 @@ function BeanzUI:new(args)
 			Button["16"]["Size"] = UDim2.new(1, 0, 0.7, 0)
 			Button["16"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Button["16"]["Text"] = buttonoptions.ButtonText or "Button"
-			Button["16"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Button["16"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Button["16"]["Name"] = [[Title]]
 			Button["16"]["Position"] = UDim2.new(0, 0, 0.15, 0)
 
@@ -441,10 +437,6 @@ function BeanzUI:new(args)
 			Button["17"] = Instance.new("UIPadding", Button["16"])
 			Button["17"]["PaddingLeft"] = UDim.new(0.05, 0)
 
-			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button.Title.UITextSizeConstraint \\ --
-			Button["18"] = Instance.new("UITextSizeConstraint", Button["16"])
-			Button["18"]["MaxTextSize"] = 18
-			Button["18"]["MinTextSize"] = 12
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button.Icon \\ --
 			Button["19"] = Instance.new("ImageLabel", Button["14"])
@@ -686,7 +678,7 @@ function BeanzUI:new(args)
 			Slider["1d"]["Size"] = UDim2.new(1, 0, 0.45282, 0)
 			Slider["1d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Slider["1d"]["Text"] = slideroptions.Text
-			Slider["1d"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Slider["1d"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Slider["1d"]["Name"] = [[Title]]
 			Slider["1d"]["Position"] = UDim2.new(0, 0, 0.15, 0)
 
@@ -694,10 +686,6 @@ function BeanzUI:new(args)
 			Slider["1e"] = Instance.new("UIPadding", Slider["1d"])
 			Slider["1e"]["PaddingLeft"] = UDim.new(0.05, 0)
 
-			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider.Title.UITextSizeConstraint \\ --
-			Slider["1f"] = Instance.new("UITextSizeConstraint", Slider["1d"])
-			Slider["1f"]["MaxTextSize"] = 18
-			Slider["1f"]["MinTextSize"] = 12
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider.UIStroke \\ --
 			Slider["20"] = Instance.new("UIStroke", Slider["1b"])
@@ -716,14 +704,10 @@ function BeanzUI:new(args)
 			Slider["21"]["Size"] = UDim2.new(0.12762, 0, 0.48197, 0)
 			Slider["21"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Slider["21"]["Text"] = [[60]]
-			Slider["21"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Slider["21"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Slider["21"]["Name"] = [[Number]]
 			Slider["21"]["Position"] = UDim2.new(0.85101, 0, 0.12085, 0)
 
-			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider.Number.UITextSizeConstraint \\ --
-			Slider["22"] = Instance.new("UITextSizeConstraint", Slider["21"])
-			Slider["22"]["MaxTextSize"] = 18
-			Slider["22"]["MinTextSize"] = 12
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider.SliderBackground \\ --
 			Slider["23"] = Instance.new("TextButton", Slider["1b"])
@@ -762,9 +746,10 @@ function BeanzUI:new(args)
 			local sliderBar = Slider["26"]
 			local sliderNumber = Slider["21"]
 			
+			local percentage
+			local value
+			
 			function Slider:SetValue(v)
-				local percentage
-				local value
 				if not v then
 					percentage = math.clamp((mouse.X - sliderBackground.AbsolutePosition.X) / (sliderBackground.AbsoluteSize.X),0,1)
 				else
@@ -777,7 +762,7 @@ function BeanzUI:new(args)
 			end
 			
 			function Slider:GetValue()
-				return tonumber(sliderNumber.Text) or 0
+				return tonumber(value) or 0
 			end
 			
 			function Slider:SetCallback(fnc)
@@ -849,7 +834,7 @@ function BeanzUI:new(args)
 			Dropdown["2a"]["Size"] = UDim2.new(1, 0, 0.18954, 0)
 			Dropdown["2a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Dropdown["2a"]["Text"] = [[Dropdown]]
-			Dropdown["2a"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Dropdown["2a"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Dropdown["2a"]["Name"] = [[Title]]
 			Dropdown["2a"]["Position"] = UDim2.new(0.5, 0, 0.15762, 0)
 
@@ -857,10 +842,6 @@ function BeanzUI:new(args)
 			Dropdown["2b"] = Instance.new("UIPadding", Dropdown["2a"])
 			Dropdown["2b"]["PaddingLeft"] = UDim.new(0.05, 0)
 
-			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Title.UITextSizeConstraint \\ --
-			Dropdown["2c"] = Instance.new("UITextSizeConstraint", Dropdown["2a"])
-			Dropdown["2c"]["MaxTextSize"] = 18
-			Dropdown["2c"]["MinTextSize"] = 12
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Icon \\ --
 			Dropdown["2d"] = Instance.new("ImageLabel", Dropdown["28"])
@@ -978,7 +959,7 @@ function BeanzUI:new(args)
 				Option["31"]["Size"] = UDim2.new(1, 0, 0.24645, 0)
 				Option["31"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 				Option["31"]["Text"] = [[Click me]]
-				Option["31"]["AutomaticSize"] = Enum.AutomaticSize.Y
+				Option["31"]["AutomaticSize"] = Enum.AutomaticSize.None
 				Option["31"]["Name"] = [[Option1]]
 				Option["31"]["Position"] = UDim2.new(0.5, 0, 0.12323, 0)
 
@@ -1042,18 +1023,13 @@ function BeanzUI:new(args)
 			Toggle["53"]["Size"] = UDim2.new(1, 0, 0.7, 0)
 			Toggle["53"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Toggle["53"]["Text"] = toggleoptions.Text
-			Toggle["53"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Toggle["53"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Toggle["53"]["Name"] = [[Title]]
 			Toggle["53"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle.Title.UIPadding \\ --
 			Toggle["54"] = Instance.new("UIPadding", Toggle["53"])
 			Toggle["54"]["PaddingLeft"] = UDim.new(0.05, 0)
-
-			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle.Title.UITextSizeConstraint \\ --
-			Toggle["55"] = Instance.new("UITextSizeConstraint", Toggle["53"])
-			Toggle["55"]["MaxTextSize"] = 18
-			Toggle["55"]["MinTextSize"] = 12
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle.UIStroke \\ --
 			Toggle["56"] = Instance.new("UIStroke", Toggle["51"])
