@@ -406,7 +406,7 @@ function BeanzUI:new(args)
 			Button["14"]["BorderSizePixel"] = 0
 			Button["14"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
 			Button["14"]["AutomaticSize"] = Enum.AutomaticSize.None
-			Button["14"]["Size"] = UDim2.new(0.9, 0, 0.06407, 0)
+			Button["14"]["Size"] = (buttonoptions.Small and UDim2.new(0.9, 0, 0.05, 0) or UDim2.new(0.9, 0, 0.06407, 0))
 			Button["14"]["Position"] = UDim2.new(0, 0, 0.0101, 0)
 			Button["14"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Button["14"]["Name"] = [[Button]]
@@ -467,6 +467,21 @@ function BeanzUI:new(args)
 			end
 			function Button:IsOn()
 				return not (uistroke.Color == Color3.fromRGB(154,154,154))
+			end
+			function Button:Toggle(v)
+				if not v then
+					if not Button:IsOn() then
+				BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(0, 170, 0)})
+					else
+						BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(154,154,154)})
+					end
+				else
+					if v == true then
+						BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(0, 170, 0)})
+					else
+						BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(154,154,154)})
+					end
+				end
 			end
 			function Button:SetCallback(fnc)
 				buttonoptions.Pressed = fnc
@@ -614,7 +629,7 @@ function BeanzUI:new(args)
 			Message["71"]["BackgroundTransparency"] = 1
 			Message["71"]["Size"] = UDim2.new(1, 0, 0.7, 0)
 			Message["71"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Message["71"]["Text"] = [[Ok]]
+			Message["71"]["Text"] = messageoptions.Text
 			Message["71"]["AutomaticSize"] = Enum.AutomaticSize.Y
 			Message["71"]["Name"] = [[Title]]
 			Message["71"]["Position"] = UDim2.new(0, 0, 0.13174, 0)
@@ -715,8 +730,8 @@ function BeanzUI:new(args)
 			Slider["23"]["AutoButtonColor"] = false
 			Slider["23"]["Text"] = [[]]
 			Slider["23"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-			Slider["23"]["Size"] = UDim2.new(0.92981, 0, 0.2, 0)
-			Slider["23"]["Position"] = UDim2.new(0.03509, 0, 0.75, 0)
+			Slider["23"]["Size"] = UDim2.new(0.92981, 0, 0.16765, 0)
+			Slider["23"]["Position"] = UDim2.new(0.03509, 0, 0.72641, 0)
 			Slider["23"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Slider["23"]["Name"] = [[SliderBackground]]
 			Slider["23"]["BackgroundTransparency"] = 1
