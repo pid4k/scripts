@@ -468,7 +468,10 @@ function BeanzUI:new(args)
 				title.Text = text
 			end
 			function Button:IsOn()
-				return Button.On
+				if Button.On then
+					return true
+				end
+				return false
 			end
 			function Button:Toggle(v)
 				if not v then
