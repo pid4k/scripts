@@ -1072,7 +1072,7 @@ function BeanzUI:new(args)
 			local status = Toggle["57"]
 			
 			
-			function Toggle:SetChangedCallback(fnc)
+			function Toggle:SetCallback(fnc)
 				Toggle.ChangedCallback = fnc
 			end
 			button.MouseButton1Click:Connect(function()
