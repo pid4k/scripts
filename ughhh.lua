@@ -1070,13 +1070,19 @@ function BeanzUI:new(args)
 
 			local button = Toggle["51"]
 			local status = Toggle["57"]
-
+			
+			
+			function Toggle:SetChangedCallback(fnc)
+				Toggle.ChangedCallback = fnc
+			end
 			button.MouseButton1Click:Connect(function()
 				-- change transparency
 				if status.BackgroundTransparency == 1 then
 					status.BackgroundTransparency = 0
 				else
-					status.BackgroundTransparency = 1
+				end
+				if Toggle.ChangedCallback then
+					Toggle.ChangedCallback()
 				end
 			end)
 			function Toggle:IsToggled()
