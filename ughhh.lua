@@ -398,9 +398,7 @@ function BeanzUI:new(args)
 		end
 
 		function Tab:Button(buttonoptions)
-			local Button = {
-				On = false,
-			}
+			local Button = {}
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button \\ --
 			Button["14"] = Instance.new("TextButton", Tab["11"])
@@ -468,23 +466,20 @@ function BeanzUI:new(args)
 				title.Text = text
 			end
 			function Button:IsOn()
-				return Button.On
+				return not (uistroke.Color == Color3.fromRGB(154,154,154))
 			end
 			function Button:Toggle(v)
 				if not v then
 					if not Button:IsOn() then
-				BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(0, 170, 0)})
-						Button.On = true
+						uistroke.Color = Color3.fromRGB(0,170,0)
 					else
-						BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(154,154,154)})
-						Button.On = false
+						uistroke.Color = Color3.fromRGB(154,154,154)
 					end
 				else
-					Button.On = v
 					if v == true then
-						BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(0, 170, 0)})
+						uistroke.Color = Color3.fromRGB(0,170,0)
 					else
-						BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(154,154,154)})
+						uistroke.Color = Color3.fromRGB(154,154,154)
 					end
 				end
 			end
