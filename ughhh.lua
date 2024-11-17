@@ -264,6 +264,7 @@ function BeanzUI:new(args)
 		UI["d"].ZIndex = 11 -- minimize
 		UI["9"].ZIndex = 11 -- title
 		UI["2"].Sidebar.Visible = false
+		UI["2"].Transparency = 1
 		else
 			UI["2"].Size = oldframesize
 		UI["6"].Size = oldtopbarsize
@@ -273,6 +274,7 @@ function BeanzUI:new(args)
 		UI["d"].ZIndex = oldminimizezindex
 		UI["9"].ZIndex = oldtitlezindex
 			UI["2"].Sidebar.Visible = true
+			UI["2"].Transparency = 0
 		end
 	end)
 	function UI:CreateTab(taboptions)
@@ -374,6 +376,12 @@ function BeanzUI:new(args)
 				BeanzUI:Tween(tabButton,nil,  {TextColor3 = Color3.fromRGB(255,255,255)})
 				Tab["11"].Visible = true
 			end
+		end
+		
+		function Tab:SetText(text)
+			taboptions.Name = text
+			tabButton.Name = text
+			tabButton.Text = text
 		end
 
 		function Tab:Deactivate()
@@ -1097,6 +1105,87 @@ function BeanzUI:new(args)
 				return status.BackgroundTransparency == 0
 			end
 			return Toggle
+		end
+
+		function Tab:TextBox(textboxoptions)
+			local TextBox = {}
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox \\ --
+			TextBox["75"] = Instance.new("Frame", Tab["11"])
+			TextBox["75"]["BorderSizePixel"] = 0
+			TextBox["75"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["75"]["Size"] = UDim2.new(0.9, 0, 0.08377, 0)
+			TextBox["75"]["Position"] = UDim2.new(0, 0, 0.51186, 0)
+			TextBox["75"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["75"]["Name"] = [[TextBox]]
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.UICorner \\ --
+			TextBox["76"] = Instance.new("UICorner", TextBox["75"])
+
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.Title \\ --
+			TextBox["77"] = Instance.new("TextLabel", TextBox["75"])
+			TextBox["77"]["TextWrapped"] = true
+			TextBox["77"]["BorderSizePixel"] = 0
+			TextBox["77"]["TextXAlignment"] = Enum.TextXAlignment.Left
+			TextBox["77"]["TextScaled"] = true
+			TextBox["77"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+			TextBox["77"]["TextSize"] = 14
+			TextBox["77"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			TextBox["77"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
+			TextBox["77"]["BackgroundTransparency"] = 1
+			TextBox["77"]["Size"] = UDim2.new(1, 0, 0.45282, 0)
+			TextBox["77"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["77"]["Text"] = textboxoptions.Text or "textbox"
+			TextBox["77"]["Name"] = [[Title]]
+			TextBox["77"]["Position"] = UDim2.new(0, 0, 0.26446, 0)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.Title.UIPadding \\ --
+			TextBox["78"] = Instance.new("UIPadding", TextBox["77"])
+			TextBox["78"]["PaddingLeft"] = UDim.new(0.05, 0)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.UIStroke \\ --
+			TextBox["79"] = Instance.new("UIStroke", TextBox["75"])
+			TextBox["79"]["Color"] = Color3.fromRGB(154, 154, 154)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox \\ --
+			TextBox["7a"] = Instance.new("TextBox", TextBox["75"])
+			TextBox["7a"]["CursorPosition"] = -1
+			TextBox["7a"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["7a"]["BorderSizePixel"] = 0
+			TextBox["7a"]["TextXAlignment"] = Enum.TextXAlignment.Left
+			TextBox["7a"]["TextWrapped"] = true
+			TextBox["7a"]["TextSize"] = 14
+			TextBox["7a"]["TextScaled"] = true
+			TextBox["7a"]["ClearTextOnFocus"] = false
+			TextBox["7a"]["BackgroundColor3"] = Color3.fromRGB(185, 185, 185)
+			TextBox["7a"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			TextBox["7a"]["Size"] = UDim2.new(0.52197, 0, 0.71728, 0)
+			TextBox["7a"]["Position"] = UDim2.new(0.45527, 0, 0.13354, 0)
+			TextBox["7a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["7a"]["Text"] = [[skibiditoilet]]
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox.UIStroke \\ --
+			TextBox["7b"] = Instance.new("UIStroke", TextBox["7a"])
+			TextBox["7b"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border
+			TextBox["7b"]["Color"] = Color3.fromRGB(255, 255, 255)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox.UICorner \\ --
+			TextBox["7c"] = Instance.new("UICorner", TextBox["7a"])
+
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox.UIPadding \\ --
+			TextBox["7d"] = Instance.new("UIPadding", TextBox["7a"])
+			TextBox["7d"]["PaddingLeft"] = UDim.new(0.05, 0)
+			
+			local textbox = TextBox["7a"]
+			
+			function TextBox:GetText()
+				return textbox.Text
+			end
+			function TextBox:SetText(text)
+				textbox.Text = text
+			end
 		end
 
 		return Tab
