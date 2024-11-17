@@ -474,10 +474,10 @@ function BeanzUI:new(args)
 				if not v then
 					if not Button:IsOn() then
 				BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(0, 170, 0)})
-						Button.On = false
+						Button.On = true
 					else
 						BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(154,154,154)})
-						Button.On = true
+						Button.On = false
 					end
 				else
 					Button.On = v
