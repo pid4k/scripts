@@ -468,14 +468,11 @@ function BeanzUI:new(args)
 				title.Text = text
 			end
 			function Button:IsOn()
-				if Button.On then
-					return true
-				end
-				return false
+				return Button.On
 			end
 			function Button:Toggle(v)
 				if not v then
-					if not Button:On() then
+					if not Button:IsOn() then
 				BeanzUI:Tween(uistroke,nil,{Color = Color3.fromRGB(0, 170, 0)})
 						Button.On = false
 					else
