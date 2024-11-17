@@ -371,6 +371,7 @@ function BeanzUI:new(args)
 				Tab.Active = true
 				UI.CurrentTab = Tab
 				BeanzUI:Tween(tabButton,nil,  {BackgroundTransparency = 0.8})
+				BeanzUI:Tween(tabButton,nil,  {TextColor3 = Color3.fromRGB(255,255,255)})
 				Tab["11"].Visible = true
 			end
 		end
@@ -1075,11 +1076,18 @@ function BeanzUI:new(args)
 			function Toggle:SetCallback(fnc)
 				Toggle.ChangedCallback = fnc
 			end
+			
+			if toggleoptions.Toggled == false then
+				status.BackgroundTransparency = 1
+			else
+				status.BackgroundTransparency = 0
+			end
 			button.MouseButton1Click:Connect(function()
 				-- change transparency
 				if status.BackgroundTransparency == 1 then
 					status.BackgroundTransparency = 0
 				else
+					status.BackgroundTransparency = 1
 				end
 				if Toggle.ChangedCallback then
 					Toggle.ChangedCallback()
