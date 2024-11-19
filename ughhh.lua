@@ -526,7 +526,7 @@ function BeanzUI:new(args)
 			Warning["6b"]["BackgroundTransparency"] = 1
 			Warning["6b"]["Size"] = UDim2.new(1, 0, 0.7, 0)
 			Warning["6b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Warning["6b"]["Text"] = [[Ok]]
+			Warning["6b"]["Text"] = warningoptions.Text
 			Warning["6b"]["AutomaticSize"] = Enum.AutomaticSize.Y
 			Warning["6b"]["Name"] = [[Title]]
 			Warning["6b"]["Position"] = UDim2.new(0, 0, 0.13174, 0)
