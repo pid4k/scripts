@@ -960,7 +960,7 @@ function BeanzUI:new(args)
 			Dropdown["2a"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
 			Dropdown["2a"]["Size"] = UDim2.new(1, 0, 0.18954, 0)
 			Dropdown["2a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Dropdown["2a"]["Text"] = [[Dropdown]]
+			Dropdown["2a"]["Text"] = dropdownoptions.Name
 			Dropdown["2a"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Dropdown["2a"]["Name"] = [[Title]]
 			Dropdown["2a"]["Position"] = UDim2.new(0.5, 0, 0.15762, 0)
@@ -1067,6 +1067,13 @@ function BeanzUI:new(args)
 				Dropdown.Selected = buzzon
 				toggledropdown()
 			end
+			
+			function Dropdown:GetOption()
+				if Dropdown.Selected then
+					return Dropdown.Selected.Name
+				end
+				return nil
+			end
 
 			function Dropdown:Option(option)
 				local Option = {}
@@ -1085,9 +1092,9 @@ function BeanzUI:new(args)
 				Option["31"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
 				Option["31"]["Size"] = UDim2.new(1, 0, 0.24645, 0)
 				Option["31"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-				Option["31"]["Text"] = [[Click me]]
+				Option["31"]["Text"] = option.Name
 				Option["31"]["AutomaticSize"] = Enum.AutomaticSize.None
-				Option["31"]["Name"] = [[Option1]]
+				Option["31"]["Name"] = option.Name
 				Option["31"]["Position"] = UDim2.new(0.5, 0, 0.12323, 0)
 
 				-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Options.Option1.UIPadding \\ --
