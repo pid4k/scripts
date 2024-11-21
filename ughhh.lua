@@ -516,7 +516,7 @@ function BeanzUI:new(args)
 			Button["14"] = Instance.new("TextButton", Tab["11"])
 			Button["14"]["Text"] = [[]]
 			Button["14"]["BorderSizePixel"] = 0
-			Button["14"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+			Button["14"]["BackgroundColor3"] = buttonoptions.Color or Color3.fromRGB(0, 0, 0)
 			Button["14"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Button["14"]["Size"] = (buttonoptions.Small and UDim2.new(0.9, 0, 0.04, 0) or UDim2.new(0.9, 0, 0.06407, 0))
 			Button["14"]["Position"] = UDim2.new(0, 0, 0.0101, 0)
@@ -1244,9 +1244,9 @@ function BeanzUI:new(args)
 			TextBox["77"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
 			TextBox["77"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
 			TextBox["77"]["BackgroundTransparency"] = 1
-			TextBox["77"]["Size"] = UDim2.new(1, 0, 0.45282, 0)
+			TextBox["77"]["Size"] = UDim2.new(1, 0, 0.5, 0)
 			TextBox["77"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			TextBox["77"]["Text"] = textboxoptions.Text or "textbox"
+			TextBox["77"]["Text"] = textboxoptions.Text or "Textbox"
 			TextBox["77"]["Name"] = [[Title]]
 			TextBox["77"]["Position"] = UDim2.new(0, 0, 0.26446, 0)
 
@@ -1266,6 +1266,8 @@ function BeanzUI:new(args)
 			TextBox["7a"]["TextXAlignment"] = Enum.TextXAlignment.Left
 			TextBox["7a"]["TextWrapped"] = true
 			TextBox["7a"]["TextSize"] = 14
+			TextBox["7a"]["PlaceholderText"] = textboxoptions.PlaceholderText or "Placeholder"
+			TextBox["7a"]["PlaceholderColor3"] = Color3.new(0.443137, 0.443137, 0.443137)
 			TextBox["7a"]["TextScaled"] = true
 			TextBox["7a"]["ClearTextOnFocus"] = false
 			TextBox["7a"]["BackgroundColor3"] = Color3.fromRGB(185, 185, 185)
@@ -1273,7 +1275,7 @@ function BeanzUI:new(args)
 			TextBox["7a"]["Size"] = UDim2.new(0.52197, 0, 0.71728, 0)
 			TextBox["7a"]["Position"] = UDim2.new(0.45527, 0, 0.13354, 0)
 			TextBox["7a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			TextBox["7a"]["Text"] = [[skibiditoilet]]
+			TextBox["7a"]["Text"] = [[]]
 
 			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox.UIStroke \\ --
 			TextBox["7b"] = Instance.new("UIStroke", TextBox["7a"])
@@ -1293,9 +1295,15 @@ function BeanzUI:new(args)
 			function TextBox:GetText()
 				return textbox.Text
 			end
+			textbox.FocusLost:Connect(function(enterpressed)
+				if TextBox.Callback then
+					TextBox.Callback()
+				end
+			end)
 			function TextBox:SetText(text)
 				textbox.Text = text
 			end
+			return TextBox
 		end
 
 		return Tab
