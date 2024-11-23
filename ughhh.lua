@@ -518,7 +518,7 @@ function BeanzUI:new(args)
 			Button["14"]["BorderSizePixel"] = 0
 			Button["14"]["BackgroundColor3"] = buttonoptions.Color or Color3.fromRGB(0, 0, 0)
 			Button["14"]["AutomaticSize"] = Enum.AutomaticSize.None
-			Button["14"]["Size"] = (buttonoptions.Mini and UDim2.new(0.9, 0, 0.04, 0) or (buttonoptions.Small and UDim2.new(0.9, 0, 0.05, 0) or UDim2.new(0.9, 0, 0.06407, 0))
+			Button["14"]["Size"] = (buttonoptions.Mini and UDim2.new(0.9, 0, 0.04, 0)) or (buttonoptions.Small and UDim2.new(0.9, 0, 0.05, 0)) or UDim2.new(0.9, 0, 0.06407, 0)
 			Button["14"]["Position"] = UDim2.new(0, 0, 0.0101, 0)
 			Button["14"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Button["14"]["Name"] = [[Button]]
