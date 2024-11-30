@@ -4,6 +4,13 @@ local player = Players.LocalPlayer
 local mouse = player:GetMouse()
 local tweenService = game:GetService("TweenService")
 
+
+local function ScaleToOffset(Scale)
+	local ViewPortSize = workspace.Camera.ViewportSize
+	return ({ViewPortSize.X * Scale[1],ViewPortSize.Y * Scale[2]})
+end
+
+
 local BeanzUI = {}
 local defaulttweeninfo = TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.InOut)
 function BeanzUI:Tween(object,tweenInfo,goal,callback)
@@ -23,16 +30,18 @@ function BeanzUI:new(args)
 
 		-- // StarterGui.BeanzUI \\ --
 		UI["1"] = Instance.new("ScreenGui",RunService:IsStudio() and game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui") or game:GetService("CoreGui"))
-		UI["1"]["Name"] = [[BeanzUI]]
+	UI["1"]["Name"] = [[BeanzUI]]
+	UI["1"]["ResetOnSpawn"] = false
 
 		-- // StarterGui.BeanzUI.Main \\ --
 		UI["2"] = Instance.new("Frame", UI["1"])
 		UI["2"]["BorderSizePixel"] = 0
 		UI["2"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46)
-		UI["2"]["Size"] = UDim2.new(0.30, 0, 0.3375, 0)
+		UI["2"]["Size"] = args.Size
 		UI["2"]["Position"] = UDim2.new(0.3, 0, 0.3, 0)
 		UI["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["2"]["Name"] = [[Main]]
+	UI["2"]["Name"] = [[Main]]
+	UI["2"]["ClipsDescendants"] = true
 
 		-- // StarterGui.BeanzUI.Main.UICorner \\ --
 		UI["3"] = Instance.new("UICorner", UI["2"])
@@ -236,6 +245,96 @@ function BeanzUI:new(args)
 		-- // StarterGui.BeanzUI.Main.Sidebar.Holder.UIListLayout \\ --
 		UI["7c"] = Instance.new("UIListLayout", UI["7a"])
 		UI["7c"]["SortOrder"] = Enum.SortOrder.LayoutOrder
+		
+	-- // StarterGui.test.Main.Notifyframe \\ --
+	UI["8d"] = Instance.new("Frame", UI["2"])
+	UI["8d"]["ZIndex"] = 5
+	UI["8d"]["BorderSizePixel"] = 0
+	UI["8d"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["8d"]["Size"] = UDim2.new(0.4213, 0, 0.21207, 0)
+	UI["8d"]["Position"] = UDim2.new(0.28899, 0, 1.1, 0)
+	UI["8d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["8d"]["Name"] = [[Notifyframe]]
+
+	-- // StarterGui.test.Main.Notifyframe.TextLabel \\ --
+	UI["8e"] = Instance.new("TextLabel", UI["8d"])
+	UI["8e"]["TextWrapped"] = true
+	UI["8e"]["ZIndex"] = 5
+	UI["8e"]["BorderSizePixel"] = 0
+	UI["8e"]["TextScaled"] = true
+	UI["8e"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["8e"]["TextSize"] = 100
+	UI["8e"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	UI["8e"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["8e"]["BackgroundTransparency"] = 1
+	UI["8e"]["Size"] = UDim2.new(1, 0, 0.65123, 0)
+	UI["8e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["8e"]["Text"] = [[Pick a number bruh]]
+	UI["8e"]["Position"] = UDim2.new(0, 0, 0.16429, 0)
+
+	-- // StarterGui.test.Main.Notifyframe.TextLabel.UITextSizeConstraint \\ --
+	UI["8f"] = Instance.new("UITextSizeConstraint", UI["8e"])
+	UI["8f"]["MaxTextSize"] = 35
+
+	-- // StarterGui.test.Main.Notifyframe.TextButton \\ --
+	UI["90"] = Instance.new("TextButton", UI["8d"])
+	UI["90"]["TextWrapped"] = true
+	UI["90"]["BorderSizePixel"] = 0
+	UI["90"]["TextSize"] = 14
+	UI["90"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["90"]["TextScaled"] = true
+	UI["90"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["90"]["FontFace"] = Font.new([[rbxasset://fonts/families/FredokaOne.json]], Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+	UI["90"]["ZIndex"] = 5
+	UI["90"]["Size"] = UDim2.new(0.08817, 0, 0.34885, 0)
+	UI["90"]["BackgroundTransparency"] = 1
+	UI["90"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["90"]["Text"] = [[X]]
+	UI["90"]["Position"] = UDim2.new(0.91179, 0, -0.00002, 0)
+
+	-- // StarterGui.test.Main.Notifyframe.UIStroke \\ --
+	UI["91"] = Instance.new("UIStroke", UI["8d"])
+	UI["91"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border
+	UI["91"]["Thickness"] = 2
+	UI["91"]["Color"] = Color3.fromRGB(255, 255, 255)
+	
+	local Notifyframe = UI["8d"]
+	local enter = UDim2.fromScale(0.289,0.786)
+	local quit = Notifyframe.Position
+	local tweentable = {Position = enter}
+	local tweenbacktable = {Position = quit}
+	local timeout = 1000
+
+	local popupanim = tweenService:Create(Notifyframe,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.In,0,false),tweentable)
+	local backanim = tweenService:Create(Notifyframe,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.In,0,false),tweenbacktable)
+	function UI:Notify(text)
+		Notifyframe.TextLabel.Text = tostring(text)
+		if popupanim.PlaybackState == Enum.PlaybackState.Playing or popupanim.PlaybackState == Enum.PlaybackState.Completed then
+			popupanim:Cancel()
+			Notifyframe.Position = quit
+			popupanim:Play()
+			timeout = 4
+		else
+			popupanim:Play()
+			timeout	= 4
+		end
+	end
+
+	Notifyframe.TextButton.MouseButton1Up:Connect(function()
+		backanim:Play()
+	end)
+
+	task.spawn(function()
+		while task.wait(1) do
+			if timeout > 0 then
+				timeout -= 1
+				if timeout == 0 then
+					backanim:Play()
+				end
+			end
+		end
+	end)
+
 
 	UI["b"].MouseButton1Click:Connect(function()
 		if UI.ondestroyed then
@@ -256,7 +355,7 @@ function BeanzUI:new(args)
 	
 	UI["d"].MouseButton1Click:Connect(function()
 		if UI["2"].Size == oldframesize then
-		UI["2"].Size = UDim2.fromScale(UI["2"].Size.X.Scale,0.05)
+		UI["2"].Size = args.MinimizedSize
 		UI["6"].Size = UDim2.fromScale(1,1)
 		UI["6"].ZIndex = 10 -- topbar
 		UI["2"].ZIndex = 9 -- mainframe
@@ -264,6 +363,7 @@ function BeanzUI:new(args)
 		UI["d"].ZIndex = 11 -- minimize
 		UI["9"].ZIndex = 11 -- title
 		UI["2"].Sidebar.Visible = false
+		UI["2"].Transparency = 1
 		else
 			UI["2"].Size = oldframesize
 		UI["6"].Size = oldtopbarsize
@@ -273,6 +373,7 @@ function BeanzUI:new(args)
 		UI["d"].ZIndex = oldminimizezindex
 		UI["9"].ZIndex = oldtitlezindex
 			UI["2"].Sidebar.Visible = true
+			UI["2"].Transparency = 0
 		end
 	end)
 	function UI:CreateTab(taboptions)
@@ -299,7 +400,7 @@ function BeanzUI:new(args)
 		Tab["80"]["Size"] = UDim2.new(1, 0, 0.1, 0)
 		Tab["80"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		Tab["80"]["Text"] = taboptions.Name or "Tab"
-		Tab["80"]["AutomaticSize"] = Enum.AutomaticSize.Y
+		Tab["80"]["AutomaticSize"] = Enum.AutomaticSize.None
 		Tab["80"]["Name"] = [[Inactive]]
 		Tab["80"]["Position"] = UDim2.new(-0, 0, 0.188, 0)
 
@@ -308,10 +409,6 @@ function BeanzUI:new(args)
 		Tab["81"]["PaddingTop"] = UDim.new(0.05, 0)
 		Tab["81"]["PaddingLeft"] = UDim.new(0.05, 0)
 
-		-- // StarterGui.BeanzUI.Main.Sidebar.Holder.Inactive.UITextSizeConstraint \\ --
-		Tab["82"] = Instance.new("UITextSizeConstraint", Tab["80"])
-		Tab["82"]["MaxTextSize"] = 20
-		Tab["82"]["MinTextSize"] = 14
 
 		-- // StarterGui.BeanzUI.Main.Sidebar.Line \\ --
 		Tab["83"] = Instance.new("Frame", Tab["75"])
@@ -347,6 +444,8 @@ function BeanzUI:new(args)
 		Tab["13"] = Instance.new("UIPadding", Tab["11"])
 		Tab["13"]["PaddingTop"] = UDim.new(0.01, 0)
 		Tab["13"]["PaddingLeft"] = UDim.new(0.01, 0)
+		
+		
 
 
 		local scrollingFrame = Tab["11"]
@@ -356,6 +455,8 @@ function BeanzUI:new(args)
 
 		scrollingFrame.Visible = false
 		scrollingFrame.Name = taboptions.Name or "ScrollingFrame"
+		
+		
 		tabButton.MouseEnter:Connect(function()
 			Tab.Hover = true
 			if not Tab.Active then
@@ -375,8 +476,15 @@ function BeanzUI:new(args)
 				Tab.Active = true
 				UI.CurrentTab = Tab
 				BeanzUI:Tween(tabButton,nil,  {BackgroundTransparency = 0.8})
+				BeanzUI:Tween(tabButton,nil,  {TextColor3 = Color3.fromRGB(255,255,255)})
 				Tab["11"].Visible = true
 			end
+		end
+		
+		function Tab:SetText(text)
+			taboptions.Name = text
+			tabButton.Name = text
+			tabButton.Text = text
 		end
 
 		function Tab:Deactivate()
@@ -408,9 +516,9 @@ function BeanzUI:new(args)
 			Button["14"] = Instance.new("TextButton", Tab["11"])
 			Button["14"]["Text"] = [[]]
 			Button["14"]["BorderSizePixel"] = 0
-			Button["14"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
-			Button["14"]["AutomaticSize"] = Enum.AutomaticSize.Y
-			Button["14"]["Size"] = UDim2.new(0.9, 0, 0.06407, 0)
+			Button["14"]["BackgroundColor3"] = buttonoptions.Color or Color3.fromRGB(0, 0, 0)
+			Button["14"]["AutomaticSize"] = Enum.AutomaticSize.None
+			Button["14"]["Size"] = (buttonoptions.Mini and UDim2.new(0.9, 0, 0.04, 0)) or (buttonoptions.Small and UDim2.new(0.9, 0, 0.05, 0)) or UDim2.new(0.9, 0, 0.06407, 0)
 			Button["14"]["Position"] = UDim2.new(0, 0, 0.0101, 0)
 			Button["14"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Button["14"]["Name"] = [[Button]]
@@ -433,7 +541,7 @@ function BeanzUI:new(args)
 			Button["16"]["Size"] = UDim2.new(1, 0, 0.7, 0)
 			Button["16"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Button["16"]["Text"] = buttonoptions.ButtonText or "Button"
-			Button["16"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Button["16"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Button["16"]["Name"] = [[Title]]
 			Button["16"]["Position"] = UDim2.new(0, 0, 0.15, 0)
 
@@ -441,10 +549,6 @@ function BeanzUI:new(args)
 			Button["17"] = Instance.new("UIPadding", Button["16"])
 			Button["17"]["PaddingLeft"] = UDim.new(0.05, 0)
 
-			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button.Title.UITextSizeConstraint \\ --
-			Button["18"] = Instance.new("UITextSizeConstraint", Button["16"])
-			Button["18"]["MaxTextSize"] = 18
-			Button["18"]["MinTextSize"] = 12
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button.Icon \\ --
 			Button["19"] = Instance.new("ImageLabel", Button["14"])
@@ -475,6 +579,21 @@ function BeanzUI:new(args)
 			end
 			function Button:IsOn()
 				return not (uistroke.Color == Color3.fromRGB(154,154,154))
+			end
+			function Button:Toggle(v)
+				if not v then
+					if not Button:IsOn() then
+						uistroke.Color = Color3.fromRGB(0,170,0)
+					else
+						uistroke.Color = Color3.fromRGB(154,154,154)
+					end
+				else
+					if v == true then
+						uistroke.Color = Color3.fromRGB(0,170,0)
+					else
+						uistroke.Color = Color3.fromRGB(154,154,154)
+					end
+				end
 			end
 			function Button:SetCallback(fnc)
 				buttonoptions.Pressed = fnc
@@ -510,7 +629,7 @@ function BeanzUI:new(args)
 			Warning["6b"]["BackgroundTransparency"] = 1
 			Warning["6b"]["Size"] = UDim2.new(1, 0, 0.7, 0)
 			Warning["6b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Warning["6b"]["Text"] = [[Ok]]
+			Warning["6b"]["Text"] = warningoptions.Text
 			Warning["6b"]["AutomaticSize"] = Enum.AutomaticSize.Y
 			Warning["6b"]["Name"] = [[Title]]
 			Warning["6b"]["Position"] = UDim2.new(0, 0, 0.13174, 0)
@@ -622,7 +741,7 @@ function BeanzUI:new(args)
 			Message["71"]["BackgroundTransparency"] = 1
 			Message["71"]["Size"] = UDim2.new(1, 0, 0.7, 0)
 			Message["71"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Message["71"]["Text"] = [[Ok]]
+			Message["71"]["Text"] = messageoptions.Text
 			Message["71"]["AutomaticSize"] = Enum.AutomaticSize.Y
 			Message["71"]["Name"] = [[Title]]
 			Message["71"]["Position"] = UDim2.new(0, 0, 0.13174, 0)
@@ -686,7 +805,7 @@ function BeanzUI:new(args)
 			Slider["1d"]["Size"] = UDim2.new(1, 0, 0.45282, 0)
 			Slider["1d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Slider["1d"]["Text"] = slideroptions.Text
-			Slider["1d"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Slider["1d"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Slider["1d"]["Name"] = [[Title]]
 			Slider["1d"]["Position"] = UDim2.new(0, 0, 0.15, 0)
 
@@ -694,10 +813,6 @@ function BeanzUI:new(args)
 			Slider["1e"] = Instance.new("UIPadding", Slider["1d"])
 			Slider["1e"]["PaddingLeft"] = UDim.new(0.05, 0)
 
-			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider.Title.UITextSizeConstraint \\ --
-			Slider["1f"] = Instance.new("UITextSizeConstraint", Slider["1d"])
-			Slider["1f"]["MaxTextSize"] = 18
-			Slider["1f"]["MinTextSize"] = 12
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider.UIStroke \\ --
 			Slider["20"] = Instance.new("UIStroke", Slider["1b"])
@@ -716,14 +831,10 @@ function BeanzUI:new(args)
 			Slider["21"]["Size"] = UDim2.new(0.12762, 0, 0.48197, 0)
 			Slider["21"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Slider["21"]["Text"] = [[60]]
-			Slider["21"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Slider["21"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Slider["21"]["Name"] = [[Number]]
 			Slider["21"]["Position"] = UDim2.new(0.85101, 0, 0.12085, 0)
 
-			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider.Number.UITextSizeConstraint \\ --
-			Slider["22"] = Instance.new("UITextSizeConstraint", Slider["21"])
-			Slider["22"]["MaxTextSize"] = 18
-			Slider["22"]["MinTextSize"] = 12
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider.SliderBackground \\ --
 			Slider["23"] = Instance.new("TextButton", Slider["1b"])
@@ -761,22 +872,28 @@ function BeanzUI:new(args)
 			local sliderBackground = Slider["23"]
 			local sliderBar = Slider["26"]
 			local sliderNumber = Slider["21"]
-
+			
+			local percentage
+			local value
+			
 			function Slider:SetValue(v)
-				local percentage
-				local value
 				if not v then
 					percentage = math.clamp((mouse.X - sliderBackground.AbsolutePosition.X) / (sliderBackground.AbsoluteSize.X),0,1)
 				else
 					percentage = v / slideroptions.max
 				end
 				
-				value = math.floor(((slideroptions.max - slideroptions.min)* percentage) + slideroptions.min)
+				value = math.floor((((slideroptions.max - slideroptions.min)* percentage) + slideroptions.min))
 				sliderNumber.Text = tostring(value)
 				sliderBar.Size = UDim2.fromScale(percentage,1)
-				if slideroptions.Callback then
-					slideroptions.Callback()
-				end
+			end
+			
+			function Slider:GetValue()
+				return tonumber(value) or 0
+			end
+			
+			function Slider:SetCallback(fnc)
+				slideroptions.Callback = fnc
 			end
 
 			sliderBackground.MouseButton1Down:Connect(function()
@@ -788,6 +905,9 @@ function BeanzUI:new(args)
 			end)
 			sliderBackground.MouseButton1Up:Connect(function()
 				Slider.Held = false
+				if slideroptions.Callback then
+					slideroptions.Callback()
+				end
 			end)
 
 			sliderBackground.Parent.MouseMoved:Connect(function()
@@ -797,6 +917,9 @@ function BeanzUI:new(args)
 
 			sliderBackground.Parent.MouseLeave:Connect(function()
 				Slider.Held = false
+				if slideroptions.Callback then
+					slideroptions.Callback()
+				end
 			end)
 			return Slider
 		end
@@ -837,8 +960,8 @@ function BeanzUI:new(args)
 			Dropdown["2a"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
 			Dropdown["2a"]["Size"] = UDim2.new(1, 0, 0.18954, 0)
 			Dropdown["2a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Dropdown["2a"]["Text"] = [[Dropdown]]
-			Dropdown["2a"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Dropdown["2a"]["Text"] = dropdownoptions.Name
+			Dropdown["2a"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Dropdown["2a"]["Name"] = [[Title]]
 			Dropdown["2a"]["Position"] = UDim2.new(0.5, 0, 0.15762, 0)
 
@@ -846,10 +969,6 @@ function BeanzUI:new(args)
 			Dropdown["2b"] = Instance.new("UIPadding", Dropdown["2a"])
 			Dropdown["2b"]["PaddingLeft"] = UDim.new(0.05, 0)
 
-			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Title.UITextSizeConstraint \\ --
-			Dropdown["2c"] = Instance.new("UITextSizeConstraint", Dropdown["2a"])
-			Dropdown["2c"]["MaxTextSize"] = 18
-			Dropdown["2c"]["MinTextSize"] = 12
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Icon \\ --
 			Dropdown["2d"] = Instance.new("ImageLabel", Dropdown["28"])
@@ -948,6 +1067,13 @@ function BeanzUI:new(args)
 				Dropdown.Selected = buzzon
 				toggledropdown()
 			end
+			
+			function Dropdown:GetOption()
+				if Dropdown.Selected then
+					return Dropdown.Selected.Name
+				end
+				return nil
+			end
 
 			function Dropdown:Option(option)
 				local Option = {}
@@ -966,9 +1092,9 @@ function BeanzUI:new(args)
 				Option["31"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
 				Option["31"]["Size"] = UDim2.new(1, 0, 0.24645, 0)
 				Option["31"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-				Option["31"]["Text"] = [[Click me]]
-				Option["31"]["AutomaticSize"] = Enum.AutomaticSize.Y
-				Option["31"]["Name"] = [[Option1]]
+				Option["31"]["Text"] = option.Name
+				Option["31"]["AutomaticSize"] = Enum.AutomaticSize.None
+				Option["31"]["Name"] = option.Name
 				Option["31"]["Position"] = UDim2.new(0.5, 0, 0.12323, 0)
 
 				-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Options.Option1.UIPadding \\ --
@@ -1031,18 +1157,13 @@ function BeanzUI:new(args)
 			Toggle["53"]["Size"] = UDim2.new(1, 0, 0.7, 0)
 			Toggle["53"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Toggle["53"]["Text"] = toggleoptions.Text
-			Toggle["53"]["AutomaticSize"] = Enum.AutomaticSize.Y
+			Toggle["53"]["AutomaticSize"] = Enum.AutomaticSize.None
 			Toggle["53"]["Name"] = [[Title]]
 			Toggle["53"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle.Title.UIPadding \\ --
 			Toggle["54"] = Instance.new("UIPadding", Toggle["53"])
 			Toggle["54"]["PaddingLeft"] = UDim.new(0.05, 0)
-
-			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle.Title.UITextSizeConstraint \\ --
-			Toggle["55"] = Instance.new("UITextSizeConstraint", Toggle["53"])
-			Toggle["55"]["MaxTextSize"] = 18
-			Toggle["55"]["MinTextSize"] = 12
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle.UIStroke \\ --
 			Toggle["56"] = Instance.new("UIStroke", Toggle["51"])
@@ -1068,7 +1189,17 @@ function BeanzUI:new(args)
 
 			local button = Toggle["51"]
 			local status = Toggle["57"]
-
+			
+			
+			function Toggle:SetCallback(fnc)
+				Toggle.ChangedCallback = fnc
+			end
+			
+			if toggleoptions.Toggled == false then
+				status.BackgroundTransparency = 1
+			else
+				status.BackgroundTransparency = 0
+			end
 			button.MouseButton1Click:Connect(function()
 				-- change transparency
 				if status.BackgroundTransparency == 1 then
@@ -1076,11 +1207,103 @@ function BeanzUI:new(args)
 				else
 					status.BackgroundTransparency = 1
 				end
+				if Toggle.ChangedCallback then
+					Toggle.ChangedCallback()
+				end
 			end)
 			function Toggle:IsToggled()
 				return status.BackgroundTransparency == 0
 			end
 			return Toggle
+		end
+
+		function Tab:TextBox(textboxoptions)
+			local TextBox = {}
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox \\ --
+			TextBox["75"] = Instance.new("Frame", Tab["11"])
+			TextBox["75"]["BorderSizePixel"] = 0
+			TextBox["75"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["75"]["Size"] = UDim2.new(0.9, 0, 0.08377, 0)
+			TextBox["75"]["Position"] = UDim2.new(0, 0, 0.51186, 0)
+			TextBox["75"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["75"]["Name"] = [[TextBox]]
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.UICorner \\ --
+			TextBox["76"] = Instance.new("UICorner", TextBox["75"])
+
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.Title \\ --
+			TextBox["77"] = Instance.new("TextLabel", TextBox["75"])
+			TextBox["77"]["TextWrapped"] = true
+			TextBox["77"]["BorderSizePixel"] = 0
+			TextBox["77"]["TextXAlignment"] = Enum.TextXAlignment.Left
+			TextBox["77"]["TextScaled"] = true
+			TextBox["77"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+			TextBox["77"]["TextSize"] = 14
+			TextBox["77"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			TextBox["77"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
+			TextBox["77"]["BackgroundTransparency"] = 1
+			TextBox["77"]["Size"] = UDim2.new(1, 0, 0.5, 0)
+			TextBox["77"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["77"]["Text"] = textboxoptions.Text or "Textbox"
+			TextBox["77"]["Name"] = [[Title]]
+			TextBox["77"]["Position"] = UDim2.new(0, 0, 0.26446, 0)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.Title.UIPadding \\ --
+			TextBox["78"] = Instance.new("UIPadding", TextBox["77"])
+			TextBox["78"]["PaddingLeft"] = UDim.new(0.05, 0)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.UIStroke \\ --
+			TextBox["79"] = Instance.new("UIStroke", TextBox["75"])
+			TextBox["79"]["Color"] = Color3.fromRGB(154, 154, 154)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox \\ --
+			TextBox["7a"] = Instance.new("TextBox", TextBox["75"])
+			TextBox["7a"]["CursorPosition"] = -1
+			TextBox["7a"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["7a"]["BorderSizePixel"] = 0
+			TextBox["7a"]["TextXAlignment"] = Enum.TextXAlignment.Left
+			TextBox["7a"]["TextWrapped"] = true
+			TextBox["7a"]["TextSize"] = 14
+			TextBox["7a"]["PlaceholderText"] = textboxoptions.PlaceholderText or "Placeholder"
+			TextBox["7a"]["PlaceholderColor3"] = Color3.new(0.443137, 0.443137, 0.443137)
+			TextBox["7a"]["TextScaled"] = true
+			TextBox["7a"]["ClearTextOnFocus"] = false
+			TextBox["7a"]["BackgroundColor3"] = Color3.fromRGB(185, 185, 185)
+			TextBox["7a"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			TextBox["7a"]["Size"] = UDim2.new(0.52197, 0, 0.71728, 0)
+			TextBox["7a"]["Position"] = UDim2.new(0.45527, 0, 0.13354, 0)
+			TextBox["7a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["7a"]["Text"] = [[]]
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox.UIStroke \\ --
+			TextBox["7b"] = Instance.new("UIStroke", TextBox["7a"])
+			TextBox["7b"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border
+			TextBox["7b"]["Color"] = Color3.fromRGB(255, 255, 255)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox.UICorner \\ --
+			TextBox["7c"] = Instance.new("UICorner", TextBox["7a"])
+
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox.UIPadding \\ --
+			TextBox["7d"] = Instance.new("UIPadding", TextBox["7a"])
+			TextBox["7d"]["PaddingLeft"] = UDim.new(0.05, 0)
+			
+			local textbox = TextBox["7a"]
+			
+			function TextBox:GetText()
+				return textbox.Text
+			end
+			textbox.FocusLost:Connect(function(enterpressed)
+				if TextBox.Callback then
+					TextBox.Callback()
+				end
+			end)
+			function TextBox:SetText(text)
+				textbox.Text = text
+			end
+			return TextBox
 		end
 
 		return Tab
