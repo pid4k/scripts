@@ -1130,7 +1130,7 @@ function BeanzUI:new(args)
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle \\ --
 			Toggle["51"] = Instance.new("TextButton", Tab["11"])
 			Toggle["51"]["BorderSizePixel"] = 0
-			Toggle["51"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+			Toggle["51"]["BackgroundColor3"] = toggleoptions.Color or Color3.fromRGB(0, 0, 0)
 			Toggle["51"]["Size"] = UDim2.new(0.9, 0, 0.06407, 0)
 			Toggle["51"]["Position"] = UDim2.new(0, 0, 0.0101, 0)
 			Toggle["51"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
