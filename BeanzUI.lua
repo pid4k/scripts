@@ -28,224 +28,248 @@ function BeanzUI:new(args)
 	}
 
 
-		-- // StarterGui.BeanzUI \\ --
-		UI["1"] = Instance.new("ScreenGui",RunService:IsStudio() and game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui") or game:GetService("CoreGui"))
+	-- // StarterGui.BeanzUI \\ --
+	UI["1"] = Instance.new("ScreenGui",RunService:IsStudio() and game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui") or game:GetService("CoreGui"))
 	UI["1"]["Name"] = [[BeanzUI]]
 	UI["1"]["ResetOnSpawn"] = false
 
-		-- // StarterGui.BeanzUI.Main \\ --
-		UI["2"] = Instance.new("Frame", UI["1"])
-		UI["2"]["BorderSizePixel"] = 0
-		UI["2"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46)
-		UI["2"]["Size"] = args.Size
-		UI["2"]["Position"] = UDim2.new(0.3, 0, 0.3, 0)
-		UI["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	-- // StarterGui.BeanzUI.Main \\ --
+	UI["2"] = Instance.new("Frame", UI["1"])
+	UI["2"]["BorderSizePixel"] = 0
+	UI["2"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46)
+	UI["2"]["Size"] = args.Size
+	UI["2"]["Position"] = UDim2.new(0.3, 0, 0.3, 0)
+	UI["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 	UI["2"]["Name"] = [[Main]]
 	UI["2"]["ClipsDescendants"] = true
 
-		-- // StarterGui.BeanzUI.Main.UICorner \\ --
-		UI["3"] = Instance.new("UICorner", UI["2"])
-		UI["3"]["CornerRadius"] = UDim.new(0.03, 0)
+	-- // StarterGui.BeanzUI.Main.UICorner \\ --
+	UI["3"] = Instance.new("UICorner", UI["2"])
+	UI["3"]["CornerRadius"] = UDim.new(0.03, 0)
 
-		-- // StarterGui.BeanzUI.Main.DropShadowHolder \\ --
-		UI["4"] = Instance.new("Frame", UI["2"])
-		UI["4"]["ZIndex"] = 0
-		UI["4"]["BorderSizePixel"] = 0
-		UI["4"]["Size"] = UDim2.new(1, 0, 1, 0)
-		UI["4"]["Name"] = [[DropShadowHolder]]
-		UI["4"]["BackgroundTransparency"] = 1
+	-- // StarterGui.BeanzUI.Main.DropShadowHolder \\ --
+	UI["4"] = Instance.new("Frame", UI["2"])
+	UI["4"]["ZIndex"] = 0
+	UI["4"]["BorderSizePixel"] = 0
+	UI["4"]["Size"] = UDim2.new(1, 0, 1, 0)
+	UI["4"]["Name"] = [[DropShadowHolder]]
+	UI["4"]["BackgroundTransparency"] = 1
 
-		-- // StarterGui.BeanzUI.Main.DropShadowHolder.DropShadow \\ --
-		UI["5"] = Instance.new("ImageLabel", UI["4"])
-		UI["5"]["ZIndex"] = 0
-		UI["5"]["BorderSizePixel"] = 0
-		UI["5"]["SliceCenter"] = Rect.new(49, 49, 450, 450)
-		UI["5"]["ScaleType"] = Enum.ScaleType.Slice
-		UI["5"]["ImageTransparency"] = 0.5
-		UI["5"]["ImageColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["5"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
-		UI["5"]["Image"] = [[rbxassetid://6014261993]]
-		UI["5"]["Size"] = UDim2.new(1, 47, 1, 47)
-		UI["5"]["BackgroundTransparency"] = 1
-		UI["5"]["Name"] = [[DropShadow]]
-		UI["5"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
+	-- // StarterGui.BeanzUI.Main.DropShadowHolder.DropShadow \\ --
+	UI["5"] = Instance.new("ImageLabel", UI["4"])
+	UI["5"]["ZIndex"] = 0
+	UI["5"]["BorderSizePixel"] = 0
+	UI["5"]["SliceCenter"] = Rect.new(49, 49, 450, 450)
+	UI["5"]["ScaleType"] = Enum.ScaleType.Slice
+	UI["5"]["ImageTransparency"] = 0.5
+	UI["5"]["ImageColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["5"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
+	UI["5"]["Image"] = [[rbxassetid://6014261993]]
+	UI["5"]["Size"] = UDim2.new(1, 47, 1, 47)
+	UI["5"]["BackgroundTransparency"] = 1
+	UI["5"]["Name"] = [[DropShadow]]
+	UI["5"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
 
-		-- // StarterGui.BeanzUI.Main.TopBar \\ --
-		UI["6"] = Instance.new("Frame", UI["2"])
-		UI["6"]["ZIndex"] = 2
-		UI["6"]["BorderSizePixel"] = 0
-		UI["6"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["6"]["Size"] = UDim2.new(1, 0, 0.11424, 0)
-		UI["6"]["Position"] = UDim2.new(0, 0, -0.00234, 0)
-		UI["6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["6"]["Name"] = [[TopBar]]
+	-- // StarterGui.BeanzUI.Main.TopBar \\ --
+	UI["6"] = Instance.new("Frame", UI["2"])
+	UI["6"]["ZIndex"] = 2
+	UI["6"]["BorderSizePixel"] = 0
+	UI["6"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["6"]["Size"] = UDim2.new(1, 0, 0.11424, 0)
+	UI["6"]["Position"] = UDim2.new(0, 0, -0.00234, 0)
+	UI["6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["6"]["Name"] = [[TopBar]]
 
-		-- // StarterGui.BeanzUI.Main.TopBar.UICorner \\ --
-		UI["7"] = Instance.new("UICorner", UI["6"])
-		UI["7"]["CornerRadius"] = UDim.new(0.2, 0)
+	-- // StarterGui.BeanzUI.Main.TopBar.UICorner \\ --
+	UI["7"] = Instance.new("UICorner", UI["6"])
+	UI["7"]["CornerRadius"] = UDim.new(0.2, 0)
 
-		-- // StarterGui.BeanzUI.Main.TopBar.Bottom \\ --
-		UI["8"] = Instance.new("Frame", UI["6"])
-		UI["8"]["ZIndex"] = 2
-		UI["8"]["BorderSizePixel"] = 0
-		UI["8"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["8"]["Size"] = UDim2.new(1, 0, 0.85083, 0)
-		UI["8"]["Position"] = UDim2.new(0, 0, 0.14917, 0)
-		UI["8"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["8"]["Name"] = [[Bottom]]
+	-- // StarterGui.BeanzUI.Main.TopBar.Bottom \\ --
+	UI["8"] = Instance.new("Frame", UI["6"])
+	UI["8"]["ZIndex"] = 2
+	UI["8"]["BorderSizePixel"] = 0
+	UI["8"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["8"]["Size"] = UDim2.new(1, 0, 0.85083, 0)
+	UI["8"]["Position"] = UDim2.new(0, 0, 0.14917, 0)
+	UI["8"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["8"]["Name"] = [[Bottom]]
 
-		-- // StarterGui.BeanzUI.Main.TopBar.TItle \\ --
-		UI["9"] = Instance.new("TextLabel", UI["6"])
-		UI["9"]["TextWrapped"] = true
-		UI["9"]["ZIndex"] = 5
-		UI["9"]["BorderSizePixel"] = 0
-		UI["9"]["TextXAlignment"] = Enum.TextXAlignment.Left
-		UI["9"]["TextScaled"] = true
-		UI["9"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["9"]["TextSize"] = 14
-		UI["9"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-		UI["9"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["9"]["BackgroundTransparency"] = 1
-		UI["9"]["Size"] = UDim2.new(0.5, 0, 1, 0)
-		UI["9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["9"]["Text"] = args.Name or "yummy beans"
-		UI["9"]["Name"] = [[TItle]]
+	-- // StarterGui.BeanzUI.Main.TopBar.TItle \\ --
+	UI["9"] = Instance.new("TextLabel", UI["6"])
+	UI["9"]["TextWrapped"] = true
+	UI["9"]["ZIndex"] = 5
+	UI["9"]["BorderSizePixel"] = 0
+	UI["9"]["TextXAlignment"] = Enum.TextXAlignment.Left
+	UI["9"]["TextScaled"] = true
+	UI["9"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["9"]["TextSize"] = 14
+	UI["9"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	UI["9"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["9"]["BackgroundTransparency"] = 1
+	UI["9"]["Size"] = UDim2.new(0.5, 0, 1, 0)
+	UI["9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["9"]["Text"] = args.Name or "yummy beans"
+	UI["9"]["Name"] = [[TItle]]
+	UI["9"]["Position"] = UDim2.new(0.12321, 0, -0.02193, 0)
 
-		-- // StarterGui.BeanzUI.Main.TopBar.TItle.UIPadding \\ --
-		UI["a"] = Instance.new("UIPadding", UI["9"])
-		UI["a"]["PaddingTop"] = UDim.new(0.1, 0)
-		UI["a"]["PaddingLeft"] = UDim.new(0.05, 0)
-		UI["a"]["PaddingBottom"] = UDim.new(0.1, 0)
+	-- // StarterGui.BeanzUI.Main.TopBar.TItle.UIPadding \\ --
+	UI["a"] = Instance.new("UIPadding", UI["9"])
+	UI["a"]["PaddingTop"] = UDim.new(0.1, 0)
+	UI["a"]["PaddingLeft"] = UDim.new(0.05, 0)
+	UI["a"]["PaddingBottom"] = UDim.new(0.1, 0)
 
-		-- // StarterGui.BeanzUI.Main.TopBar.Exit \\ --
-		UI["b"] = Instance.new("TextButton", UI["6"])
-		UI["b"]["TextWrapped"] = true
-		UI["b"]["BorderSizePixel"] = 0
-		UI["b"]["TextSize"] = 14
-		UI["b"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["b"]["TextScaled"] = true
-		UI["b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["b"]["FontFace"] = Font.new([[rbxasset://fonts/families/RobotoCondensed.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-		UI["b"]["ZIndex"] = 3
-		UI["b"]["Size"] = UDim2.new(0.1, 0, 1, 0)
-		UI["b"]["BackgroundTransparency"] = 1
-		UI["b"]["Name"] = [[Exit]]
-		UI["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["b"]["Text"] = [[X]]
-		UI["b"]["Position"] = UDim2.new(0.89932, 0, 0, 0)
+	-- // StarterGui.BeanzUI.Main.TopBar.Exit \\ --
+	UI["b"] = Instance.new("TextButton", UI["6"])
+	UI["b"]["TextWrapped"] = true
+	UI["b"]["BorderSizePixel"] = 0
+	UI["b"]["TextSize"] = 14
+	UI["b"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["b"]["TextScaled"] = true
+	UI["b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["b"]["FontFace"] = Font.new([[rbxasset://fonts/families/RobotoCondensed.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	UI["b"]["ZIndex"] = 3
+	UI["b"]["Size"] = UDim2.new(0.1, 0, 1, 0)
+	UI["b"]["BackgroundTransparency"] = 1
+	UI["b"]["Name"] = [[Exit]]
+	UI["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["b"]["Text"] = [[X]]
+	UI["b"]["Position"] = UDim2.new(0.89932, 0, 0, 0)
 
-		-- // StarterGui.BeanzUI.Main.TopBar.Exit.UIPadding \\ --
-		UI["c"] = Instance.new("UIPadding", UI["b"])
-		UI["c"]["PaddingTop"] = UDim.new(0.1, 0)
-		UI["c"]["PaddingLeft"] = UDim.new(0.05, 0)
-		UI["c"]["PaddingBottom"] = UDim.new(0.1, 0)
+	-- // StarterGui.BeanzUI.Main.TopBar.Exit.UIPadding \\ --
+	UI["c"] = Instance.new("UIPadding", UI["b"])
+	UI["c"]["PaddingTop"] = UDim.new(0.1, 0)
+	UI["c"]["PaddingLeft"] = UDim.new(0.05, 0)
+	UI["c"]["PaddingBottom"] = UDim.new(0.1, 0)
 
-		-- // StarterGui.BeanzUI.Main.TopBar.Minimize \\ --
-		UI["d"] = Instance.new("TextButton", UI["6"])
-		UI["d"]["TextWrapped"] = true
-		UI["d"]["BorderSizePixel"] = 0
-		UI["d"]["TextSize"] = 14
-		UI["d"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["d"]["TextScaled"] = true
-		UI["d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["d"]["FontFace"] = Font.new([[rbxasset://fonts/families/RobotoCondensed.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-		UI["d"]["ZIndex"] = 3
-		UI["d"]["AnchorPoint"] = Vector2.new(0.5, 0.85)
-		UI["d"]["Size"] = UDim2.new(0.1, 0, 1, 0)
-		UI["d"]["BackgroundTransparency"] = 1
-		UI["d"]["Name"] = [[Minimize]]
-		UI["d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["d"]["Text"] = [[_]]
-		UI["d"]["Position"] = UDim2.new(0.85, 0, 0.5, 0)
+	-- // StarterGui.BeanzUI.Main.TopBar.Minimize \\ --
+	UI["d"] = Instance.new("TextButton", UI["6"])
+	UI["d"]["TextWrapped"] = true
+	UI["d"]["BorderSizePixel"] = 0
+	UI["d"]["TextSize"] = 14
+	UI["d"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["d"]["TextScaled"] = true
+	UI["d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["d"]["FontFace"] = Font.new([[rbxasset://fonts/families/RobotoCondensed.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	UI["d"]["ZIndex"] = 3
+	UI["d"]["AnchorPoint"] = Vector2.new(0.5, 0.85)
+	UI["d"]["Size"] = UDim2.new(0.1, 0, 1, 0)
+	UI["d"]["BackgroundTransparency"] = 1
+	UI["d"]["Name"] = [[Minimize]]
+	UI["d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["d"]["Text"] = [[_]]
+	UI["d"]["Position"] = UDim2.new(0.85, 0, 0.5, 0)
 
-		-- // StarterGui.BeanzUI.Main.TopBar.Minimize.UIPadding \\ --
-		UI["e"] = Instance.new("UIPadding", UI["d"])
+	-- // StarterGui.BeanzUI.Main.TopBar.Minimize.UIPadding \\ --
+	UI["e"] = Instance.new("UIPadding", UI["d"])
 
+	-- // StarterGui.test.Main.TopBar.Line \\ --
+	UI["f"] = Instance.new("Frame", UI["6"])
+	UI["f"]["ZIndex"] = 3
+	UI["f"]["BorderSizePixel"] = 0
+	UI["f"]["BackgroundColor3"] = Color3.fromRGB(151, 151, 151)
+	UI["f"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
+	UI["f"]["Size"] = UDim2.new(0, 1, 0.8, 0)
+	UI["f"]["Position"] = UDim2.new(0.10084, 0, 0.5, 0)
+	UI["f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["f"]["Name"] = [[Line]]
 
-		-- // StarterGui.BeanzUI.Main.TopBar.Line \\ --
-		UI["f"] = Instance.new("Frame", UI["6"])
-		UI["f"]["ZIndex"] = 3
-		UI["f"]["BorderSizePixel"] = 0
-		UI["f"]["BackgroundColor3"] = Color3.fromRGB(204, 204, 204)
-		UI["f"]["Size"] = UDim2.new(1, 0, 0, 1)
-		UI["f"]["Position"] = UDim2.new(0, 0, 0.99327, 0)
-		UI["f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["f"]["Name"] = [[Line]]
-
-		-- // ServerStorage.Tab.Main.TabHolder \\ --
-		UI["10"] = Instance.new("Frame", UI["2"])
-		UI["10"]["BorderSizePixel"] = 0
-		UI["10"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["10"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
-		UI["10"]["Size"] = UDim2.new(0.69686, 0, 0.79967, 0)
-		UI["10"]["Position"] = UDim2.new(0.63331, 0, 0.57126, 0)
-		UI["10"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["10"]["Name"] = [[TabHolder]]
-		UI["10"]["BackgroundTransparency"] = 1
-
-
-		-- // StarterGui.BeanzUI.Main.Sidebar \\ --
-		UI["75"] = Instance.new("Frame", UI["2"])
-		UI["75"]["BorderSizePixel"] = 0
-		UI["75"]["BackgroundColor3"] = Color3.fromRGB(35, 35, 35)
-		UI["75"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
-		UI["75"]["Size"] = UDim2.new(0.2619, 0, 0.88598, 0)
-		UI["75"]["Position"] = UDim2.new(0.13061, 0, 0.55701, 0)
-		UI["75"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["75"]["Name"] = [[Sidebar]]
-
-		-- // StarterGui.BeanzUI.Main.Sidebar.UICorner \\ --
-		UI["76"] = Instance.new("UICorner", UI["75"])
-		UI["76"]["CornerRadius"] = UDim.new(0.08, 0)
-
-		-- // StarterGui.BeanzUI.Main.Sidebar.Hide \\ --
-		UI["77"] = Instance.new("Frame", UI["75"])
-		UI["77"]["ZIndex"] = 2
-		UI["77"]["BorderSizePixel"] = 0
-		UI["77"]["BackgroundColor3"] = Color3.fromRGB(35, 35, 35)
-		UI["77"]["Size"] = UDim2.new(0.2, 0, 0.2, 0)
-		UI["77"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["77"]["Name"] = [[Hide]]
-
-		-- // StarterGui.BeanzUI.Main.Sidebar.Hide \\ --
-		UI["78"] = Instance.new("Frame", UI["75"])
-		UI["78"]["ZIndex"] = 2
-		UI["78"]["BorderSizePixel"] = 0
-		UI["78"]["BackgroundColor3"] = Color3.fromRGB(35, 35, 35)
-		UI["78"]["Size"] = UDim2.new(0.2, 0, 0.2, 0)
-		UI["78"]["Position"] = UDim2.new(0.8, 0, 0.00271, 0)
-		UI["78"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["78"]["Name"] = [[Hide]]
-
-		-- // StarterGui.BeanzUI.Main.Sidebar.Hide \\ --
-		UI["79"] = Instance.new("Frame", UI["75"])
-		UI["79"]["ZIndex"] = 2
-		UI["79"]["BorderSizePixel"] = 0
-		UI["79"]["BackgroundColor3"] = Color3.fromRGB(35, 35, 35)
-		UI["79"]["AnchorPoint"] = Vector2.new(1, 1)
-		UI["79"]["Size"] = UDim2.new(0.2, 0, 0.2, 0)
-		UI["79"]["Position"] = UDim2.new(0.9974, 0, 0.99851, 0)
-		UI["79"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["79"]["Name"] = [[Hide]]
+	-- // StarterGui.test.Main.TopBar.ImageLabel \\ --
+	UI["10"] = Instance.new("ImageLabel", UI["6"])
+	UI["10"]["ZIndex"] = 3
+	UI["10"]["BorderSizePixel"] = 0
+	UI["10"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["10"]["ScaleType"] = Enum.ScaleType.Fit
+	UI["10"]["Image"] = [[http://www.roblox.com/asset/?id=18187292776]]
+	UI["10"]["Size"] = UDim2.new(0.1023, 0, 1.055, 0)
+	UI["10"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["10"]["BackgroundTransparency"] = 1
+	UI["10"]["Position"] = UDim2.new(-0.00147, 0, -0, 0)
 
 
-		-- // StarterGui.BeanzUI.Main.Sidebar.Holder \\ --
-		UI["7a"] = Instance.new("Frame", UI["75"])
-		UI["7a"]["BorderSizePixel"] = 0
-		UI["7a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["7a"]["Size"] = UDim2.new(1, 0, 1, 0)
-		UI["7a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["7a"]["Name"] = [[Holder]]
-		UI["7a"]["BackgroundTransparency"] = 1
+	-- // StarterGui.BeanzUI.Main.TopBar.Line \\ --
+	UI["f"] = Instance.new("Frame", UI["6"])
+	UI["f"]["ZIndex"] = 3
+	UI["f"]["BorderSizePixel"] = 0
+	UI["f"]["BackgroundColor3"] = Color3.fromRGB(204, 204, 204)
+	UI["f"]["Size"] = UDim2.new(1, 0, 0, 1)
+	UI["f"]["Position"] = UDim2.new(0, 0, 0.99327, 0)
+	UI["f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["f"]["Name"] = [[Line]]
 
-		-- // StarterGui.BeanzUI.Main.Sidebar.Holder.UIPadding \\ --
-		UI["7b"] = Instance.new("UIPadding", UI["7a"])
-		UI["7b"]["PaddingTop"] = UDim.new(0.05, 0)
+	-- // ServerStorage.Tab.Main.TabHolder \\ --
+	UI["10"] = Instance.new("Frame", UI["2"])
+	UI["10"]["BorderSizePixel"] = 0
+	UI["10"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["10"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
+	UI["10"]["Size"] = UDim2.new(0.69686, 0, 0.79967, 0)
+	UI["10"]["Position"] = UDim2.new(0.63331, 0, 0.57126, 0)
+	UI["10"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["10"]["Name"] = [[TabHolder]]
+	UI["10"]["BackgroundTransparency"] = 1
 
-		-- // StarterGui.BeanzUI.Main.Sidebar.Holder.UIListLayout \\ --
-		UI["7c"] = Instance.new("UIListLayout", UI["7a"])
-		UI["7c"]["SortOrder"] = Enum.SortOrder.LayoutOrder
-		
+
+	-- // StarterGui.BeanzUI.Main.Sidebar \\ --
+	UI["75"] = Instance.new("Frame", UI["2"])
+	UI["75"]["BorderSizePixel"] = 0
+	UI["75"]["BackgroundColor3"] = Color3.fromRGB(35, 35, 35)
+	UI["75"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
+	UI["75"]["Size"] = UDim2.new(0.2619, 0, 0.88598, 0)
+	UI["75"]["Position"] = UDim2.new(0.13061, 0, 0.55701, 0)
+	UI["75"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["75"]["Name"] = [[Sidebar]]
+
+	-- // StarterGui.BeanzUI.Main.Sidebar.UICorner \\ --
+	UI["76"] = Instance.new("UICorner", UI["75"])
+	UI["76"]["CornerRadius"] = UDim.new(0.08, 0)
+
+	-- // StarterGui.BeanzUI.Main.Sidebar.Hide \\ --
+	UI["77"] = Instance.new("Frame", UI["75"])
+	UI["77"]["ZIndex"] = 2
+	UI["77"]["BorderSizePixel"] = 0
+	UI["77"]["BackgroundColor3"] = Color3.fromRGB(35, 35, 35)
+	UI["77"]["Size"] = UDim2.new(0.2, 0, 0.2, 0)
+	UI["77"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["77"]["Name"] = [[Hide]]
+
+	-- // StarterGui.BeanzUI.Main.Sidebar.Hide \\ --
+	UI["78"] = Instance.new("Frame", UI["75"])
+	UI["78"]["ZIndex"] = 2
+	UI["78"]["BorderSizePixel"] = 0
+	UI["78"]["BackgroundColor3"] = Color3.fromRGB(35, 35, 35)
+	UI["78"]["Size"] = UDim2.new(0.2, 0, 0.2, 0)
+	UI["78"]["Position"] = UDim2.new(0.8, 0, 0.00271, 0)
+	UI["78"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["78"]["Name"] = [[Hide]]
+
+	-- // StarterGui.BeanzUI.Main.Sidebar.Hide \\ --
+	UI["79"] = Instance.new("Frame", UI["75"])
+	UI["79"]["ZIndex"] = 2
+	UI["79"]["BorderSizePixel"] = 0
+	UI["79"]["BackgroundColor3"] = Color3.fromRGB(35, 35, 35)
+	UI["79"]["AnchorPoint"] = Vector2.new(1, 1)
+	UI["79"]["Size"] = UDim2.new(0.2, 0, 0.2, 0)
+	UI["79"]["Position"] = UDim2.new(0.9974, 0, 0.99851, 0)
+	UI["79"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["79"]["Name"] = [[Hide]]
+
+
+	-- // StarterGui.BeanzUI.Main.Sidebar.Holder \\ --
+	UI["7a"] = Instance.new("Frame", UI["75"])
+	UI["7a"]["BorderSizePixel"] = 0
+	UI["7a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["7a"]["Size"] = UDim2.new(1, 0, 1, 0)
+	UI["7a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["7a"]["Name"] = [[Holder]]
+	UI["7a"]["BackgroundTransparency"] = 1
+
+	-- // StarterGui.BeanzUI.Main.Sidebar.Holder.UIPadding \\ --
+	UI["7b"] = Instance.new("UIPadding", UI["7a"])
+	UI["7b"]["PaddingTop"] = UDim.new(0.05, 0)
+
+	-- // StarterGui.BeanzUI.Main.Sidebar.Holder.UIListLayout \\ --
+	UI["7c"] = Instance.new("UIListLayout", UI["7a"])
+	UI["7c"]["SortOrder"] = Enum.SortOrder.LayoutOrder
+
 	-- // StarterGui.test.Main.Notifyframe \\ --
 	UI["8d"] = Instance.new("Frame", UI["2"])
 	UI["8d"]["ZIndex"] = 5
@@ -297,7 +321,7 @@ function BeanzUI:new(args)
 	UI["91"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border
 	UI["91"]["Thickness"] = 2
 	UI["91"]["Color"] = Color3.fromRGB(255, 255, 255)
-	
+
 	local Notifyframe = UI["8d"]
 	local enter = UDim2.fromScale(0.289,0.786)
 	local quit = Notifyframe.Position
@@ -352,26 +376,26 @@ function BeanzUI:new(args)
 	local oldminimizezindex = UI["d"].ZIndex
 	local oldtitlesize = UI["9"].Size
 	local oldtitlezindex = UI["9"].ZIndex
-	
+
 	UI["d"].MouseButton1Click:Connect(function()
 		if UI["2"].Size == oldframesize then
-		UI["2"].Size = args.MinimizedSize
-		UI["6"].Size = UDim2.fromScale(1,1)
-		UI["6"].ZIndex = 10 -- topbar
-		UI["2"].ZIndex = 9 -- mainframe
-		UI["b"].ZIndex = 11 -- exit
-		UI["d"].ZIndex = 11 -- minimize
-		UI["9"].ZIndex = 11 -- title
-		UI["2"].Sidebar.Visible = false
-		UI["2"].Transparency = 1
+			UI["2"].Size = args.MinimizedSize
+			UI["6"].Size = UDim2.fromScale(1,1)
+			UI["6"].ZIndex = 10 -- topbar
+			UI["2"].ZIndex = 9 -- mainframe
+			UI["b"].ZIndex = 11 -- exit
+			UI["d"].ZIndex = 11 -- minimize
+			UI["9"].ZIndex = 11 -- title
+			UI["2"].Sidebar.Visible = false
+			UI["2"].Transparency = 1
 		else
 			UI["2"].Size = oldframesize
-		UI["6"].Size = oldtopbarsize
-		UI["6"].ZIndex = oldtopbarzindex
-		UI["2"].ZIndex = oldframezindex
-		UI["b"].ZIndex = oldexitzindex
-		UI["d"].ZIndex = oldminimizezindex
-		UI["9"].ZIndex = oldtitlezindex
+			UI["6"].Size = oldtopbarsize
+			UI["6"].ZIndex = oldtopbarzindex
+			UI["2"].ZIndex = oldframezindex
+			UI["b"].ZIndex = oldexitzindex
+			UI["d"].ZIndex = oldminimizezindex
+			UI["9"].ZIndex = oldtitlezindex
 			UI["2"].Sidebar.Visible = true
 			UI["2"].Transparency = 0
 		end
@@ -444,8 +468,8 @@ function BeanzUI:new(args)
 		Tab["13"] = Instance.new("UIPadding", Tab["11"])
 		Tab["13"]["PaddingTop"] = UDim.new(0.01, 0)
 		Tab["13"]["PaddingLeft"] = UDim.new(0.01, 0)
-		
-		
+
+
 
 
 		local scrollingFrame = Tab["11"]
@@ -455,8 +479,8 @@ function BeanzUI:new(args)
 
 		scrollingFrame.Visible = false
 		scrollingFrame.Name = taboptions.Name or "ScrollingFrame"
-		
-		
+
+
 		tabButton.MouseEnter:Connect(function()
 			Tab.Hover = true
 			if not Tab.Active then
@@ -480,7 +504,7 @@ function BeanzUI:new(args)
 				Tab["11"].Visible = true
 			end
 		end
-		
+
 		function Tab:SetText(text)
 			taboptions.Name = text
 			tabButton.Name = text
@@ -872,26 +896,26 @@ function BeanzUI:new(args)
 			local sliderBackground = Slider["23"]
 			local sliderBar = Slider["26"]
 			local sliderNumber = Slider["21"]
-			
+
 			local percentage
 			local value
-			
+
 			function Slider:SetValue(v)
 				if not v then
 					percentage = math.clamp((mouse.X - sliderBackground.AbsolutePosition.X) / (sliderBackground.AbsoluteSize.X),0,1)
 				else
 					percentage = v / slideroptions.max
 				end
-				
+
 				value = math.floor((((slideroptions.max - slideroptions.min)* percentage) + slideroptions.min))
 				sliderNumber.Text = tostring(value)
 				sliderBar.Size = UDim2.fromScale(percentage,1)
 			end
-			
+
 			function Slider:GetValue()
 				return tonumber(value) or 0
 			end
-			
+
 			function Slider:SetCallback(fnc)
 				slideroptions.Callback = fnc
 			end
@@ -1067,7 +1091,7 @@ function BeanzUI:new(args)
 				Dropdown.Selected = buzzon
 				toggledropdown()
 			end
-			
+
 			function Dropdown:GetOption()
 				if Dropdown.Selected then
 					return Dropdown.Selected.Name
@@ -1189,12 +1213,12 @@ function BeanzUI:new(args)
 
 			local button = Toggle["51"]
 			local status = Toggle["57"]
-			
-			
+
+
 			function Toggle:SetCallback(fnc)
 				Toggle.ChangedCallback = fnc
 			end
-			
+
 			if toggleoptions.Toggled == false then
 				status.BackgroundTransparency = 1
 			else
@@ -1289,9 +1313,9 @@ function BeanzUI:new(args)
 			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox.UIPadding \\ --
 			TextBox["7d"] = Instance.new("UIPadding", TextBox["7a"])
 			TextBox["7d"]["PaddingLeft"] = UDim.new(0.05, 0)
-			
+
 			local textbox = TextBox["7a"]
-			
+
 			function TextBox:GetText()
 				return textbox.Text
 			end
@@ -1311,12 +1335,12 @@ function BeanzUI:new(args)
 
 	if args.Movable then
 		local function dragloop() -- cuz ts glitches on mobile
-				local newdrag = Instance.new("UIDragDetector")
-				newdrag.Parent = UI["2"]
-				newdrag.DragEnd:Once(function()
-					newdrag:Destroy()
-					dragloop()
-				end)
+			local newdrag = Instance.new("UIDragDetector")
+			newdrag.Parent = UI["2"]
+			newdrag.DragEnd:Once(function()
+				newdrag:Destroy()
+				dragloop()
+			end)
 		end
 		dragloop()
 	end
