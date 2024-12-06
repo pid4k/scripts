@@ -1310,8 +1310,15 @@ function BeanzUI:new(args)
 	end
 
 	if args.Movable then
-		local drag = Instance.new("UIDragDetector")
-		drag.Parent = UI["2"]
+		local function dragloop() -- cuz ts glitches on mobile
+				local newdrag = Instance.new("UIDragDetector")
+				newdrag.Parent = UI["2"]
+				newdrag.DragEnd:Once(function()
+					newdrag:Destroy()
+					dragloop()
+				end)
+		end
+		dragloop()
 	end
 	return UI
 end
