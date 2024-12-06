@@ -163,27 +163,27 @@ function BeanzUI:new(args)
 	UI["e"] = Instance.new("UIPadding", UI["d"])
 
 	-- // StarterGui.test.Main.TopBar.Line \\ --
-	UI["f"] = Instance.new("Frame", UI["6"])
-	UI["f"]["ZIndex"] = 3
-	UI["f"]["BorderSizePixel"] = 0
-	UI["f"]["BackgroundColor3"] = Color3.fromRGB(151, 151, 151)
-	UI["f"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
-	UI["f"]["Size"] = UDim2.new(0, 1, 0.8, 0)
-	UI["f"]["Position"] = UDim2.new(0.10084, 0, 0.5, 0)
-	UI["f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-	UI["f"]["Name"] = [[Line]]
+	UI["adf"] = Instance.new("Frame", UI["6"])
+	UI["adf"]["ZIndex"] = 3
+	UI["adf"]["BorderSizePixel"] = 0
+	UI["adf"]["BackgroundColor3"] = Color3.fromRGB(151, 151, 151)
+	UI["adf"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
+	UI["adf"]["Size"] = UDim2.new(0, 1, 0.8, 0)
+	UI["adf"]["Position"] = UDim2.new(0.10084, 0, 0.5, 0)
+	UI["adf"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["adf"]["Name"] = [[Line]]
 
 	-- // StarterGui.test.Main.TopBar.ImageLabel \\ --
-	UI["10"] = Instance.new("ImageLabel", UI["6"])
-	UI["10"]["ZIndex"] = 3
-	UI["10"]["BorderSizePixel"] = 0
-	UI["10"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-	UI["10"]["ScaleType"] = Enum.ScaleType.Fit
-	UI["10"]["Image"] = [[http://www.roblox.com/asset/?id=18187292776]]
-	UI["10"]["Size"] = UDim2.new(0.1023, 0, 1.055, 0)
-	UI["10"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-	UI["10"]["BackgroundTransparency"] = 1
-	UI["10"]["Position"] = UDim2.new(-0.00147, 0, -0, 0)
+	UI["Iconlol"] = Instance.new("ImageLabel", UI["6"])
+	UI["Iconlol"]["ZIndex"] = 3
+	UI["Iconlol"]["BorderSizePixel"] = 0
+	UI["Iconlol"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+	UI["Iconlol"]["ScaleType"] = Enum.ScaleType.Fit
+	UI["Iconlol"]["Image"] = [[http://www.roblox.com/asset/?id=18187292776]]
+	UI["Iconlol"]["Size"] = UDim2.new(0.1023, 0, 1.055, 0)
+	UI["Iconlol"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+	UI["Iconlol"]["BackgroundTransparency"] = 1
+	UI["Iconlol"]["Position"] = UDim2.new(-0.00147, 0, -0, 0)
 
 
 	-- // StarterGui.BeanzUI.Main.TopBar.Line \\ --
@@ -376,6 +376,9 @@ function BeanzUI:new(args)
 	local oldminimizezindex = UI["d"].ZIndex
 	local oldtitlesize = UI["9"].Size
 	local oldtitlezindex = UI["9"].ZIndex
+	local oldlinezindex = UI["adf"].ZIndex
+	local oldlogozindex = UI["Iconlol"].ZIndex
+
 
 	UI["d"].MouseButton1Click:Connect(function()
 		if UI["2"].Size == oldframesize then
@@ -388,6 +391,8 @@ function BeanzUI:new(args)
 			UI["9"].ZIndex = 11 -- title
 			UI["2"].Sidebar.Visible = false
 			UI["2"].Transparency = 1
+			UI["Iconlol"].ZIndex = 11 -- icon
+			UI["adf"].ZIndex = 11
 		else
 			UI["2"].Size = oldframesize
 			UI["6"].Size = oldtopbarsize
@@ -398,6 +403,8 @@ function BeanzUI:new(args)
 			UI["9"].ZIndex = oldtitlezindex
 			UI["2"].Sidebar.Visible = true
 			UI["2"].Transparency = 0
+			UI["Iconlol"].ZIndex = oldlogozindex
+			UI["adf"].ZIndex = oldlinezindex
 		end
 	end)
 	function UI:CreateTab(taboptions)
