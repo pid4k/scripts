@@ -379,8 +379,17 @@ function BeanzUI:new(args)
 	local oldlinezindex = UI["adf"].ZIndex
 	local oldlogozindex = UI["Iconlol"].ZIndex
 
+	local olddrag = Instance.new("UIDragDetector")
+	olddrag.Parent = UI["2"]
 
 	UI["d"].MouseButton1Click:Connect(function()
+		if args.Movable then
+			if olddrag then
+				olddrag:Destroy()
+				olddrag = Instance.new("UIDragDetector")
+				olddrag.Parent = UI["2"]
+			end
+		end
 		if UI["2"].Size == oldframesize then
 			UI["2"].Size = args.MinimizedSize
 			UI["6"].Size = UDim2.fromScale(1,1)
@@ -390,6 +399,8 @@ function BeanzUI:new(args)
 			UI["d"].ZIndex = 11 -- minimize
 			UI["9"].ZIndex = 11 -- title
 			UI["2"].Sidebar.Visible = false
+			UI["4"].Visible = false
+			UI["f"].Visible = false
 			UI["2"].Transparency = 1
 			UI["Iconlol"].ZIndex = 11 -- icon
 			UI["adf"].ZIndex = 11
@@ -402,6 +413,8 @@ function BeanzUI:new(args)
 			UI["d"].ZIndex = oldminimizezindex
 			UI["9"].ZIndex = oldtitlezindex
 			UI["2"].Sidebar.Visible = true
+			UI["4"].Visible = true
+			UI["f"].Visible = true
 			UI["2"].Transparency = 0
 			UI["Iconlol"].ZIndex = oldlogozindex
 			UI["adf"].ZIndex = oldlinezindex
@@ -972,7 +985,6 @@ function BeanzUI:new(args)
 			Dropdown["28"]["Name"] = [[Dropdown]]
 			Dropdown["28"]["Text"] = [[]]
 			Dropdown["28"]["AutoButtonColor"] = false
-
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.UICorner \\ --
 			Dropdown["29"] = Instance.new("UICorner", Dropdown["28"])
 
@@ -1020,15 +1032,18 @@ function BeanzUI:new(args)
 			Dropdown["2e"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Options \\ --
-			Dropdown["2f"] = Instance.new("Frame", Dropdown["28"])
+			Dropdown["2f"] = Instance.new("ScrollingFrame", Dropdown["28"])
 			Dropdown["2f"]["BorderSizePixel"] = 0
 			Dropdown["2f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
 			Dropdown["2f"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
+			Dropdown["2f"]["AutomaticCanvasSize"] = Enum.AutomaticSize.XY
+			Dropdown["2f"]["ScrollingDirection"] = Enum.ScrollingDirection.Y
 			Dropdown["2f"]["Size"] = UDim2.new(0.95, 0, 0.7, 0)
 			Dropdown["2f"]["Position"] = UDim2.new(0.5, 0, 0.6005, 0)
 			Dropdown["2f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Dropdown["2f"]["Name"] = [[Options]]
 			Dropdown["2f"]["BackgroundTransparency"] = 1
+			Dropdown["2f"]["AutomaticSize"] = Enum.AutomaticSize.None
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Options.UIListLayout \\ --
 			Dropdown["30"] = Instance.new("UIListLayout", Dropdown["2f"])
@@ -1121,7 +1136,7 @@ function BeanzUI:new(args)
 				Option["31"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
 				Option["31"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
 				Option["31"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
-				Option["31"]["Size"] = UDim2.new(1, 0, 0.24645, 0)
+				Option["31"]["Size"] = UDim2.new(0.9, 0, 0.24645, 0)
 				Option["31"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 				Option["31"]["Text"] = option.Name
 				Option["31"]["AutomaticSize"] = Enum.AutomaticSize.None
@@ -1156,7 +1171,9 @@ function BeanzUI:new(args)
 		end
 
 		function Tab:Toggle(toggleoptions)
-			local Toggle = {}
+			local Toggle = {
+				Locked = false
+			}
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Toggle \\ --
 			Toggle["51"] = Instance.new("TextButton", Tab["11"])
@@ -1232,11 +1249,12 @@ function BeanzUI:new(args)
 				status.BackgroundTransparency = 0
 			end
 			button.MouseButton1Click:Connect(function()
-				-- change transparency
+				if Toggle.Locked == false then
 				if status.BackgroundTransparency == 1 then
 					status.BackgroundTransparency = 0
 				else
 					status.BackgroundTransparency = 1
+				end
 				end
 				if Toggle.ChangedCallback then
 					Toggle.ChangedCallback()
@@ -1244,6 +1262,33 @@ function BeanzUI:new(args)
 			end)
 			function Toggle:IsToggled()
 				return status.BackgroundTransparency == 0
+			end
+			function Toggle:Toggle(v)
+				if v ~= nil then
+					if v == true then
+						status.BackgroundTransparency = 0
+					else
+						status.BackgroundTransparency = 1
+					end
+				else
+					if status.BackgroundTransparency == 1 then
+						status.BackgroundTransparency = 0
+					else
+						status.BackgroundTransparency = 1
+					end
+				end
+				if Toggle.ChangedCallback then
+					Toggle.ChangedCallback()
+				end
+			end
+			function Toggle:Lock()
+				Toggle.Locked = true
+			end
+			function Toggle:Unlock()
+				Toggle.Locked = false
+			end
+			function Toggle:IsLocked()
+				 return Toggle.Locked
 			end
 			return Toggle
 		end
@@ -1256,8 +1301,9 @@ function BeanzUI:new(args)
 			TextBox["75"]["BorderSizePixel"] = 0
 			TextBox["75"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
 			TextBox["75"]["Size"] = UDim2.new(0.9, 0, 0.08377, 0)
+			TextBox["75"]["BackgroundColor3"] = textboxoptions.Color or Color3.fromRGB(0, 0, 0)
 			TextBox["75"]["Position"] = UDim2.new(0, 0, 0.51186, 0)
-			TextBox["75"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			TextBox["75"]["BorderColor3"] = Color3.new(0,0,0)
 			TextBox["75"]["Name"] = [[TextBox]]
 
 			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.UICorner \\ --
@@ -1326,6 +1372,9 @@ function BeanzUI:new(args)
 			function TextBox:GetText()
 				return textbox.Text
 			end
+			function TextBox:SetCallback(fnc)
+				TextBox.Callback = fnc
+			end
 			textbox.FocusLost:Connect(function(enterpressed)
 				if TextBox.Callback then
 					TextBox.Callback()
@@ -1340,17 +1389,7 @@ function BeanzUI:new(args)
 		return Tab
 	end
 
-	if args.Movable then
-		local function dragloop() -- cuz ts glitches on mobile
-			local newdrag = Instance.new("UIDragDetector")
-			newdrag.Parent = UI["2"]
-			newdrag.DragEnd:Once(function()
-				newdrag:Destroy()
-				dragloop()
-			end)
-		end
-		dragloop()
-	end
+
 	return UI
 end
 
