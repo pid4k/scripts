@@ -358,6 +358,170 @@ function BeanzUI:new(args)
 			end
 		end
 	end)
+	
+	
+	-- gold
+	do
+		UI["121"] = Instance.new("Frame",UI["2"])
+		UI["121"]["Visible"] = false
+		UI["121"]["ZIndex"] = 5
+		UI["121"]["BorderSizePixel"] = 0
+		UI["121"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["121"]["Size"] = UDim2.new(0.44969, 0, 0.3516, 0)
+		UI["121"]["Position"] = UDim2.new(0.27387, 0, 0.28093, 0)
+		UI["121"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["121"]["Name"] = [[Whitelistkey]]
+		UI["121"]["BackgroundTransparency"] = 0.25
+
+		UI["122"] = Instance.new("TextLabel", UI["121"])
+		UI["122"]["TextWrapped"] = true
+		UI["122"]["ZIndex"] = 6
+		UI["122"]["BorderSizePixel"] = 0
+		UI["122"]["TextScaled"] = true
+		UI["122"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["122"]["TextSize"] = 14
+		UI["122"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+		UI["122"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["122"]["BackgroundTransparency"] = 1
+		UI["122"]["Size"] = UDim2.new(1, 0, 0.28028, 0)
+		UI["122"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["122"]["Text"] = [[Insert Gold Key]]
+
+		UI["123"] = Instance.new("TextBox", UI["121"])
+		UI["123"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["123"]["ZIndex"] = 6
+		UI["123"]["BorderSizePixel"] = 0
+		UI["123"]["TextWrapped"] = true
+		UI["123"]["TextSize"] = 14
+		UI["123"]["TextScaled"] = true
+		UI["123"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["123"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+		UI["123"]["ClearTextOnFocus"] = false
+		UI["123"]["Size"] = UDim2.new(0.49708, 0, 0.38033, 0)
+		UI["123"]["Position"] = UDim2.new(0.09973, 0, 0.44525, 0)
+		UI["123"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["123"]["Text"] = [[]]
+
+		UI["124"] = Instance.new("TextButton", UI["121"])
+		UI["124"]["TextWrapped"] = true
+		UI["124"]["BorderSizePixel"] = 0
+		UI["124"]["TextSize"] = 14
+		UI["124"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["124"]["TextScaled"] = true
+		UI["124"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["124"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+		UI["124"]["ZIndex"] = 6
+		UI["124"]["Size"] = UDim2.new(0.33157, 0, 0.21319, 0)
+		UI["124"]["Name"] = [[Copy]]
+		UI["124"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["124"]["Text"] = [[Copy Link]]
+		UI["124"]["Position"] = UDim2.new(0.63872, 0, 0.68668, 0)
+
+		UI["125"] = Instance.new("TextButton", UI["121"])
+		UI["125"]["TextWrapped"] = true
+		UI["125"]["BorderSizePixel"] = 0
+		UI["125"]["TextSize"] = 14
+		UI["125"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["125"]["TextScaled"] = true
+		UI["125"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["125"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+		UI["125"]["ZIndex"] = 6
+		UI["125"]["Size"] = UDim2.new(0.13688, 0, 0.26534, 0)
+		UI["125"]["BackgroundTransparency"] = 1
+		UI["125"]["Name"] = [[Exit]]
+		UI["125"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["125"]["Text"] = [[X]]
+		UI["125"]["Position"] = UDim2.new(0.85888, 0, 0.0122, 0)
+
+		UI["126"] = Instance.new("TextButton", UI["121"])
+		UI["126"]["TextWrapped"] = true
+		UI["126"]["BorderSizePixel"] = 0
+		UI["126"]["TextSize"] = 14
+		UI["126"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["126"]["TextScaled"] = true
+		UI["126"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["126"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+		UI["126"]["ZIndex"] = 6
+		UI["126"]["Size"] = UDim2.new(0.33157, 0, 0.21319, 0)
+		UI["126"]["Name"] = [[Confirm]]
+		UI["126"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["126"]["Text"] = [[Confirm]]
+		UI["126"]["Position"] = UDim2.new(0.63872, 0, 0.41168, 0)
+
+	end
+	-- silver
+	do
+		UI["103"] = Instance.new("Frame", UI["2"])
+		UI["103"]["Visible"] = false
+		UI["103"]["ZIndex"] = 5
+		UI["103"]["BorderSizePixel"] = 0
+		UI["103"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["103"]["Size"] = UDim2.new(0.44969, 0, 0.3516, 0)
+		UI["103"]["Position"] = UDim2.new(0.27387, 0, 0.28093, 0)
+		UI["103"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["103"]["Name"] = [[Key]]
+		UI["103"]["BackgroundTransparency"] = 0.25
+
+		UI["104"] = Instance.new("TextLabel", UI["103"])
+		UI["104"]["TextWrapped"] = true
+		UI["104"]["ZIndex"] = 6
+		UI["104"]["BorderSizePixel"] = 0
+		UI["104"]["TextScaled"] = true
+		UI["104"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["104"]["TextSize"] = 14
+		UI["104"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+		UI["104"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["104"]["BackgroundTransparency"] = 1
+		UI["104"]["Size"] = UDim2.new(1, 0, 0.28028, 0)
+		UI["104"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["104"]["Text"] = [[Insert Silver Key]]
+
+		UI["105"] = Instance.new("TextBox", UI["103"])
+		UI["105"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["105"]["ZIndex"] = 6
+		UI["105"]["BorderSizePixel"] = 0
+		UI["105"]["TextWrapped"] = true
+		UI["105"]["TextSize"] = 14
+		UI["105"]["TextScaled"] = true
+		UI["105"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["105"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+		UI["105"]["Size"] = UDim2.new(0.49708, 0, 0.38033, 0)
+		UI["105"]["Position"] = UDim2.new(0.09973, 0, 0.44525, 0)
+		UI["105"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["105"]["Text"] = [[]]
+
+		UI["106"] = Instance.new("TextButton", UI["103"])
+		UI["106"]["TextWrapped"] = true
+		UI["106"]["BorderSizePixel"] = 0
+		UI["106"]["TextSize"] = 14
+		UI["106"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["106"]["TextScaled"] = true
+		UI["106"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["106"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+		UI["106"]["ZIndex"] = 6
+		UI["106"]["Size"] = UDim2.new(0.33157, 0, 0.21319, 0)
+		UI["106"]["Name"] = [[Confirm]]
+		UI["106"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["106"]["Text"] = [[Confirm]]
+		UI["106"]["Position"] = UDim2.new(0.63872, 0, 0.56113, 0)
+
+		UI["107"] = Instance.new("TextButton", UI["103"])
+		UI["107"]["TextWrapped"] = true
+		UI["107"]["BorderSizePixel"] = 0
+		UI["107"]["TextSize"] = 14
+		UI["107"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["107"]["TextScaled"] = true
+		UI["107"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["107"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+		UI["107"]["ZIndex"] = 6
+		UI["107"]["Size"] = UDim2.new(0.13688, 0, 0.26534, 0)
+		UI["107"]["BackgroundTransparency"] = 1
+		UI["107"]["Name"] = [[Exit]]
+		UI["107"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["107"]["Text"] = [[X]]
+		UI["107"]["Position"] = UDim2.new(0.85888, 0, 0.0122, 0)
+
+	end
 
 
 	UI["b"].MouseButton1Click:Connect(function()
