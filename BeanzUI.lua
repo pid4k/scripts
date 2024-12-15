@@ -360,7 +360,6 @@ function BeanzUI:new(args)
 	end)
 	
 	
-	-- gold
 	do
 		UI["121"] = Instance.new("Frame",UI["2"])
 		UI["121"]["Visible"] = false
@@ -449,7 +448,6 @@ function BeanzUI:new(args)
 		UI["126"]["Position"] = UDim2.new(0.63872, 0, 0.41168, 0)
 
 	end
-	-- silver
 	do
 		UI["103"] = Instance.new("Frame", UI["2"])
 		UI["103"]["Visible"] = false
