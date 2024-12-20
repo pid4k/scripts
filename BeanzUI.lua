@@ -3,6 +3,7 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local mouse = player:GetMouse()
 local tweenService = game:GetService("TweenService")
+local uis = game:GetService("UserInputService")
 
 
 local function ScaleToOffset(Scale)
@@ -1545,10 +1546,291 @@ function BeanzUI:new(args)
 			end
 			return TextBox
 		end
+		
+		function Tab:BindButton(options)
+			local BindButton = {}
 
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.ButtonBind \\ --
+			BindButton["92"] = Instance.new("Frame", Tab["11"])
+			BindButton["92"]["BorderSizePixel"] = 0
+			BindButton["92"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+			BindButton["92"]["Size"] = UDim2.new(0.9, 0, 0.07, 0)
+			BindButton["92"]["Position"] = UDim2.new(0, 0, 0.51186, 0)
+			BindButton["92"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			BindButton["92"]["Name"] = [[ButtonBind]]
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.ButtonBind.UICorner \\ --
+			BindButton["93"] = Instance.new("UICorner", BindButton["92"])
+
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.ButtonBind.Title \\ --
+			BindButton["94"] = Instance.new("TextLabel", BindButton["92"])
+			BindButton["94"]["TextWrapped"] = true
+			BindButton["94"]["BorderSizePixel"] = 0
+			BindButton["94"]["TextXAlignment"] = Enum.TextXAlignment.Left
+			BindButton["94"]["TextScaled"] = true
+			BindButton["94"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+			BindButton["94"]["TextSize"] = 14
+			BindButton["94"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			BindButton["94"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
+			BindButton["94"]["BackgroundTransparency"] = 1
+			BindButton["94"]["Size"] = UDim2.new(1, 0, 0.45282, 0)
+			BindButton["94"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			BindButton["94"]["Text"] = options.Name or [[CustomBind]]
+			BindButton["94"]["Name"] = [[Title]]
+			BindButton["94"]["Position"] = UDim2.new(0, 0, 0.26446, 0)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.ButtonBind.Title.UIPadding \\ --
+			BindButton["95"] = Instance.new("UIPadding", BindButton["94"])
+			BindButton["95"]["PaddingLeft"] = UDim.new(0.05, 0)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.ButtonBind.UIStroke \\ --
+			BindButton["96"] = Instance.new("UIStroke", BindButton["92"])
+			BindButton["96"]["Color"] = Color3.fromRGB(154, 154, 154)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.ButtonBind.TextBox \\ --
+			BindButton["97"] = Instance.new("TextButton", BindButton["92"])
+			BindButton["97"]["TextWrapped"] = true
+			BindButton["97"]["BorderSizePixel"] = 0
+			BindButton["97"]["TextSize"] = 14
+			BindButton["97"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
+			BindButton["97"]["TextScaled"] = true
+			BindButton["97"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 255)
+			BindButton["97"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			BindButton["97"]["Size"] = UDim2.new(0.17467, 0, 0.71728, 0)
+			BindButton["97"]["Name"] = [[TextBox]]
+			BindButton["97"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			BindButton["97"]["Text"] = [[Move]]
+			BindButton["97"]["Position"] = UDim2.new(0.80257, 0, 0.13354, 0)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.ButtonBind.TextBox.UIStroke \\ --
+			BindButton["98"] = Instance.new("UIStroke", BindButton["97"])
+			BindButton["98"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border
+			BindButton["98"]["Thickness"] = 0.8
+			BindButton["98"]["Color"] = Color3.fromRGB(255, 255, 255)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.ButtonBind.TextBox.UICorner \\ --
+			BindButton["99"] = Instance.new("UICorner", BindButton["97"])
+
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.ButtonBind.TextBox.UIPadding \\ --
+			BindButton["9a"] = Instance.new("UIPadding", BindButton["97"])
+			BindButton["9a"]["PaddingLeft"] = UDim.new(0.05, 0)
+
+			
+			-- // StarterGui.skullissuesifuusethis.MobileLock \\ --
+			BindButton["ba"] = Instance.new("TextButton", UI["1"])
+			BindButton["ba"]["TextWrapped"] = true
+			BindButton["ba"]["Visible"] = options.Visible
+			BindButton["ba"]["BorderSizePixel"] = 0
+			BindButton["ba"]["TextSize"] = 14
+			BindButton["ba"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+			BindButton["ba"]["TextScaled"] = true
+			BindButton["ba"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+			BindButton["ba"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			BindButton["ba"]["Size"] = UDim2.new(0.05, 0, 0.08961, 0)
+			BindButton["ba"]["Name"] = [[MobileLock]]
+			BindButton["ba"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			BindButton["ba"]["Text"] = options.Text or [[Lock]]
+			BindButton["ba"]["Position"] = UDim2.new(0.66912, 0, 0.67579, 0)
+
+			-- // StarterGui.skullissuesifuusethis.MobileLock.UICorner \\ --
+			BindButton["bb"] = Instance.new("UICorner", BindButton["ba"])
+			BindButton["bb"]["CornerRadius"] = UDim.new(1, 0)
+
+			-- // StarterGui.skullissuesifuusethis.MobileLock.UIAspectRatioConstraint \\ --
+			BindButton["bc"] = Instance.new("UIAspectRatioConstraint", BindButton["ba"])
+			BindButton["bc"]["AspectRatio"] = 0.99777
+			
+			local mover = nil
+			BindButton["97"].MouseButton1Click:Connect(function()
+				if BindButton["97"]["BackgroundColor3"] == Color3.fromRGB(0, 0, 255) then
+					BindButton["97"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 127)
+					BindButton["ba"]["Position"] = UDim2.new(0.66912, 0, 0.67579, 0)
+					if mover then mover:Destroy() end
+						mover = Instance.new("UIDragDetector")
+						mover.Parent = BindButton["ba"]
+				else
+					BindButton["97"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 255)
+					mover:Destroy()
+				end
+			end)
+			function BindButton:GetButton()
+				return BindButton["ba"]
+			end
+			function BindButton:ToggleVisible(v)
+				if v == true then
+					BindButton["ba"]["Visible"] = true
+				elseif v == false then
+					BindButton["ba"]["Visible"] = false
+				else
+					BindButton["ba"]["Visible"] = not BindButton["b5"]["Visible"]
+				end
+			end
+			return BindButton
+		end
+		function Tab:BindKey(options)
+			local KeyBind = {}
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.KeyBind \\ --
+			KeyBind["92"] = Instance.new("Frame", Tab["11"])
+			KeyBind["92"]["BorderSizePixel"] = 0
+			KeyBind["92"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
+			KeyBind["92"]["Size"] = UDim2.new(0.9, 0, 0.07, 0)
+			KeyBind["92"]["Position"] = UDim2.new(0, 0, 0.51186, 0)
+			KeyBind["92"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			KeyBind["92"]["Name"] = (options.Name or "Keybind")
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.KeyBind.UICorner \\ --
+			KeyBind["93"] = Instance.new("UICorner", KeyBind["92"])
+
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.KeyBind.Title \\ --
+			KeyBind["94"] = Instance.new("TextLabel", KeyBind["92"])
+			KeyBind["94"]["TextWrapped"] = true
+			KeyBind["94"]["BorderSizePixel"] = 0
+			KeyBind["94"]["TextXAlignment"] = Enum.TextXAlignment.Left
+			KeyBind["94"]["TextScaled"] = true
+			KeyBind["94"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+			KeyBind["94"]["TextSize"] = 14
+			KeyBind["94"]["FontFace"] = Font.new([[rbxasset://fonts/families/Roboto.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			KeyBind["94"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
+			KeyBind["94"]["BackgroundTransparency"] = 1
+			KeyBind["94"]["Size"] = UDim2.new(1, 0, 0.45282, 0)
+			KeyBind["94"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			KeyBind["94"]["Text"] = options.Name or "Keybind"
+			KeyBind["94"]["Name"] = [[Title]]
+			KeyBind["94"]["Position"] = UDim2.new(0, 0, 0.26446, 0)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.KeyBind.Title.UIPadding \\ --
+			KeyBind["95"] = Instance.new("UIPadding", KeyBind["94"])
+			KeyBind["95"]["PaddingLeft"] = UDim.new(0.05, 0)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.KeyBind.UIStroke \\ --
+			KeyBind["96"] = Instance.new("UIStroke", KeyBind["92"])
+			KeyBind["96"]["Color"] = Color3.fromRGB(154, 154, 154)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.KeyBind.TextBox \\ --
+			KeyBind["97"] = Instance.new("TextBox", KeyBind["92"])
+			KeyBind["97"]["CursorPosition"] = -1
+			KeyBind["97"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+			KeyBind["97"]["BorderSizePixel"] = 0
+			KeyBind["97"]["TextWrapped"] = true
+			KeyBind["97"]["TextSize"] = 14
+			KeyBind["97"]["TextScaled"] = true
+			KeyBind["97"]["BackgroundColor3"] = Color3.fromRGB(185, 185, 185)
+			KeyBind["97"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			KeyBind["97"]["PlaceholderText"] = options.Placeholder or [[Bind]]
+			KeyBind["97"]["Size"] = UDim2.new(0.17467, 0, 0.71728, 0)
+			KeyBind["97"]["Position"] = UDim2.new(0.80257, 0, 0.13354, 0)
+			KeyBind["97"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			KeyBind["97"]["Text"] = options.Bind or [[]]
+			KeyBind.Bind = options.Bind
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.KeyBind.TextBox.UIStroke \\ --
+			KeyBind["98"] = Instance.new("UIStroke", KeyBind["97"])
+			KeyBind["98"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border
+			KeyBind["98"]["Color"] = Color3.fromRGB(255, 255, 255)
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.KeyBind.TextBox.UICorner \\ --
+			KeyBind["99"] = Instance.new("UICorner", KeyBind["97"])
+
+
+			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.KeyBind.TextBox.UIPadding \\ --
+			KeyBind["9a"] = Instance.new("UIPadding", KeyBind["97"])
+			KeyBind["9a"]["PaddingLeft"] = UDim.new(0.05, 0)
+			local focused = false
+			
+			KeyBind["97"].Focused:Connect(function()
+				task.wait(0.01)
+				focused = true
+			end)
+			KeyBind["97"].FocusLost:Connect(function()
+				task.wait(0.01)
+				focused = false
+			end)
+			uis.InputBegan:Connect(function(input, proc)
+				if focused == true then
+					if input.UserInputType == Enum.UserInputType.Keyboard then
+						KeyBind["97"].Text = input.KeyCode.Name
+						KeyBind["97"]:ReleaseFocus()
+					end
+					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						KeyBind["97"].Text = "LMB"
+						KeyBind["97"]:ReleaseFocus()
+					end
+					if input.UserInputType == Enum.UserInputType.MouseButton2 then
+						KeyBind["97"].Text = "RMB"
+						KeyBind["97"]:ReleaseFocus()
+					end
+					if input.UserInputType == Enum.UserInputType.MouseButton3 then
+						KeyBind["97"].Text = "MMB"
+						KeyBind["97"]:ReleaseFocus()
+					end
+					KeyBind.Bind = input.KeyCode.Name
+					focused	= false
+				end
+			end)
+			function KeyBind:GetBind()
+				return KeyBind.Bind
+			end
+			return KeyBind
+		end
+		
 		return Tab
 	end
+	function  UI:Drawing(drawingoptions)
+		
+		local Drawing = {}
+		if drawingoptions.Type == "Circle" then
+			if not tonumber(drawingoptions.Size) then
+				drawingoptions.Size = 100
+			end
+		-- // StarterGui.skullissuesifuusethis.MouseFrame \\ --
+		Drawing["b5"] = Instance.new("Frame", UI["1"])
+		Drawing["b5"]["BorderSizePixel"] = 0
+		Drawing["b5"]["BackgroundColor3"] = Color3.fromRGB(0,0,0)
+		Drawing["b5"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
+		Drawing["b5"]["Size"] = UDim2.new(0,drawingoptions.Size,0,drawingoptions.Size)
+		Drawing["b5"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
+		Drawing["b5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		Drawing["b5"]["Name"] = [[zirkul]]
+		Drawing["b5"]["BackgroundTransparency"] = 1
+		Drawing["b5"]["Visible"] = drawingoptions.Visible or true
 
+		-- // StarterGui.skullissuesifuusethis.MouseFrame.UICorner \\ --
+		Drawing["b6"] = Instance.new("UICorner", Drawing["b5"])
+		Drawing["b6"]["CornerRadius"] = UDim.new(1, 0)
+
+		-- // StarterGui.skullissuesifuusethis.MouseFrame.UIStroke \\ --
+		Drawing["b7"] = Instance.new("UIStroke", Drawing["b5"])
+		Drawing["b7"]["Thickness"] = 0.60
+		Drawing["b7"]["Color"] = drawingoptions.Color or Color3.fromRGB(0, 0, 0)
+
+		-- // StarterGui.skullissuesifuusethis.MouseFrame.UIAspectRatioConstraint \\ --
+		Drawing["b8"] = Instance.new("UIAspectRatioConstraint", Drawing["b5"])
+		end
+		function Drawing:ToggleVisible(v)
+			if v == true then
+				Drawing["b5"]["Visible"] = true
+			elseif v == false then
+				Drawing["b5"]["Visible"] = false
+			else
+				Drawing["b5"]["Visible"] = not Drawing["b5"]["Visible"]
+			end
+		end
+		function Drawing:SetRadius(v)
+			drawingoptions.Size = v
+			Drawing["b5"]["Size"] = UDim2.new(0,drawingoptions.Size,0,drawingoptions.Size)
+		end
+		function Drawing:SetColor(v)
+			drawingoptions.Color = v
+			Drawing["b7"]["Color"] = drawingoptions.Color or Color3.fromRGB(0, 0, 0)
+		end
+		function Drawing:GetPosition(v)
+			return Drawing["b5"]["AbsolutePosition"]
+		end
+		return Drawing
+	end
 
 	return UI
 end
