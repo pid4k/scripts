@@ -32,6 +32,7 @@ function BeanzUI:new(args)
 	UI["1"] = Instance.new("ScreenGui",RunService:IsStudio() and game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui") or game:GetService("CoreGui"))
 	UI["1"]["Name"] = [[BeanzUI]]
 	UI["1"]["ResetOnSpawn"] = false
+	UI["1"]["IgnoreGuiInset"] = true
 
 	-- // StarterGui.BeanzUI.Main \\ --
 	UI["2"] = Instance.new("Frame", UI["1"])
@@ -47,28 +48,28 @@ function BeanzUI:new(args)
 	UI["3"] = Instance.new("UICorner", UI["2"])
 	UI["3"]["CornerRadius"] = UDim.new(0.03, 0)
 
-	-- // StarterGui.BeanzUI.Main.DropShadowHolder \\ --
-	UI["4"] = Instance.new("Frame", UI["2"])
-	UI["4"]["ZIndex"] = 0
-	UI["4"]["BorderSizePixel"] = 0
-	UI["4"]["Size"] = UDim2.new(1, 0, 1, 0)
-	UI["4"]["Name"] = [[DropShadowHolder]]
-	UI["4"]["BackgroundTransparency"] = 1
+	---- // StarterGui.BeanzUI.Main.DropShadowHolder \\ --
+	--UI["4"] = Instance.new("Frame", UI["2"])
+	--UI["4"]["ZIndex"] = 0
+	--UI["4"]["BorderSizePixel"] = 0
+	--UI["4"]["Size"] = UDim2.new(1, 0, 1, 0)
+	--UI["4"]["Name"] = [[DropShadowHolder]]
+	--UI["4"]["BackgroundTransparency"] = 1
 
-	-- // StarterGui.BeanzUI.Main.DropShadowHolder.DropShadow \\ --
-	UI["5"] = Instance.new("ImageLabel", UI["4"])
-	UI["5"]["ZIndex"] = 0
-	UI["5"]["BorderSizePixel"] = 0
-	UI["5"]["SliceCenter"] = Rect.new(49, 49, 450, 450)
-	UI["5"]["ScaleType"] = Enum.ScaleType.Slice
-	UI["5"]["ImageTransparency"] = 0.5
-	UI["5"]["ImageColor3"] = Color3.fromRGB(0, 0, 0)
-	UI["5"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
-	UI["5"]["Image"] = [[rbxassetid://6014261993]]
-	UI["5"]["Size"] = UDim2.new(1, 47, 1, 47)
-	UI["5"]["BackgroundTransparency"] = 1
-	UI["5"]["Name"] = [[DropShadow]]
-	UI["5"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
+	---- // StarterGui.BeanzUI.Main.DropShadowHolder.DropShadow \\ --
+	--UI["5"] = Instance.new("ImageLabel", UI["4"])
+	--UI["5"]["ZIndex"] = 0
+	--UI["5"]["BorderSizePixel"] = 0
+	--UI["5"]["SliceCenter"] = Rect.new(49, 49, 450, 450)
+	--UI["5"]["ScaleType"] = Enum.ScaleType.Slice
+	--UI["5"]["ImageTransparency"] = 0.5
+	--UI["5"]["ImageColor3"] = Color3.fromRGB(0, 0, 0)
+	--UI["5"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
+	--UI["5"]["Image"] = [[rbxassetid://6014261993]]
+	--UI["5"]["Size"] = UDim2.new(1, 47, 1, 47)
+	--UI["5"]["BackgroundTransparency"] = 1
+	--UI["5"]["Name"] = [[DropShadow]]
+	--UI["5"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
 
 	-- // StarterGui.BeanzUI.Main.TopBar \\ --
 	UI["6"] = Instance.new("Frame", UI["2"])
@@ -142,22 +143,17 @@ function BeanzUI:new(args)
 	UI["c"]["PaddingBottom"] = UDim.new(0.1, 0)
 
 	-- // StarterGui.BeanzUI.Main.TopBar.Minimize \\ --
-	UI["d"] = Instance.new("TextButton", UI["6"])
-	UI["d"]["TextWrapped"] = true
-	UI["d"]["BorderSizePixel"] = 0
-	UI["d"]["TextSize"] = 14
-	UI["d"]["TextColor3"] = Color3.fromRGB(255, 255, 255)
-	UI["d"]["TextScaled"] = true
+	UI["d"] = Instance.new("ImageButton", UI["6"])
 	UI["d"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-	UI["d"]["FontFace"] = Font.new([[rbxasset://fonts/families/RobotoCondensed.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	UI["d"]["Image"] = "rbxassetid://100486206790318"
 	UI["d"]["ZIndex"] = 3
+	UI["d"]["ScaleType"] = Enum.ScaleType.Crop
 	UI["d"]["AnchorPoint"] = Vector2.new(0.5, 0.85)
-	UI["d"]["Size"] = UDim2.new(0.1, 0, 1, 0)
+	UI["d"]["Size"] = UDim2.new(0.041, 0, 0.888, 0)
 	UI["d"]["BackgroundTransparency"] = 1
 	UI["d"]["Name"] = [[Minimize]]
 	UI["d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-	UI["d"]["Text"] = [[_]]
-	UI["d"]["Position"] = UDim2.new(0.85, 0, 0.5, 0)
+	UI["d"]["Position"] = UDim2.new(0.877, 0, 0.844, 0)
 
 	-- // StarterGui.BeanzUI.Main.TopBar.Minimize.UIPadding \\ --
 	UI["e"] = Instance.new("UIPadding", UI["d"])
@@ -360,6 +356,7 @@ function BeanzUI:new(args)
 	end)
 	
 	
+	-- gold
 	do
 		UI["121"] = Instance.new("Frame",UI["2"])
 		UI["121"]["Visible"] = false
@@ -448,6 +445,7 @@ function BeanzUI:new(args)
 		UI["126"]["Position"] = UDim2.new(0.63872, 0, 0.41168, 0)
 
 	end
+	-- silver
 	do
 		UI["103"] = Instance.new("Frame", UI["2"])
 		UI["103"]["Visible"] = false
