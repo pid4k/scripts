@@ -3,7 +3,7 @@ local ConfigSystem = {}
 function ConfigSystem:new(filename, template)
 	local config = {}
 	config.FileName = filename
-	
+
 	-- Save configuration table
 	function config:SaveConfig(configTable)
 		if not isfile then return end
@@ -14,7 +14,7 @@ function ConfigSystem:new(filename, template)
 	-- Load config
 	function config:LoadConfig()
 		if not isfile then return end
- 	if not isfile(self.FileName) then
+		if not isfile(self.FileName) then
 			return nil
 		end
 		local json = readfile(self.FileName)
@@ -31,12 +31,7 @@ function ConfigSystem:new(filename, template)
 	end
 
 	-- template
-	local defaultconfig = template or {
-		crimeautofarmingstarted = false,
-		serverhop = false,
-		OwnsSilver = "",
-		OwnsGold = "",
-	}
+	local defaultconfig = template or {}
 	config.loadedConfig = nil
 	config.loadedConfig = config:LoadConfig()
 	if config.loadedConfig then
