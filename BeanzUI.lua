@@ -1753,19 +1753,20 @@ function BeanzUI:new(args)
 					if input.UserInputType == Enum.UserInputType.Keyboard then
 						KeyBind["97"].Text = input.KeyCode.Name
 						KeyBind["97"]:ReleaseFocus()
-					end
-					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
 						KeyBind["97"].Text = "LMB"
 						KeyBind["97"]:ReleaseFocus()
-					end
-					if input.UserInputType == Enum.UserInputType.MouseButton2 then
-						KeyBind["97"].Text = "RMB"
+					elseif input.UserInputType == Enum.UserInputType.MouseButton2 then
+							KeyBind["97"].Text = "RMB"
+							KeyBind["97"]:ReleaseFocus()
+					elseif input.UserInputType == Enum.UserInputType.MouseButton3 then
+							KeyBind["97"].Text = "MMB"
+							KeyBind["97"]:ReleaseFocus()
+					else
 						KeyBind["97"]:ReleaseFocus()
 					end
-					if input.UserInputType == Enum.UserInputType.MouseButton3 then
-						KeyBind["97"].Text = "MMB"
-						KeyBind["97"]:ReleaseFocus()
-					end
+
+
 					KeyBind.Bind = input.KeyCode.Name
 					focused	= false
 				end
@@ -1795,7 +1796,7 @@ function BeanzUI:new(args)
 		Drawing["b5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		Drawing["b5"]["Name"] = [[zirkul]]
 		Drawing["b5"]["BackgroundTransparency"] = 1
-		Drawing["b5"]["Visible"] = drawingoptions.Visible or true
+		Drawing["b5"]["Visible"] = drawingoptions.Visible == true
 
 		-- // StarterGui.skullissuesifuusethis.MouseFrame.UICorner \\ --
 		Drawing["b6"] = Instance.new("UICorner", Drawing["b5"])
