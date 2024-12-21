@@ -1,27 +1,26 @@
 -- Configuration System
 local ConfigSystem = {}
-function ConfigSystem:new(filename)
+function ConfigSystem:new(filename, template)
 	local config = {}
 	config.FileName = filename
 	
-	-- Save configuration table to a file
+	-- Save configuration table
 	function config:SaveConfig(configTable)
 		if not isfile then return end
 		local json = game:GetService("HttpService"):JSONEncode(configTable)
 		writefile(self.FileName, json)
 	end
 
-	-- Load configuration table from a file
+	-- Load config
 	function config:LoadConfig()
 		if not isfile then return end
-		if not isfile(self.FileName) then
-			return nil -- Return nil if the file doesn't exist
+ 	if not isfile(self.FileName) then
+			return nil
 		end
 		local json = readfile(self.FileName)
 		return game:GetService("HttpService"):JSONDecode(json)
 	end
 
-	-- Append data to the configuration file (for specific use cases)
 	function config:AppendConfig(newData)
 		if not isfile then return end
 		local existingConfig = self:LoadConfig() or {}
@@ -31,17 +30,13 @@ function ConfigSystem:new(filename)
 		self:SaveConfig(existingConfig)
 	end
 
-	-- Example usage:
-	local defaultconfig = {
+	-- template
+	local defaultconfig = template or {
 		crimeautofarmingstarted = false,
 		serverhop = false,
 		OwnsSilver = "",
 		OwnsGold = "",
 	}
-
-	-- Save configuration
-
-	-- Load configuration
 	config.loadedConfig = nil
 	config.loadedConfig = config:LoadConfig()
 	if config.loadedConfig then
