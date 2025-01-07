@@ -519,6 +519,16 @@ function BeanzUI:new(args)
 		UI["107"]["Position"] = UDim2.new(0.85888, 0, 0.0122, 0)
 
 	end
+	-- // StarterGui.BeanzUI.Main.Sidebar.Line \\ --
+		UI["83"] = Instance.new("Frame", UI["75"])
+		UI["83"]["ZIndex"] = 3
+		UI["83"]["BorderSizePixel"] = 0
+		UI["83"]["BackgroundColor3"] = Color3.fromRGB(204, 204, 204)
+		UI["83"]["Size"] = UDim2.new(0, 1, 1, 0)
+		UI["83"]["Position"] = UDim2.new(0.99788, 0, 0.0047, 0)
+		UI["83"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["83"]["Name"] = [[Line]]
+	
 
 
 	UI["b"].MouseButton1Click:Connect(function()
@@ -612,19 +622,11 @@ function BeanzUI:new(args)
 		-- // StarterGui.BeanzUI.Main.Sidebar.Holder.Inactive.UIPadding \\ --
 		Tab["81"] = Instance.new("UIPadding", Tab["80"])
 		Tab["81"]["PaddingTop"] = UDim.new(0.05, 0)
+		Tab["81"]["PaddingBottom"] = UDim.new(0.05, 0)
 		Tab["81"]["PaddingLeft"] = UDim.new(0.05, 0)
 
 
-		-- // StarterGui.BeanzUI.Main.Sidebar.Line \\ --
-		Tab["83"] = Instance.new("Frame", Tab["75"])
-		Tab["83"]["ZIndex"] = 3
-		Tab["83"]["BorderSizePixel"] = 0
-		Tab["83"]["BackgroundColor3"] = Color3.fromRGB(204, 204, 204)
-		Tab["83"]["Size"] = UDim2.new(0, 1, 1, 0)
-		Tab["83"]["Position"] = UDim2.new(0.99788, 0, 0.0047, 0)
-		Tab["83"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		Tab["83"]["Name"] = [[Line]]
-
+		
 		-- // StarterGui.BeanzUI.Main.UIAspectRatioConstraint \\ --
 		Tab["84"] = Instance.new("UIAspectRatioConstraint", Tab["2"])
 		Tab["84"]["AspectRatio"] = 1.71967
