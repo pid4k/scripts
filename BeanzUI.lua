@@ -1829,7 +1829,7 @@ function BeanzUI:new(args)
 			Drawing["b7"]["Color"] = drawingoptions.Color or Color3.fromRGB(0, 0, 0)
 		end
 		function Drawing:GetPosition(v)
-			return Drawing["b5"]["AbsolutePosition"]
+			return Drawing["b5"]["AbsolutePosition"]["X"]
 		end
 		function Drawing:GetRadius(v)
 			return Drawing["b5"]["AbsoluteSize"]
