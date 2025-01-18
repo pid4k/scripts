@@ -20,7 +20,7 @@ function BeanzUI:Tween(object,tweenInfo,goal,callback)
 	tween:Play()
 end
 function BeanzUI:new(args)
-
+	
 	local UI = {
 		CurrentTab = nil,
 		Tabs = {},
@@ -519,16 +519,6 @@ function BeanzUI:new(args)
 		UI["107"]["Position"] = UDim2.new(0.85888, 0, 0.0122, 0)
 
 	end
-	-- // StarterGui.BeanzUI.Main.Sidebar.Line \\ --
-		UI["83"] = Instance.new("Frame", UI["75"])
-		UI["83"]["ZIndex"] = 3
-		UI["83"]["BorderSizePixel"] = 0
-		UI["83"]["BackgroundColor3"] = Color3.fromRGB(204, 204, 204)
-		UI["83"]["Size"] = UDim2.new(0, 1, 1, 0)
-		UI["83"]["Position"] = UDim2.new(0.99788, 0, 0.0047, 0)
-		UI["83"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		UI["83"]["Name"] = [[Line]]
-	
 
 
 	UI["b"].MouseButton1Click:Connect(function()
@@ -622,11 +612,19 @@ function BeanzUI:new(args)
 		-- // StarterGui.BeanzUI.Main.Sidebar.Holder.Inactive.UIPadding \\ --
 		Tab["81"] = Instance.new("UIPadding", Tab["80"])
 		Tab["81"]["PaddingTop"] = UDim.new(0.05, 0)
-		Tab["81"]["PaddingBottom"] = UDim.new(0.05, 0)
 		Tab["81"]["PaddingLeft"] = UDim.new(0.05, 0)
 
 
-		
+		-- // StarterGui.BeanzUI.Main.Sidebar.Line \\ --
+		Tab["83"] = Instance.new("Frame", Tab["75"])
+		Tab["83"]["ZIndex"] = 3
+		Tab["83"]["BorderSizePixel"] = 0
+		Tab["83"]["BackgroundColor3"] = Color3.fromRGB(204, 204, 204)
+		Tab["83"]["Size"] = UDim2.new(0, 1, 1, 0)
+		Tab["83"]["Position"] = UDim2.new(0.99788, 0, 0.0047, 0)
+		Tab["83"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		Tab["83"]["Name"] = [[Line]]
+
 		-- // StarterGui.BeanzUI.Main.UIAspectRatioConstraint \\ --
 		Tab["84"] = Instance.new("UIAspectRatioConstraint", Tab["2"])
 		Tab["84"]["AspectRatio"] = 1.71967
@@ -1082,8 +1080,9 @@ function BeanzUI:new(args)
 
 			local percentage
 			local value
-
-			function Slider:SetValue(v)
+			
+			-- Sets the value of the slider
+			function Slider:SetValue(v:number)
 				if not v then
 					percentage = math.clamp((mouse.X - sliderBackground.AbsolutePosition.X) / (sliderBackground.AbsoluteSize.X),0,1)
 				else
@@ -1786,14 +1785,14 @@ function BeanzUI:new(args)
 		local Drawing = {}
 		if drawingoptions.Type == "Circle" then
 			if not tonumber(drawingoptions.Size) then
-				drawingoptions.Size = 100
+				drawingoptions.Size = 0.1
 			end
 		-- // StarterGui.skullissuesifuusethis.MouseFrame \\ --
 		Drawing["b5"] = Instance.new("Frame", UI["1"])
 		Drawing["b5"]["BorderSizePixel"] = 0
 		Drawing["b5"]["BackgroundColor3"] = Color3.fromRGB(0,0,0)
 		Drawing["b5"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
-		Drawing["b5"]["Size"] = UDim2.new(0,drawingoptions.Size,0,drawingoptions.Size)
+			Drawing["b5"]["Size"] = UDim2.new(drawingoptions.Size,0,drawingoptions.Size,0)
 		Drawing["b5"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
 		Drawing["b5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		Drawing["b5"]["Name"] = [[zirkul]]
@@ -1823,7 +1822,7 @@ function BeanzUI:new(args)
 		end
 		function Drawing:SetRadius(v)
 			drawingoptions.Size = v
-			Drawing["b5"]["Size"] = UDim2.new(0,drawingoptions.Size,0,drawingoptions.Size)
+			Drawing["b5"]["Size"] = UDim2.new(drawingoptions.Size,0,drawingoptions.Size,0)
 		end
 		function Drawing:SetColor(v)
 			drawingoptions.Color = v
@@ -1831,6 +1830,9 @@ function BeanzUI:new(args)
 		end
 		function Drawing:GetPosition(v)
 			return Drawing["b5"]["AbsolutePosition"]
+		end
+		function Drawing:GetRadius(v)
+			return Drawing["b5"]["AbsoluteSize"]
 		end
 		return Drawing
 	end
