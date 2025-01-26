@@ -623,8 +623,10 @@ function BeanzUI:new(args)
 		Tab["83"]["Name"] = [[Line]]
 
 		-- // StarterGui.BeanzUI.Main.UIAspectRatioConstraint \\ --
-		Tab["84"] = Instance.new("UIAspectRatioConstraint", Tab["2"])
+		Tab["84"] = Instance.new("UIAspectRatioConstraint", UI["2"])
 		Tab["84"]["AspectRatio"] = 1.71967
+
+
 
 
 		-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame \\ --
@@ -640,7 +642,7 @@ function BeanzUI:new(args)
 		-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.UIListLayout \\ --
 		Tab["12"] = Instance.new("UIListLayout", Tab["11"])
 		Tab["12"]["Padding"] = UDim.new(0.01, 0)
-		Tab["12"]["SortOrder"] = Enum.SortOrder.LayoutOrder
+		Tab["12"]["SortOrder"] = (taboptions.Alphabetical == true and Enum.SortOrder.Name) or Enum.SortOrder.LayoutOrder
 
 		-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.UIPadding \\ --
 		Tab["13"] = Instance.new("UIPadding", Tab["11"])
@@ -720,10 +722,10 @@ function BeanzUI:new(args)
 			Button["14"]["BorderSizePixel"] = 0
 			Button["14"]["BackgroundColor3"] = buttonoptions.Color or Color3.fromRGB(0, 0, 0)
 			Button["14"]["AutomaticSize"] = Enum.AutomaticSize.None
-			Button["14"]["Size"] = (buttonoptions.Mini and UDim2.new(0.9, 0, 0.04, 0)) or (buttonoptions.Small and UDim2.new(0.9, 0, 0.05, 0)) or UDim2.new(0.9, 0, 0.06407, 0)
+			Button["14"]["Size"] = (buttonoptions.Mini and UDim2.new(0.9, 0, 0.035, 0)) or (buttonoptions.Small and UDim2.new(0.9, 0, 0.045, 0)) or UDim2.new(0.9, 0, 0.05407, 0)
 			Button["14"]["Position"] = UDim2.new(0, 0, 0.0101, 0)
 			Button["14"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Button["14"]["Name"] = [[Button]]
+			Button["14"]["Name"] = buttonoptions.ButtonText
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button.UICorner \\ --
 			Button["15"] = Instance.new("UICorner", Button["14"])
@@ -749,7 +751,8 @@ function BeanzUI:new(args)
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button.Title.UIPadding \\ --
 			Button["17"] = Instance.new("UIPadding", Button["16"])
-			Button["17"]["PaddingLeft"] = UDim.new(0.05, 0)
+			Button["17"]["PaddingLeft"] = UDim.new(0.05, 0)	
+			Button["17"]["PaddingRight"] = UDim.new(0.1, 0)
 
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button.Icon \\ --
@@ -757,11 +760,12 @@ function BeanzUI:new(args)
 			Button["19"]["BorderSizePixel"] = 0
 			Button["19"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
 			Button["19"]["ScaleType"] = Enum.ScaleType.Fit
-			Button["19"]["Image"] = [[rbxassetid://83351164203248]]
+			Button["19"]["Image"] = [[rbxassetid://102356210997966]]
 			Button["19"]["Size"] = UDim2.new(0.07635, 0, 0.71069, 0)
 			Button["19"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Button["19"]["BackgroundTransparency"] = 1
 			Button["19"]["Name"] = [[Icon]]
+			Button["19"]["Visible"] = false
 			Button["19"]["Position"] = UDim2.new(0.87516, 0, 0.13931, 0)
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button.UIStroke \\ --
@@ -773,7 +777,9 @@ function BeanzUI:new(args)
 			local title = Button["16"]
 			local uistroke = Button["1a"]
 			button.MouseButton1Click:Connect(function()
+				if buttonoptions.Pressed then
 				buttonoptions.Pressed()
+				end
 			end)
 
 			function Button:SetText(text)
@@ -839,6 +845,7 @@ function BeanzUI:new(args)
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Warning.Title.UIPadding \\ --
 			Warning["6c"] = Instance.new("UIPadding", Warning["6b"])
 			Warning["6c"]["PaddingLeft"] = UDim.new(0.05, 0)
+			Warning["6c"]["PaddingRight"] = UDim.new(0.05, 0)
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Warning.Title.UITextSizeConstraint \\ --
 			Warning["6d"] = Instance.new("UITextSizeConstraint", Warning["6b"])
@@ -853,6 +860,14 @@ function BeanzUI:new(args)
 			function Warning:SetText(text)
 				warningoptions.Text = text
 				warning.Text = text
+			end
+			
+			function Warning:Toggle(b)
+				if b then
+					warning.Parent.Visible = true
+				else
+					warning.Parent.Visible = false
+				end
 			end
 
 			return Warning
@@ -896,6 +911,7 @@ function BeanzUI:new(args)
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Info.Title.UIPadding \\ --
 			Info["66"] = Instance.new("UIPadding", Info["65"])
 			Info["66"]["PaddingLeft"] = UDim.new(0.05, 0)
+			Info["66"]["PaddingRight"] = UDim.new(0.05, 0)
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Info.Title.UITextSizeConstraint \\ --
 			Info["67"] = Instance.new("UITextSizeConstraint", Info["65"])
@@ -951,6 +967,7 @@ function BeanzUI:new(args)
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Message.Title.UIPadding \\ --
 			Message["72"] = Instance.new("UIPadding", Message["71"])
 			Message["72"]["PaddingLeft"] = UDim.new(0.05, 0)
+			Message["72"]["PaddingRight"] = UDim.new(0.05, 0)
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Message.Title.UITextSizeConstraint \\ --
 			Message["73"] = Instance.new("UITextSizeConstraint", Message["71"])
@@ -978,14 +995,16 @@ function BeanzUI:new(args)
 		end
 		function Tab:Slider(slideroptions)
 			local Slider = {
-				Callback = nil
+				Callback = nil,
+				Decimals = 1,
 			}
+			
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider \\ --
 			Slider["1b"] = Instance.new("Frame", Tab["11"])
 			Slider["1b"]["BorderSizePixel"] = 0
 			Slider["1b"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
-			Slider["1b"]["Size"] = UDim2.new(0.9, 0, 0.08377, 0)
-			Slider["1b"]["Position"] = UDim2.new(0, 0, 0.51186, 0)
+			Slider["1b"]["Size"] = UDim2.new(0.9, 0, 0.08, 0)
+			Slider["1b"]["Position"] = UDim2.new(0, 0, 0.41186, 0)
 			Slider["1b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Slider["1b"]["Name"] = [[Slider]]
 
@@ -1044,8 +1063,8 @@ function BeanzUI:new(args)
 			Slider["23"]["AutoButtonColor"] = false
 			Slider["23"]["Text"] = [[]]
 			Slider["23"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-			Slider["23"]["Size"] = UDim2.new(0.92981, 0, 0.16765, 0)
-			Slider["23"]["Position"] = UDim2.new(0.03509, 0, 0.72641, 0)
+			Slider["23"]["Size"] = UDim2.new(0.92981, 0, 0.2, 0)
+			Slider["23"]["Position"] = UDim2.new(0.03509, 0, 0.7, 0)
 			Slider["23"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Slider["23"]["Name"] = [[SliderBackground]]
 			Slider["23"]["BackgroundTransparency"] = 1
@@ -1078,6 +1097,9 @@ function BeanzUI:new(args)
 			local percentage
 			local value
 
+			if slideroptions.Decimals then
+				Slider.Decimals = 10 ^ slideroptions.Decimals
+			end
 			-- Sets the value of the slider
 			function Slider:SetValue(v:number)
 				if not v then
@@ -1085,8 +1107,10 @@ function BeanzUI:new(args)
 				else
 					percentage = v / slideroptions.max
 				end
-
-				value = math.floor((((slideroptions.max - slideroptions.min)* percentage) + slideroptions.min))
+				value = math.floor((((slideroptions.max - slideroptions.min)* percentage) + slideroptions.min)* Slider.Decimals)
+				value /= Slider.Decimals
+				value = math.clamp(value,slideroptions.min,slideroptions.max)
+				percentage = math.clamp(percentage,0,1)
 				sliderNumber.Text = tostring(value)
 				sliderBar.Size = UDim2.fromScale(percentage,1)
 			end
@@ -1095,8 +1119,11 @@ function BeanzUI:new(args)
 				return tonumber(value) or 0
 			end
 
-			function Slider:SetCallback(fnc)
+			function Slider:SetCallback(fnc,decimals)
 				slideroptions.Callback = fnc
+				if decimals then
+					Slider.Decimals = 10 ^ decimals
+				end
 			end
 
 			sliderBackground.MouseButton1Down:Connect(function()
@@ -1124,6 +1151,7 @@ function BeanzUI:new(args)
 					slideroptions.Callback()
 				end
 			end)
+			Slider:SetValue(0)
 			return Slider
 		end
 		function Tab:Dropdown(dropdownoptions)
@@ -1212,17 +1240,52 @@ function BeanzUI:new(args)
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Options.UIPadding \\ --
 			Dropdown["34"] = Instance.new("UIPadding", Dropdown["2f"])
 			Dropdown["34"]["PaddingTop"] = UDim.new(0.1, 0)
+			
+
+			-- // StarterGui.bruhnpp.Main.TabHolder.Autofarm.Dropdown.TextBox \\ --
+			Dropdown["37"] = Instance.new("TextBox", Dropdown["28"])
+			Dropdown["37"]["CursorPosition"] = -1
+			Dropdown["37"]["Active"] = false
+			Dropdown["37"]["Interactable"] = false
+			Dropdown["37"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+			Dropdown["37"]["PlaceholderColor3"] = Color3.fromRGB(113, 113, 113)
+			Dropdown["37"]["BorderSizePixel"] = 0
+			Dropdown["37"]["TextXAlignment"] = Enum.TextXAlignment.Left
+			Dropdown["37"]["TextWrapped"] = true
+			Dropdown["37"]["TextSize"] = 14
+			Dropdown["37"]["TextScaled"] = true
+			Dropdown["37"]["BackgroundColor3"] = Color3.fromRGB(186, 186, 186)
+			Dropdown["37"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+			Dropdown["37"]["ClearTextOnFocus"] = false
+			Dropdown["37"]["PlaceholderText"] = [[]]
+			Dropdown["37"]["Size"] = UDim2.new(0.90372, 0, 0.37501, 0)
+			Dropdown["37"]["Position"] = UDim2.new(0.05, 0, 0.55, 0)
+			Dropdown["37"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			Dropdown["37"]["Text"] = [[]]
+
+			-- // StarterGui.bruhnpp.Main.TabHolder.Autofarm.Dropdown.TextBox.UIStroke \\ --
+			Dropdown["38"] = Instance.new("UIStroke", Dropdown["37"])
+			Dropdown["38"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border
+			Dropdown["38"]["Color"] = Color3.fromRGB(255, 255, 255)
+
+			-- // StarterGui.bruhnpp.Main.TabHolder.Autofarm.Dropdown.TextBox.UIPadding \\ --
+			Dropdown["39"] = Instance.new("UIPadding", Dropdown["37"])
+			Dropdown["39"]["PaddingLeft"] = UDim.new(0.05, 0)
+
+			-- // StarterGui.bruhnpp.Main.TabHolder.Autofarm.Dropdown.TextBox.UICorner \\ --
+			Dropdown["3a"] = Instance.new("UICorner", Dropdown["37"])
 
 			local dropdown = Dropdown["28"]
 			dropdown.ClipsDescendants = true
 			local text = Dropdown["2a"]
 			local arrow = Dropdown["2d"]
+			local selectedtext = Dropdown["37"]
 
-			local dropdownclosedsize = UDim2.fromScale(0.9,0.064)
-			local dropdownclosedtextsize = UDim2.fromScale(1,0.7)
-			local dropdownclosedtextposition = UDim2.fromScale(0.5,0.5)
-			local arrowclosedsize = UDim2.fromScale(0.076,0.711)
-			local arrowclosedposition = UDim2.fromScale(0.875,0.139)
+			local dropdownclosedsize = UDim2.fromScale(0.9,0.09326)
+			local dropdownclosedtextsize = UDim2.fromScale(1,0.4)
+			local dropdownclosedtextposition = UDim2.fromScale(0.5,0.3)
+			local arrowclosedsize = UDim2.fromScale(0.07881, 1.18696)
+			local arrowclosedposition = UDim2.fromScale(0.87213,-0.3)
 
 
 			local dropdownopensize = UDim2.fromScale(dropdown.Size.X.Scale,dropdown.Size.Y.Scale)
@@ -1243,6 +1306,7 @@ function BeanzUI:new(args)
 				if debounce then return end
 				debounce = true
 				dropdown.Options.Visible = false
+				dropdown.TextBox.Visible = true
 				if not Dropdown.Closed then
 					BeanzUI:Tween(dropdown,nil,{Size = dropdownclosedsize},function()
 						Dropdown.Closed = true
@@ -1251,6 +1315,7 @@ function BeanzUI:new(args)
 					BeanzUI:Tween(text,nil,{Size = dropdownclosedtextsize, Position = dropdownclosedtextposition})
 					BeanzUI:Tween(arrow,nil,{Size = arrowclosedsize, Position = arrowclosedposition, Rotation = 90})
 				else
+					dropdown.TextBox.Visible = false
 					BeanzUI:Tween(dropdown,nil,{Size = dropdownopensize},function()
 						dropdown.Options.Visible = true
 						Dropdown.Closed = false
@@ -1270,7 +1335,18 @@ function BeanzUI:new(args)
 				end
 				buzzon.UIStroke.Enabled = true
 				Dropdown.Selected = buzzon
+				selectedtext.PlaceholderText = buzzon.Name
 				toggledropdown()
+			end
+			function Dropdown:Default(option)
+				for _, button in dropdown.Options:GetChildren() do
+					if button:IsA("TextButton") then
+						button.UIStroke.Enabled = false
+					end
+				end
+				option:GetButton().UIStroke.Enabled = true
+				selectedtext.PlaceholderText = option:GetButton().Name
+				Dropdown.Selected = option:GetButton()
 			end
 
 			function Dropdown:GetOption()
@@ -1320,6 +1396,10 @@ function BeanzUI:new(args)
 				button.MouseButton1Click:Connect(function()
 					Dropdown:Select(button)
 				end)
+				
+				function Option:GetButton()
+					return button
+				end
 
 
 				return Option
@@ -1459,7 +1539,7 @@ function BeanzUI:new(args)
 			TextBox["75"] = Instance.new("Frame", Tab["11"])
 			TextBox["75"]["BorderSizePixel"] = 0
 			TextBox["75"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0)
-			TextBox["75"]["Size"] = UDim2.new(0.9, 0, 0.08377, 0)
+			TextBox["75"]["Size"] = UDim2.new(0.9, 0, 0.06377, 0)
 			TextBox["75"]["BackgroundColor3"] = textboxoptions.Color or Color3.fromRGB(0, 0, 0)
 			TextBox["75"]["Position"] = UDim2.new(0, 0, 0.51186, 0)
 			TextBox["75"]["BorderColor3"] = Color3.new(0,0,0)
@@ -1668,7 +1748,14 @@ function BeanzUI:new(args)
 			return BindButton
 		end
 		function Tab:BindKey(options)
-			local KeyBind = {}
+			local KeyBind = {
+				Callback = nil,
+				IsKey = false,
+				UseProc = false,
+			}
+			if #options.Bind == 1 then
+				KeyBind.IsKey = true
+			end
 			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.KeyBind \\ --
 			KeyBind["92"] = Instance.new("Frame", Tab["11"])
 			KeyBind["92"]["BorderSizePixel"] = 0
@@ -1749,26 +1836,54 @@ function BeanzUI:new(args)
 			uis.InputBegan:Connect(function(input, proc)
 				if focused == true then
 					if input.UserInputType == Enum.UserInputType.Keyboard then
+						if input.KeyCode ~= Enum.KeyCode.Escape then
 						KeyBind["97"].Text = input.KeyCode.Name
+							KeyBind.Bind = input.KeyCode.Name
+							KeyBind.IsKey = true
+						end
 						KeyBind["97"]:ReleaseFocus()
 					elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
 						KeyBind["97"].Text = "LMB"
 						KeyBind["97"]:ReleaseFocus()
+						KeyBind.IsKey = false
+						KeyBind.Bind = "MouseButton1"
 					elseif input.UserInputType == Enum.UserInputType.MouseButton2 then
+						KeyBind.IsKey = false
 						KeyBind["97"].Text = "RMB"
+						KeyBind.Bind = "MouseButton2"
 						KeyBind["97"]:ReleaseFocus()
 					elseif input.UserInputType == Enum.UserInputType.MouseButton3 then
+						KeyBind.IsKey = false
 						KeyBind["97"].Text = "MMB"
+						KeyBind.Bind = "MouseButton3"
 						KeyBind["97"]:ReleaseFocus()
 					else
 						KeyBind["97"]:ReleaseFocus()
 					end
 
 
-					KeyBind.Bind = input.KeyCode.Name
 					focused	= false
+				else
+					if proc and KeyBind.UseProc then return end
+					if KeyBind.IsKey then
+						if input.KeyCode.Name == KeyBind.Bind then
+							if KeyBind.Callback then
+								KeyBind:Callback()
+							end
+						end
+					else
+						if input.UserInputType == Enum.UserInputType[KeyBind.Bind] then
+							if KeyBind.Callback then
+								KeyBind:Callback()
+							end
+						end
+					end
 				end
 			end)
+			function KeyBind:SetCallback(fnc,proc)
+				KeyBind.UseProc = proc
+				KeyBind.Callback = fnc
+			end
 			function KeyBind:GetBind()
 				return KeyBind.Bind
 			end
