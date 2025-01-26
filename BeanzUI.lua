@@ -20,7 +20,6 @@ function BeanzUI:Tween(object,tweenInfo,goal,callback)
 	tween:Play()
 end
 function BeanzUI:new(args)
-	
 	local UI = {
 		CurrentTab = nil,
 		Tabs = {},
@@ -355,8 +354,8 @@ function BeanzUI:new(args)
 			end
 		end
 	end)
-	
-	
+
+
 	-- gold
 	do
 		UI["121"] = Instance.new("Frame",UI["2"])
@@ -560,7 +559,6 @@ function BeanzUI:new(args)
 			UI["d"].ZIndex = 11 -- minimize
 			UI["9"].ZIndex = 11 -- title
 			UI["2"].Sidebar.Visible = false
-			UI["4"].Visible = false
 			UI["f"].Visible = false
 			UI["2"].Transparency = 1
 			UI["Iconlol"].ZIndex = 11 -- icon
@@ -574,7 +572,6 @@ function BeanzUI:new(args)
 			UI["d"].ZIndex = oldminimizezindex
 			UI["9"].ZIndex = oldtitlezindex
 			UI["2"].Sidebar.Visible = true
-			UI["4"].Visible = true
 			UI["f"].Visible = true
 			UI["2"].Transparency = 0
 			UI["Iconlol"].ZIndex = oldlogozindex
@@ -1080,7 +1077,7 @@ function BeanzUI:new(args)
 
 			local percentage
 			local value
-			
+
 			-- Sets the value of the slider
 			function Slider:SetValue(v:number)
 				if not v then
@@ -1412,11 +1409,11 @@ function BeanzUI:new(args)
 			end
 			button.MouseButton1Click:Connect(function()
 				if Toggle.Locked == false then
-				if status.BackgroundTransparency == 1 then
-					status.BackgroundTransparency = 0
-				else
-					status.BackgroundTransparency = 1
-				end
+					if status.BackgroundTransparency == 1 then
+						status.BackgroundTransparency = 0
+					else
+						status.BackgroundTransparency = 1
+					end
 				end
 				if Toggle.ChangedCallback then
 					Toggle.ChangedCallback()
@@ -1450,7 +1447,7 @@ function BeanzUI:new(args)
 				Toggle.Locked = false
 			end
 			function Toggle:IsLocked()
-				 return Toggle.Locked
+				return Toggle.Locked
 			end
 			return Toggle
 		end
@@ -1547,7 +1544,7 @@ function BeanzUI:new(args)
 			end
 			return TextBox
 		end
-		
+
 		function Tab:BindButton(options)
 			local BindButton = {}
 
@@ -1618,7 +1615,7 @@ function BeanzUI:new(args)
 			BindButton["9a"] = Instance.new("UIPadding", BindButton["97"])
 			BindButton["9a"]["PaddingLeft"] = UDim.new(0.05, 0)
 
-			
+
 			-- // StarterGui.skullissuesifuusethis.MobileLock \\ --
 			BindButton["ba"] = Instance.new("TextButton", UI["1"])
 			BindButton["ba"]["TextWrapped"] = true
@@ -1642,15 +1639,15 @@ function BeanzUI:new(args)
 			-- // StarterGui.skullissuesifuusethis.MobileLock.UIAspectRatioConstraint \\ --
 			BindButton["bc"] = Instance.new("UIAspectRatioConstraint", BindButton["ba"])
 			BindButton["bc"]["AspectRatio"] = 0.99777
-			
+
 			local mover = nil
 			BindButton["97"].MouseButton1Click:Connect(function()
 				if BindButton["97"]["BackgroundColor3"] == Color3.fromRGB(0, 0, 255) then
 					BindButton["97"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 127)
 					BindButton["ba"]["Position"] = UDim2.new(0.66912, 0, 0.67579, 0)
 					if mover then mover:Destroy() end
-						mover = Instance.new("UIDragDetector")
-						mover.Parent = BindButton["ba"]
+					mover = Instance.new("UIDragDetector")
+					mover.Parent = BindButton["ba"]
 				else
 					BindButton["97"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 255)
 					mover:Destroy()
@@ -1740,7 +1737,7 @@ function BeanzUI:new(args)
 			KeyBind["9a"] = Instance.new("UIPadding", KeyBind["97"])
 			KeyBind["9a"]["PaddingLeft"] = UDim.new(0.05, 0)
 			local focused = false
-			
+
 			KeyBind["97"].Focused:Connect(function()
 				task.wait(0.01)
 				focused = true
@@ -1758,11 +1755,11 @@ function BeanzUI:new(args)
 						KeyBind["97"].Text = "LMB"
 						KeyBind["97"]:ReleaseFocus()
 					elseif input.UserInputType == Enum.UserInputType.MouseButton2 then
-							KeyBind["97"].Text = "RMB"
-							KeyBind["97"]:ReleaseFocus()
+						KeyBind["97"].Text = "RMB"
+						KeyBind["97"]:ReleaseFocus()
 					elseif input.UserInputType == Enum.UserInputType.MouseButton3 then
-							KeyBind["97"].Text = "MMB"
-							KeyBind["97"]:ReleaseFocus()
+						KeyBind["97"].Text = "MMB"
+						KeyBind["97"]:ReleaseFocus()
 					else
 						KeyBind["97"]:ReleaseFocus()
 					end
@@ -1777,39 +1774,39 @@ function BeanzUI:new(args)
 			end
 			return KeyBind
 		end
-		
+
 		return Tab
 	end
 	function  UI:Drawing(drawingoptions)
-		
+
 		local Drawing = {}
 		if drawingoptions.Type == "Circle" then
 			if not tonumber(drawingoptions.Size) then
 				drawingoptions.Size = 0.1
 			end
-		-- // StarterGui.skullissuesifuusethis.MouseFrame \\ --
-		Drawing["b5"] = Instance.new("Frame", UI["1"])
-		Drawing["b5"]["BorderSizePixel"] = 0
-		Drawing["b5"]["BackgroundColor3"] = Color3.fromRGB(0,0,0)
-		Drawing["b5"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
+			-- // StarterGui.skullissuesifuusethis.MouseFrame \\ --
+			Drawing["b5"] = Instance.new("Frame", UI["1"])
+			Drawing["b5"]["BorderSizePixel"] = 0
+			Drawing["b5"]["BackgroundColor3"] = Color3.fromRGB(0,0,0)
+			Drawing["b5"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
 			Drawing["b5"]["Size"] = UDim2.new(drawingoptions.Size,0,drawingoptions.Size,0)
-		Drawing["b5"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
-		Drawing["b5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-		Drawing["b5"]["Name"] = [[zirkul]]
-		Drawing["b5"]["BackgroundTransparency"] = 1
-		Drawing["b5"]["Visible"] = drawingoptions.Visible == true
+			Drawing["b5"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
+			Drawing["b5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+			Drawing["b5"]["Name"] = [[zirkul]]
+			Drawing["b5"]["BackgroundTransparency"] = 1
+			Drawing["b5"]["Visible"] = drawingoptions.Visible == true
 
-		-- // StarterGui.skullissuesifuusethis.MouseFrame.UICorner \\ --
-		Drawing["b6"] = Instance.new("UICorner", Drawing["b5"])
-		Drawing["b6"]["CornerRadius"] = UDim.new(1, 0)
+			-- // StarterGui.skullissuesifuusethis.MouseFrame.UICorner \\ --
+			Drawing["b6"] = Instance.new("UICorner", Drawing["b5"])
+			Drawing["b6"]["CornerRadius"] = UDim.new(1, 0)
 
-		-- // StarterGui.skullissuesifuusethis.MouseFrame.UIStroke \\ --
-		Drawing["b7"] = Instance.new("UIStroke", Drawing["b5"])
-		Drawing["b7"]["Thickness"] = 0.60
-		Drawing["b7"]["Color"] = drawingoptions.Color or Color3.fromRGB(0, 0, 0)
+			-- // StarterGui.skullissuesifuusethis.MouseFrame.UIStroke \\ --
+			Drawing["b7"] = Instance.new("UIStroke", Drawing["b5"])
+			Drawing["b7"]["Thickness"] = 0.60
+			Drawing["b7"]["Color"] = drawingoptions.Color or Color3.fromRGB(0, 0, 0)
 
-		-- // StarterGui.skullissuesifuusethis.MouseFrame.UIAspectRatioConstraint \\ --
-		Drawing["b8"] = Instance.new("UIAspectRatioConstraint", Drawing["b5"])
+			-- // StarterGui.skullissuesifuusethis.MouseFrame.UIAspectRatioConstraint \\ --
+			Drawing["b8"] = Instance.new("UIAspectRatioConstraint", Drawing["b5"])
 		end
 		function Drawing:ToggleVisible(v)
 			if v == true then
@@ -1832,7 +1829,7 @@ function BeanzUI:new(args)
 			return Drawing["b5"]["AbsolutePosition"]
 		end
 		function Drawing:GetRadius(v)
-			return Drawing["b5"]["AbsoluteSize"]["X"]
+			return Drawing["b5"]["AbsoluteSize"].X
 		end
 		return Drawing
 	end
