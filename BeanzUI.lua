@@ -623,8 +623,6 @@ function BeanzUI:new(args)
 		Tab["83"]["Name"] = [[Line]]
 
 		-- // StarterGui.BeanzUI.Main.UIAspectRatioConstraint \\ --
-		Tab["84"] = Instance.new("UIAspectRatioConstraint", UI["2"])
-		Tab["84"]["AspectRatio"] = 1.71967
 
 
 
