@@ -32,7 +32,7 @@ function BeanzUI:new(args)
 	UI["1"] = Instance.new("ScreenGui",RunService:IsStudio() and game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui") or game:GetService("CoreGui"))
 	UI["1"]["Name"] = [[BeanzUI]]
 	UI["1"]["ResetOnSpawn"] = false
-	UI["1"]["IgnoreGuiInset"] = true
+	UI["1"]["IgnoreGuiInset"] = false
 
 	-- // StarterGui.BeanzUI.Main \\ --
 	UI["2"] = Instance.new("Frame", UI["1"])
@@ -622,11 +622,6 @@ function BeanzUI:new(args)
 		Tab["83"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		Tab["83"]["Name"] = [[Line]]
 
-		-- // StarterGui.BeanzUI.Main.UIAspectRatioConstraint \\ --
-
-
-
-
 		-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame \\ --
 		Tab["11"] = Instance.new("ScrollingFrame", UI["10"])
 		Tab["11"]["Active"] = true
@@ -720,7 +715,7 @@ function BeanzUI:new(args)
 			Button["14"]["BorderSizePixel"] = 0
 			Button["14"]["BackgroundColor3"] = buttonoptions.Color or Color3.fromRGB(0, 0, 0)
 			Button["14"]["AutomaticSize"] = Enum.AutomaticSize.None
-			Button["14"]["Size"] = (buttonoptions.Mini and UDim2.new(0.9, 0, 0.035, 0)) or (buttonoptions.Small and UDim2.new(0.9, 0, 0.045, 0)) or UDim2.new(0.9, 0, 0.05407, 0)
+			Button["14"]["Size"] = (buttonoptions.Mini and UDim2.new(0.9, 0, 0.04, 0)) or (buttonoptions.Small and UDim2.new(0.9, 0, 0.05, 0)) or UDim2.new(0.9, 0, 0.06, 0)
 			Button["14"]["Position"] = UDim2.new(0, 0, 0.0101, 0)
 			Button["14"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Button["14"]["Name"] = buttonoptions.ButtonText
@@ -758,12 +753,12 @@ function BeanzUI:new(args)
 			Button["19"]["BorderSizePixel"] = 0
 			Button["19"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
 			Button["19"]["ScaleType"] = Enum.ScaleType.Fit
-			Button["19"]["Image"] = [[rbxassetid://102356210997966]]
+			Button["19"]["Image"] = [[rbxassetid://91052455220714]]
 			Button["19"]["Size"] = UDim2.new(0.07635, 0, 0.71069, 0)
 			Button["19"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Button["19"]["BackgroundTransparency"] = 1
 			Button["19"]["Name"] = [[Icon]]
-			Button["19"]["Visible"] = false
+			Button["19"]["Visible"] = true
 			Button["19"]["Position"] = UDim2.new(0.87516, 0, 0.13931, 0)
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button.UIStroke \\ --
@@ -1901,7 +1896,7 @@ function BeanzUI:new(args)
 			Drawing["b5"] = Instance.new("Frame", UI["1"])
 			Drawing["b5"]["BorderSizePixel"] = 0
 			Drawing["b5"]["BackgroundColor3"] = Color3.fromRGB(0,0,0)
-			Drawing["b5"]["AnchorPoint"] = Vector2.new(0.5, 0.5)
+			Drawing["b5"]["AnchorPoint"] = Vector2.new(.5,.5)
 			Drawing["b5"]["Size"] = UDim2.new(drawingoptions.Size,0,drawingoptions.Size,0)
 			Drawing["b5"]["Position"] = UDim2.new(0.5, 0, 0.5, 0)
 			Drawing["b5"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
@@ -1940,6 +1935,9 @@ function BeanzUI:new(args)
 		end
 		function Drawing:GetPosition(v)
 			return Drawing["b5"]["AbsolutePosition"]
+		end
+		function Drawing:SetPosition(v)
+			Drawing["b5"]["Position"] = v
 		end
 		function Drawing:GetRadius(v)
 			return Drawing["b5"]["AbsoluteSize"].X
