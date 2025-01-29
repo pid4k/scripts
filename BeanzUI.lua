@@ -1482,6 +1482,8 @@ function BeanzUI:new(args)
 			Toggle["59"] = Instance.new("UIStroke", Toggle["57"])
 			Toggle["59"]["Thickness"] = 1.1
 			Toggle["59"]["Color"] = Color3.fromRGB(255, 255, 255)
+			
+			Toggle["60"] = Instance.new("UIAspectRatioConstraint",Toggle["57"])
 
 			local button = Toggle["51"]
 			local status = Toggle["57"]
