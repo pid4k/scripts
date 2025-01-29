@@ -718,7 +718,7 @@ function BeanzUI:new(args)
 			Button["14"]["Size"] = (buttonoptions.Mini and UDim2.new(0.9, 0, 0.04, 0)) or (buttonoptions.Small and UDim2.new(0.9, 0, 0.05, 0)) or UDim2.new(0.9, 0, 0.06, 0)
 			Button["14"]["Position"] = UDim2.new(0, 0, 0.0101, 0)
 			Button["14"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Button["14"]["Name"] = buttonoptions.ButtonText
+			Button["14"]["Name"] = buttonoptions.Name or "Button"
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Button.UICorner \\ --
 			Button["15"] = Instance.new("UICorner", Button["14"])
@@ -794,6 +794,15 @@ function BeanzUI:new(args)
 					else
 						uistroke.Color = Color3.fromRGB(154,154,154)
 					end
+				end
+			end
+			function Button:ToggleVisible(b)
+				if b == true then
+					button.Visible = true
+				elseif b == false then
+					button.Visible = false
+				else
+				button.Visible = not button.Visible
 				end
 			end
 			function Button:SetCallback(fnc)
@@ -919,6 +928,13 @@ function BeanzUI:new(args)
 			function Info:SetText(text)
 				infooptions.Text = text
 				info.Text = text
+			end
+			function Info:Toggle(b)
+				if b then
+					info.Parent.Visible = true
+				else
+					info.Parent.Visible = false
+				end
 			end
 			return Info
 		end
@@ -1598,9 +1614,18 @@ function BeanzUI:new(args)
 			-- // StarterGui.test.Main.TabHolder.ScrollingFrame.TextBox.TextBox.UIPadding \\ --
 			TextBox["7d"] = Instance.new("UIPadding", TextBox["7a"])
 			TextBox["7d"]["PaddingLeft"] = UDim.new(0.05, 0)
-
+			local button = TextBox["75"]
 			local textbox = TextBox["7a"]
-
+			
+			function TextBox:ToggleVisible(b)
+				if b == true then
+					button.Visible = true
+				elseif b == false then
+					button.Visible = false
+				else
+					button.Visible = not button.Visible
+				end
+			end
 			function TextBox:GetText()
 				return textbox.Text
 			end
