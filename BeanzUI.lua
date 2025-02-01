@@ -517,7 +517,7 @@ function BeanzUI:new(args)
 		UI["107"]["Text"] = [[X]]
 		UI["107"]["Position"] = UDim2.new(0.85888, 0, 0.0122, 0)
 		
-		UI["107"] = Instance.new("TextButton", UI["121"])
+		UI["107"] = Instance.new("TextButton", UI["103"])
 		UI["107"]["TextWrapped"] = true
 		UI["107"]["BorderSizePixel"] = 0
 		UI["107"]["TextSize"] = 14
