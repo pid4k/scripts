@@ -499,7 +499,7 @@ function BeanzUI:new(args)
 		UI["106"]["Name"] = [[Confirm]]
 		UI["106"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["106"]["Text"] = [[Confirm]]
-		UI["106"]["Position"] = UDim2.new(0.63872, 0, 0.56113, 0)
+		UI["106"]["Position"] = UDim2.new(0.63872, 0, 0.41168, 0)
 
 		UI["107"] = Instance.new("TextButton", UI["103"])
 		UI["107"]["TextWrapped"] = true
@@ -516,6 +516,21 @@ function BeanzUI:new(args)
 		UI["107"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["107"]["Text"] = [[X]]
 		UI["107"]["Position"] = UDim2.new(0.85888, 0, 0.0122, 0)
+		
+		UI["107"] = Instance.new("TextButton", UI["121"])
+		UI["107"]["TextWrapped"] = true
+		UI["107"]["BorderSizePixel"] = 0
+		UI["107"]["TextSize"] = 14
+		UI["107"]["TextColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["107"]["TextScaled"] = true
+		UI["107"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
+		UI["107"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+		UI["107"]["ZIndex"] = 6
+		UI["107"]["Size"] = UDim2.new(0.33157, 0, 0.21319, 0)
+		UI["107"]["Name"] = [[Copy]]
+		UI["107"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
+		UI["107"]["Text"] = [[Copy Link]]
+		UI["107"]["Position"] = UDim2.new(0.63872, 0, 0.68668, 0)
 
 	end
 
