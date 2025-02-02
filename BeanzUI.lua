@@ -363,7 +363,7 @@ function BeanzUI:new(args)
 		UI["121"]["ZIndex"] = 5
 		UI["121"]["BorderSizePixel"] = 0
 		UI["121"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["121"]["Size"] = UDim2.new(0.44969, 0, 0.3516, 0)
+		UI["121"]["Size"] = UDim2.new(0.5, 0, 0.3516, 0)
 		UI["121"]["Position"] = UDim2.new(0.27387, 0, 0.28093, 0)
 		UI["121"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["121"]["Name"] = [[Whitelistkey]]
@@ -452,7 +452,7 @@ function BeanzUI:new(args)
 		UI["103"]["ZIndex"] = 5
 		UI["103"]["BorderSizePixel"] = 0
 		UI["103"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["103"]["Size"] = UDim2.new(0.44969, 0, 0.3516, 0)
+		UI["103"]["Size"] = UDim2.new(0.5, 0, 0.3516, 0)
 		UI["103"]["Position"] = UDim2.new(0.27387, 0, 0.28093, 0)
 		UI["103"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["103"]["Name"] = [[Key]]
