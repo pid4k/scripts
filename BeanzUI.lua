@@ -590,7 +590,7 @@ function BeanzUI:new(args)
 		end)
 	end)
 	end
-	dragGUI(UI["1"])
+	dragGUI(UI["2"])
 	UI["d"].MouseButton1Click:Connect(function()
 		if args.Movable then
 			if olddrag then
