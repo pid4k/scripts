@@ -563,7 +563,7 @@ function BeanzUI:new(args)
 		local function update(input)
 			local delta = input.Position - dragStart
 			local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-			TweenService:Create(gui, TweenInfo.new(.20), {Position = Position}):Play()
+			tweenService:Create(gui, TweenInfo.new(.20), {Position = Position}):Play()
 		end
 		gui.InputBegan:Connect(function(input)
 			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
