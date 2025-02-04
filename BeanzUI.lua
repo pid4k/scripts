@@ -583,7 +583,7 @@ function BeanzUI:new(args)
 				dragInput = input
 			end
 		end)
-		UserInputService.InputChanged:Connect(function(input)
+		uis.InputChanged:Connect(function(input)
 			if input == dragInput and dragging then
 				update(input)
 			end
