@@ -363,7 +363,7 @@ function BeanzUI:new(args)
 		UI["121"]["ZIndex"] = 5
 		UI["121"]["BorderSizePixel"] = 0
 		UI["121"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["121"]["Size"] = UDim2.new(0.44969, 0, 0.3516, 0)
+		UI["121"]["Size"] = UDim2.new(0.5, 0, 0.3516, 0)
 		UI["121"]["Position"] = UDim2.new(0.27387, 0, 0.28093, 0)
 		UI["121"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["121"]["Name"] = [[Whitelistkey]]
@@ -452,7 +452,7 @@ function BeanzUI:new(args)
 		UI["103"]["ZIndex"] = 5
 		UI["103"]["BorderSizePixel"] = 0
 		UI["103"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["103"]["Size"] = UDim2.new(0.44969, 0, 0.3516, 0)
+		UI["103"]["Size"] = UDim2.new(0.5, 0, 0.3516, 0)
 		UI["103"]["Position"] = UDim2.new(0.27387, 0, 0.28093, 0)
 		UI["103"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["103"]["Name"] = [[Key]]
@@ -516,7 +516,7 @@ function BeanzUI:new(args)
 		UI["107"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["107"]["Text"] = [[X]]
 		UI["107"]["Position"] = UDim2.new(0.85888, 0, 0.0122, 0)
-		
+
 		UI["107"] = Instance.new("TextButton", UI["103"])
 		UI["107"]["TextWrapped"] = true
 		UI["107"]["BorderSizePixel"] = 0
@@ -554,9 +554,43 @@ function BeanzUI:new(args)
 	local oldlinezindex = UI["adf"].ZIndex
 	local oldlogozindex = UI["Iconlol"].ZIndex
 
-	local olddrag = Instance.new("UIDragDetector")
-	olddrag.Parent = UI["2"]
+	local function dragGUI(gui)
+		task.spawn(function()
+			local dragging
+			local dragInput
+			local dragStart = Vector3.new(0,0,0)
+			local startPos
+			local function update(input)
+				local delta = input.Position - dragStart
+				local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+				tweenService:Create(gui, TweenInfo.new(.20), {Position = Position}):Play()
+			end
+			gui.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					dragging = true
+					dragStart = input.Position
+					startPos = gui.Position
 
+					input.Changed:Connect(function()
+						if input.UserInputState == Enum.UserInputState.End then
+							dragging = false
+						end
+					end)
+				end
+			end)
+			gui.InputChanged:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+					dragInput = input
+				end
+			end)
+			uis.InputChanged:Connect(function(input)
+				if input == dragInput and dragging then
+					update(input)
+				end
+			end)
+		end)
+	end
+	dragGUI(UI["2"])
 	UI["d"].MouseButton1Click:Connect(function()
 		if args.Movable then
 			if olddrag then
@@ -786,7 +820,7 @@ function BeanzUI:new(args)
 			local uistroke = Button["1a"]
 			button.MouseButton1Click:Connect(function()
 				if buttonoptions.Pressed then
-				buttonoptions.Pressed()
+					buttonoptions.Pressed()
 				end
 			end)
 
@@ -817,7 +851,7 @@ function BeanzUI:new(args)
 				elseif b == false then
 					button.Visible = false
 				else
-				button.Visible = not button.Visible
+					button.Visible = not button.Visible
 				end
 			end
 			function Button:SetCallback(fnc)
@@ -878,7 +912,7 @@ function BeanzUI:new(args)
 				warningoptions.Text = text
 				warning.Text = text
 			end
-			
+
 			function Warning:Toggle(b)
 				if b then
 					warning.Parent.Visible = true
@@ -1022,7 +1056,7 @@ function BeanzUI:new(args)
 				Callback = nil,
 				Decimals = 1,
 			}
-			
+
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider \\ --
 			Slider["1b"] = Instance.new("Frame", Tab["11"])
 			Slider["1b"]["BorderSizePixel"] = 0
@@ -1264,7 +1298,7 @@ function BeanzUI:new(args)
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Dropdown.Options.UIPadding \\ --
 			Dropdown["34"] = Instance.new("UIPadding", Dropdown["2f"])
 			Dropdown["34"]["PaddingTop"] = UDim.new(0.1, 0)
-			
+
 
 			-- // StarterGui.bruhnpp.Main.TabHolder.Autofarm.Dropdown.TextBox \\ --
 			Dropdown["37"] = Instance.new("TextBox", Dropdown["28"])
@@ -1420,7 +1454,7 @@ function BeanzUI:new(args)
 				button.MouseButton1Click:Connect(function()
 					Dropdown:Select(button)
 				end)
-				
+
 				function Option:GetButton()
 					return button
 				end
@@ -1497,7 +1531,7 @@ function BeanzUI:new(args)
 			Toggle["59"] = Instance.new("UIStroke", Toggle["57"])
 			Toggle["59"]["Thickness"] = 1.1
 			Toggle["59"]["Color"] = Color3.fromRGB(255, 255, 255)
-			
+
 			Toggle["60"] = Instance.new("UIAspectRatioConstraint",Toggle["57"])
 
 			local button = Toggle["51"]
@@ -1633,7 +1667,7 @@ function BeanzUI:new(args)
 			TextBox["7d"]["PaddingLeft"] = UDim.new(0.05, 0)
 			local button = TextBox["75"]
 			local textbox = TextBox["7a"]
-			
+
 			function TextBox:ToggleVisible(b)
 				if b == true then
 					button.Visible = true
@@ -1872,7 +1906,7 @@ function BeanzUI:new(args)
 				if focused == true then
 					if input.UserInputType == Enum.UserInputType.Keyboard then
 						if input.KeyCode ~= Enum.KeyCode.Escape then
-						KeyBind["97"].Text = input.KeyCode.Name
+							KeyBind["97"].Text = input.KeyCode.Name
 							KeyBind.Bind = input.KeyCode.Name
 							KeyBind.IsKey = true
 						end
