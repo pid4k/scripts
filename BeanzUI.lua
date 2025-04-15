@@ -363,7 +363,7 @@ function BeanzUI:new(args)
 		UI["121"]["ZIndex"] = 5
 		UI["121"]["BorderSizePixel"] = 0
 		UI["121"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["121"]["Size"] = UDim2.new(0.5, 0, 0.3516, 0)
+		UI["121"]["Size"] = UDim2.new(0.44969, 0, 0.3516, 0)
 		UI["121"]["Position"] = UDim2.new(0.27387, 0, 0.28093, 0)
 		UI["121"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["121"]["Name"] = [[Whitelistkey]]
@@ -452,7 +452,7 @@ function BeanzUI:new(args)
 		UI["103"]["ZIndex"] = 5
 		UI["103"]["BorderSizePixel"] = 0
 		UI["103"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255)
-		UI["103"]["Size"] = UDim2.new(0.5, 0, 0.3516, 0)
+		UI["103"]["Size"] = UDim2.new(0.44969, 0, 0.3516, 0)
 		UI["103"]["Position"] = UDim2.new(0.27387, 0, 0.28093, 0)
 		UI["103"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		UI["103"]["Name"] = [[Key]]
@@ -554,43 +554,9 @@ function BeanzUI:new(args)
 	local oldlinezindex = UI["adf"].ZIndex
 	local oldlogozindex = UI["Iconlol"].ZIndex
 
-	local function dragGUI(gui)
-	task.spawn(function()
-		local dragging
-		local dragInput
-		local dragStart = Vector3.new(0,0,0)
-		local startPos
-		local function update(input)
-			local delta = input.Position - dragStart
-			local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-			tweenService:Create(gui, TweenInfo.new(.20), {Position = Position}):Play()
-		end
-		gui.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-				dragging = true
-				dragStart = input.Position
-				startPos = gui.Position
+	local olddrag = Instance.new("UIDragDetector")
+	olddrag.Parent = UI["2"]
 
-				input.Changed:Connect(function()
-					if input.UserInputState == Enum.UserInputState.End then
-						dragging = false
-					end
-				end)
-			end
-		end)
-		gui.InputChanged:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-				dragInput = input
-			end
-		end)
-		uis.InputChanged:Connect(function(input)
-			if input == dragInput and dragging then
-				update(input)
-			end
-		end)
-	end)
-	end
-	dragGUI(UI["2"])
 	UI["d"].MouseButton1Click:Connect(function()
 		if args.Movable then
 			if olddrag then
@@ -1064,7 +1030,7 @@ function BeanzUI:new(args)
 			Slider["1b"]["Size"] = UDim2.new(0.9, 0, 0.08, 0)
 			Slider["1b"]["Position"] = UDim2.new(0, 0, 0.41186, 0)
 			Slider["1b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
-			Slider["1b"]["Name"] = [[Slider]]
+			Slider["1b"]["Name"] = slideroptions.Name or slideroptions.Text or "Slider"
 
 			-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.Slider.UICorner \\ --
 			Slider["1c"] = Instance.new("UICorner", Slider["1b"])
