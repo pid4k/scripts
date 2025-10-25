@@ -1484,7 +1484,7 @@ function BeanzUI:new(args)
 			Toggle["51"] = Instance.new("TextButton", Tab["11"])
 			Toggle["51"]["BorderSizePixel"] = 0
 			Toggle["51"]["BackgroundColor3"] = toggleoptions.Color or Color3.fromRGB(0, 0, 0)
-			Toggle["51"]["Size"] = UDim2.new(0.9, 0, 0.06407, 0)
+			Toggle["51"]["Size"] = (toggleoptions.Mini and UDim2.new(0.9, 0, 0.04, 0)) or (toggleoptions.Small and UDim2.new(0.9, 0, 0.05, 0)) or UDim2.new(0.9, 0, 0.06, 0)
 			Toggle["51"]["Position"] = UDim2.new(0, 0, 0.0101, 0)
 			Toggle["51"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 			Toggle["51"]["Name"] = [[Toggle]]
