@@ -823,6 +823,9 @@ function BeanzUI:new(args)
 				if buttonoptions.Pressed then
 					buttonoptions.Pressed()
 				end
+				if buttonoptions.Callback then
+					buttonoptions.Callback()
+					end
 			end)
 
 			function Button:SetText(text)
