@@ -591,6 +591,7 @@ function BeanzUI:new(args)
 		end)
 	end
 	dragGUI(UI["2"])
+	local olddrag
 	UI["d"].MouseButton1Click:Connect(function()
 		if args.Movable then
 			if olddrag then
@@ -1048,6 +1049,13 @@ function BeanzUI:new(args)
 			function Message:SetText(text)
 				messageoptions.Text = text
 				message.Text = text
+			end
+			function Message:Toggle(b)
+				if b then
+					message.Parent.Visible = true
+				else
+					message.Parent.Visible = false
+				end
 			end
 			return Message
 		end
