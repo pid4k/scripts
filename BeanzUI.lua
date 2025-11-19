@@ -751,11 +751,6 @@ function BeanzUI:new(args)
 				end
 			end
 		end)
-		table.insert(UI.Tabs,Tab)
-		if UI.CurrentTab == nil then
-			Tab:Activate()
-			Tab:Warning({Text = discord.gg/beanzhub is a fake version please use https://dsc.gg/beanzhub}) -- yes im coping
-		end
 
 		function Tab:Button(buttonoptions)
 			local Button = {}
@@ -1970,7 +1965,11 @@ function BeanzUI:new(args)
 			end
 			return KeyBind
 		end
-
+		table.insert(UI.Tabs,Tab)
+		if UI.CurrentTab == nil then
+			Tab:Activate()
+			Tab:Warning({Text = discord.gg/beanzhub is a fake version please use make sure youre using https://dsc.gg/beanzhub}) -- yes im coping
+		end
 		return Tab
 	end
 	function  UI:Drawing(drawingoptions)
