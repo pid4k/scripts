@@ -681,7 +681,7 @@ function BeanzUI:new(args)
 		Tab["11"]["ScrollBarImageColor3"] = Color3.fromRGB(0, 0, 0)
 		Tab["11"]["BorderColor3"] = Color3.fromRGB(0, 0, 0)
 		Tab["11"]["BackgroundTransparency"] = 1
-
+		Tab["11"]["ScrollingDirection"] = Enum.ScrollingDirection.Y
 		-- // StarterGui.BeanzUI.Main.TabHolder.ScrollingFrame.UIListLayout \\ --
 		Tab["12"] = Instance.new("UIListLayout", Tab["11"])
 		Tab["12"]["Padding"] = UDim.new(0.01, 0)
