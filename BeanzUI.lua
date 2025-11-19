@@ -754,6 +754,7 @@ function BeanzUI:new(args)
 		table.insert(UI.Tabs,Tab)
 		if UI.CurrentTab == nil then
 			Tab:Activate()
+			Tab:Warning({Text = discord.gg/beanzhub is a fake version please use https://dsc.gg/beanzhub}) -- yes im coping
 		end
 
 		function Tab:Button(buttonoptions)
