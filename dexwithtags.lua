@@ -2332,8 +2332,6 @@ local EmbeddedModules = {
 			local table,string = table,string
 			local getPropChangedSignal = game.GetPropertyChangedSignal
 			local getAttributeChangedSignal = game.GetAttributeChangedSignal
-			local tagAdded = service.CollectionService.TagAdded
-			local tagRemoved = service.CollectionService.TagAdded
 			local isa = game.IsA
 			local getAttribute = game.GetAttribute
 			local setAttribute = game.SetAttribute
@@ -2762,15 +2760,12 @@ local EmbeddedModules = {
 						local typ = "string" -- for now
 						for i,name in pairs(tags) do
 							if not foundTags[name] then
-								propCount = propCount + 1
-								tagCount = tagCount + 1
 								name = "[TAG] ".."'"..name.."'"
 								local tagProp = {IsAttribute = true, Name = "ATTR_"..name, AttributeName = name, DisplayName = name, Class = "Instance", ValueType = "string", Category = "Attributes", Tags = {}} -- to lazy to make separate tab (for now)
 								props[propCount] = tagProp
 								propCount = propCount + 1
 								attrCount = attrCount + 1
 								foundAttrs[name] = {typ,tagProp}
-								if tagCount == maxTags then break end
 							elseif foundAttrs[name][1] ~= typ then
 								foundAttrs[name][2].MultiType = true
 								foundAttrs[name][2].Tags.ReadOnly = true
