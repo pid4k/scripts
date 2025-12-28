@@ -1,5 +1,4 @@
 -- Configuration System
-tick = function() return 0 end
 local ConfigSystem = {}
 function ConfigSystem:new(filename, template)
 	local config = {}
