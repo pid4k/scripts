@@ -1,7 +1,7 @@
 return {
 	dealerbuyevent = game:GetService("ReplicatedStorage")
-		:FindFirstChild("64084741-be8f-4afd-8a31-b0bc1c709bee", true),
+		:FindFirstChild("29c2c390-e58d-4512-9180-2da58f0d98d8", true),
 
 	dealersellevent = game:GetService("ReplicatedStorage")
-		:FindFirstChild("67993222-e592-4017-9bdb-5e29e21caa9b", true)
+		:FindFirstChild("eb233e6a-acb9-4169-acb9-129fe8cb06bb", true)
 }
