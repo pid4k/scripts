@@ -1,3 +1,3 @@
 return {
-  "BeanzUBG"
+  "BeanzUBG.json"
 }
