@@ -1,7 +1,7 @@
 -- Configuration System
 local ConfigSystem = {}
 function ConfigSystem:new(filename, template)
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/pid4k/scripts/main/confighelper.lua"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/pid4k/scripts/main/confighelper.lua"))(filename,template)
 	local config = {}
 	config.FileName = filename
 
