@@ -34,9 +34,9 @@ local function getDirectory(filePath)
 	return dir or ""
 end
 local opts = {
-        Url = "https://raw.githubusercontent.com/pid4k/scripts/main/"
+        RootUrl = "https://raw.githubusercontent.com/pid4k/scripts/main/"
     }
-local function urlRequire(target)
+local function urlRequire(target,url)
 	-- If target is not a string (e.g. game instances), pass directly to original require
 	if typeof(target) ~= "string" then
 		return old_req(target)
@@ -55,7 +55,7 @@ local function urlRequire(target)
 
 	local PROD = workspace ~= nil
 	if PROD then
-		local REPO_URL = opts.Url
+		local REPO_URL = url or opts.Url
 		local fullUrl = REPO_URL .. cleanPath
 
 		local fetchOk, source = pcall(function()
@@ -93,7 +93,8 @@ local function urlRequire(target)
 	return result
 end
 
-return {
-    require = urlRequire,
-    opts = opts
-}
+return setmetatable(opts, {
+    __call = function(self, target,url)
+        return urlRequire(target,url)
+    end
+})
