@@ -120,9 +120,6 @@ local function preloadFolder(folderPath, customTree, customUrl)
 	if not tree then
 		return false, "Could not fetch repository tree"
 	end
-
-	local spawnFn = (task and task.spawn) or spawn
-	local waitFn = (task and task.wait) or wait
 	local pending = 0
 
 	for _, node in ipairs(tree) do
@@ -131,7 +128,7 @@ local function preloadFolder(folderPath, customTree, customUrl)
 				local cleanNodePath = string.gsub(node.path, "^/+", "")
 				if not source_cache[cleanNodePath] then
 					pending = pending + 1
-					spawnFn(function()
+					task.spawn(function()
 						local fullUrl = REPO_URL .. cleanNodePath
 						if string.match(REPO_URL, "/ui/?$") and string.sub(cleanNodePath, 1, 3) == "ui/" then
 							fullUrl = REPO_URL .. string.sub(cleanNodePath, 4)
@@ -155,7 +152,7 @@ local function preloadFolder(folderPath, customTree, customUrl)
 	end
 
 	while pending > 0 do
-		waitFn()
+		task.wait()
 	end
 
 	return true

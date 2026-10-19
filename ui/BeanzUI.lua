@@ -1,9 +1,9 @@
 local HttpService = game:GetService("HttpService")
 local oldReq = require; require = oldReq;
-const repoUrl = "https://raw.githubusercontent.com/pid4k/scripts/refs/heads/main/"
+const uiFolderUrl = "https://raw.githubusercontent.com/pid4k/scripts/refs/heads/main/ui/"
 if getgenv() then
     require = loadstring(game:HttpGet("https://raw.githubusercontent.com/pid4k/scripts/refs/heads/main/urlrequire.lua"))()
-    --require.RootUrl = repoUrl
+    require.RootUrl = uiFolderUrl
 end
 
 require.preloadFolder("ui/vide-0.4.1")
