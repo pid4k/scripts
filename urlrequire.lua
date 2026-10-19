@@ -78,46 +78,20 @@ local function getRepoTree(rootUrl)
 	branch = branch or "main"
 
 	local treeUrl = string.format("https://api.github.com/repos/%s/%s/git/trees/%s?recursive=1", owner, repo, branch)
-	local body = nil
-
-	local reqFn = (syn and syn.request) or (http and http.request) or request or http_request
-	if reqFn then
-		local res = reqFn({
+		local res = request({
 			Url = treeUrl,
 			Method = "GET",
 			Headers = {
 				["User-Agent"] = "Roblox",
-				["Accept"] = "application/vnd.github+json"
+				["Accept"] = "application/vnd.github+json",
+				["Authorization"] = "Bearer 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",
 			}
 		})
-		if res and (res.StatusCode == 200 or res.Status == 200 or res.Success) then
-			body = res.Body
-		elseif res and res.Body then
-			body = res.Body
-		end
-	end
-
-	if not body then
-		local ok, res = pcall(function()
-			return game:HttpGet(treeUrl)
-		end)
-		if ok and res then
-			body = res
-		end
-	end
-
-	if body then
+		const body = res.Body
 		local HttpService = game:GetService("HttpService")
-		local ok, data = pcall(function()
-			return HttpService:JSONDecode(body)
-		end)
-		if ok and data and data.tree then
-			cached_tree = data.tree
-			return cached_tree
-		end
-	end
-
-	return nil
+		const data = HttpService:JSONDecode(body)
+		cached_tree = data
+		return cached_tree
 end
 
 local function pathMatchesFolder(nodePath, folder)
@@ -163,11 +137,9 @@ local function preloadFolder(folderPath, customTree, customUrl)
 							fullUrl = REPO_URL .. string.sub(cleanNodePath, 4)
 						end
 
-						local ok, content = pcall(function()
-							return game:HttpGet(fullUrl)
-						end)
+						local content = game:HttpGet(fullUrl)
 
-						if ok and content and content ~= "404: Not Found" and not string.match(content, "^404:? Not Found") then
+						if content and content ~= "404: Not Found" and not string.match(content, "^404:? Not Found") then
 							source_cache[cleanNodePath] = content
 							local withoutUi = string.gsub(cleanNodePath, "^ui/", "")
 							source_cache[withoutUi] = content
@@ -230,11 +202,9 @@ local function urlRequire(target, url)
 
 		local source = source_cache[cleanPath] or source_cache[target]
 		if not source then
-			local fetchOk, fetched = pcall(function()
-				return game:HttpGet(fullUrl)
-			end)
+			const fetched = game:HttpGet(fullUrl)
 
-			if not fetchOk or not fetched then
+			if not fetched then
 				in_flight[cleanPath] = nil
 				if inFlightEvent then
 					inFlightEvent:Fire()
@@ -275,7 +245,7 @@ local function urlRequire(target, url)
 		end
 		table.insert(stack, getDirectory(cleanPath))
 
-		local ok, result = pcall(fn)
+		const result = fn()
 
 		table.remove(stack)
 		if #stack == 0 then
@@ -286,10 +256,6 @@ local function urlRequire(target, url)
 		if inFlightEvent then
 			inFlightEvent:Fire()
 			inFlightEvent:DisconnectAll()
-		end
-
-		if not ok then
-			error(string.format("[urlrequire] Error running '%s': %s", cleanPath, tostring(result)), 0)
 		end
 
 		module_cache[cleanPath] = result
