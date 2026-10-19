@@ -33,8 +33,10 @@ local function getDirectory(filePath)
 	local dir = string.match(filePath, "^(.*)[/\\][^/\\]+$")
 	return dir or ""
 end
-
-return function(target)
+local opts = {
+        Url = "https://raw.githubusercontent.com/pid4k/scripts/main/"
+    }
+local function urlRequire(target)
 	-- If target is not a string (e.g. game instances), pass directly to original require
 	if typeof(target) ~= "string" then
 		return old_req(target)
@@ -53,7 +55,7 @@ return function(target)
 
 	local PROD = workspace ~= nil
 	if PROD then
-		local REPO_URL = "https://raw.githubusercontent.com/pid4k/scripts/main/"
+		local REPO_URL = opts.Url
 		local fullUrl = REPO_URL .. cleanPath
 
 		local fetchOk, source = pcall(function()
@@ -90,3 +92,8 @@ return function(target)
 	module_cache[target] = result
 	return result
 end
+
+return {
+    require = urlRequire,
+    opts = opts
+}
