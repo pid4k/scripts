@@ -55,7 +55,7 @@ local function urlRequire(target,url)
 
 	local PROD = workspace ~= nil
 	if PROD then
-		local REPO_URL = url or opts.Url
+		local REPO_URL = url or opts.RootUrl
 		local fullUrl = REPO_URL .. cleanPath
 
 		local fetchOk, source = pcall(function()
