@@ -22,7 +22,6 @@ local action = require "./action"()
 local changed = require "./changed"
 local timeout, update_timeouts = require "./timeout"()
 local flags = require "./flags"
-
 export type Source<T> = source.Source<T>
 export type source<T> = Source<T>
 export type Context<T> = context.Context<T>
