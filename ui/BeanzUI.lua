@@ -5,9 +5,14 @@ if getgenv() then
     require = loadstring(game:HttpGet("https://raw.githubusercontent.com/pid4k/scripts/refs/heads/main/urlrequire.lua"))()
     --require.RootUrl = repoUrl
 end
+const headers = {
+    ["Authorization"] = "Bearer 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",
+    ["Accept"] = "application/vnd.github+json"
+}
 const response = request{
 Url = `https://api.github.com/repos/pid4k/scripts/git/trees/main?recursive=1`,
 Method = "GET",
+Headers = headers,
 }
 const data = HttpService:JSONDecode(response.Body)
 const function loadFolder(folderPath)
