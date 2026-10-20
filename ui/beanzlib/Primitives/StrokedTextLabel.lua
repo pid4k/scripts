@@ -1,5 +1,4 @@
 const UIStroke = require("./UIStroke")
-const Vide = require("../../vide-0.4.1/vide")
 local TextLabel = require("./TextLabel")
 return function(props : TextLabel & {
 	Bold : boolean
