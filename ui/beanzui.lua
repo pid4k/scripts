@@ -21,6 +21,10 @@ local beanz = {}
 function beanz:CreateWindow(props)
     return Window.new(beanz,props)
 end
-
-local window = beanz:CreateWindow(props)
+local window = beanz:CreateWindow{
+    
+}
+window:CreateTab{
+    name = "Test"
+}
 end
