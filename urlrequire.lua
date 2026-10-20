@@ -4,7 +4,7 @@ local source_cache = {}
 local in_flight = {}
 local thread_stacks = setmetatable({}, { __mode = "k" })
 local cached_tree = nil
-local Signal = getgenv() and loadstring(game:HttpGet("https://gist.githubusercontent.com/stravant/b75a322e0919d60dde8a0316d1f09d2f/raw/f6a8900676185457211ec25d22d681c20ee792cb/GoodSignal.lua"))()
+local Signal = getgenv() and loadstring(request{Url = "https://gist.githubusercontent.com/stravant/b75a322e0919d60dde8a0316d1f09d2f/raw/f6a8900676185457211ec25d22d681c20ee792cb/GoodSignal.lua", Method = "GET"}.Body)()
 
 local function getDirectory(filePath)
 	local dir = string.match(filePath, "^(.*)[/\\][^/\\]+$")
@@ -59,7 +59,7 @@ local function getCurrentDir()
 end
 
 local opts = {
-	RootUrl = "https://raw.githubusercontent.com/pid4k/scripts/main/"
+	RootUrl = "https://cdn.statically.io/gh/pid4k/scripts@main/"
 }
 
 local function getRepoTree(rootUrl)
@@ -67,7 +67,10 @@ local function getRepoTree(rootUrl)
 		return cached_tree
 	end
 
-	local owner, repo, branch = string.match(rootUrl, "raw%.githubusercontent%.com/([^/]+)/([^/]+)/refs/heads/([^/]+)")
+	local owner, repo, branch = string.match(rootUrl, "cdn%.statically%.io/gh/([^/@]+)/([^/@]+)@([^/]+)")
+	if not owner then
+		owner, repo, branch = string.match(rootUrl, "raw%.githubusercontent%.com/([^/]+)/([^/]+)/refs/heads/([^/]+)")
+	end
 	if not owner then
 		owner, repo, branch = string.match(rootUrl, "raw%.githubusercontent%.com/([^/]+)/([^/]+)/([^/]+)")
 	end
@@ -134,7 +137,7 @@ local function preloadFolder(folderPath, customTree, customUrl)
 							fullUrl = REPO_URL .. string.sub(cleanNodePath, 4)
 						end
 
-						local content = game:HttpGet(fullUrl)
+						local content = request{Url = fullUrl, Method = "GET"}.Body
 
 						if content and content ~= "404: Not Found" and not string.match(content, "^404:? Not Found") then
 							source_cache[cleanNodePath] = content
@@ -199,7 +202,7 @@ local function urlRequire(target, url)
 
 		local source = source_cache[cleanPath] or source_cache[target]
 		if not source then
-			const fetched = game:HttpGet(fullUrl)
+			const fetched = request{Url = fullUrl, Method = "GET"}.Body
 
 			if not fetched then
 				in_flight[cleanPath] = nil
