@@ -1,5 +1,5 @@
 const Vide = require("../../vide-0.4.1/vide")
-local Styles = require("../../Utils/Styles")
+local Styles = require("../../utils/styles")
 const create = Vide.create
 return function(props : TextLabel & {
 	Bold : boolean
@@ -12,9 +12,7 @@ return function(props : TextLabel & {
 		-- DEFAULTS --
 		TextScaled = true,
 		TextColor3 = Color3.fromRGB(255,255,255),
-		BackgroundColor3 = function()
-			return Styles.SelectedTheme().FrameBG
-		end,
+		BackgroundColor3 = Color3.fromRGB(0, 0, 0),
 		RichText = true,
 		Text = "Hello World!",
 		FontFace = function()

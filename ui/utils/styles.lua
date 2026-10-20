@@ -1,5 +1,5 @@
 const Vide = require("../vide-0.4.1/vide")
-const Fonts = require("../Utils/Fonts")
+const Fonts = require("../utils/fonts")
 local m = {
     Themes = {
         Normal = {

@@ -1,5 +1,5 @@
-const UIStroke = require("./UIStroke")
-local TextButton = require("./TextButton")
+const UIStroke = require("./uistroke")
+local TextButton = require("./textbutton")
 return function(props : TextLabel & {
 	Bold : boolean
 	})

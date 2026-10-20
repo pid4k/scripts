@@ -1,5 +1,5 @@
 const Vide = require("../../vide-0.4.1/vide")
-const Styles = require("../../Utils/Styles")
+const Styles = require("../../utils/styles")
 local create = Vide.create
 return function(props : TextButton & {Bold : boolean})
 	const bold = props.Bold
@@ -10,9 +10,7 @@ return function(props : TextButton & {Bold : boolean})
 		TextScaled = true,
 		RichText = true,
 		TextColor3 = Color3.fromRGB(255, 255, 255),
-		BackgroundColor3 = function()
-			return Styles.SelectedTheme().FrameBG
-		end,
+		BackgroundColor3 = Color3.fromRGB(0, 0, 0),
 		FontFace = function()
 			local theme = Styles.SelectedTheme()
 			return bold and theme.BoldFont or theme.MainFont

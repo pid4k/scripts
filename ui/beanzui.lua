@@ -10,25 +10,17 @@ end
 
 require.preloadFolder("ui/vide-0.4.1", "ui/beanzlib")
 do
-const TextButton = require("./beanzlib/Primitives/TextButton")
+const TextButton = require("./beanzlib/primitives/textbutton")
 const vide = require("./vide-0.4.1/vide")
-vide.mount(function()
-    local btn; btn = TextButton {
-        AnchorPoint = Vector2.new(.5,.5),
-        Position = UDim2.fromOffset(0,0),
-        Size = UDim2.fromOffset(100,100),
-        Text = "Click me",
-        BackgroundColor3 = Color3.new(.3,.3,.3),
-        MouseButton1Click = function()
-            btn:Destroy()
-        end,
-    }
-    return vide.create"ScreenGui" {
-        btn
-    }
-end,game:GetService("CoreGui"))
-end
+const Window = require("./beanzlib/elements/window")
+
 require = oldReq
 
 print("load time:", tick() - dur,"seconds")
+local beanz = {}
+function beanz:CreateWindow(props)
+    return Window.new(beanz,props)
+end
 
+local window = beanz:CreateWindow(props)
+end
