@@ -50,12 +50,11 @@ function Window.new(lib, props)
 		ondestroyed = props.ondestroyed,
 		theme = vide.context(props.theme or defaultTheme),
 	}, Window)
-    print(self.theme())
 
-	if self.theme ~= defaultTheme then
+	if self.theme() ~= defaultTheme then
 		for k, v in defaultTheme do
-			if self.theme[k] == nil then
-				self.theme[k] = v
+			if self.theme()[k] == nil then
+				self.theme()[k] = v
 			end
 		end
 	end
