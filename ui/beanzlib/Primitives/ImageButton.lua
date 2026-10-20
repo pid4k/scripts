@@ -1,4 +1,4 @@
-const Vide = require("../../vide-0.4.1/vide")
+const Vide = require("../../vide")
 const create = Vide.create
 return function(props : ImageButton)
 	const children = props.children or {}

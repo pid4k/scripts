@@ -1,8 +1,6 @@
 const UIStroke = require("./UIStroke")
-const Vide = require("../../vide-0.4.1/vide")
-local Fonts = require("../../Utils/Fonts")
-local Styles = require("../../Utils/Styles")
-local TextButton = require("./TextButton")
+const Vide = require("../../vide")
+const TextButton = require("./TextButton")
 const create = Vide.create
 return function(props : TextLabel & {
 	Bold : boolean
