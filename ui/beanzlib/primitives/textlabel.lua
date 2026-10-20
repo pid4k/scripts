@@ -1,6 +1,5 @@
 const Vide = require("../../vide-0.4.1/vide")
-local Fonts = require("../../Utils/Fonts")
-local Styles = require("../../Utils/Styles")
+const defaultTheme = require("../../utils/themes/default")
 const create = Vide.create
 return function(props : TextLabel & {
 	Bold : boolean
@@ -13,10 +12,11 @@ return function(props : TextLabel & {
 		-- DEFAULTS --
 		TextScaled = true,
 		TextColor3 = Color3.fromRGB(255,255,255),
-		BackgroundColor3 = Styles.Colors.accent1,
+		BackgroundColor3 = Color3.fromRGB(0, 0, 0),
 		RichText = true,
 		Text = "Hello World!",
-		FontFace = props.FontFace or bold and Fonts.BoldFont or Fonts.MainFont,
+		FontFace = bold and defaultTheme.BoldFont or defaultTheme.MainFont,
+
 		-------------
 		props,
 		children,
