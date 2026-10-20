@@ -72,105 +72,113 @@ function Window.new(lib, props)
 		BackgroundColor3 = function()
 			return self.theme().TopBarBackground
 		end,
-		vide.create "UICorner" {
-			CornerRadius = UDim.new(0.2, 0),
-		},
-
-		-- Square bottom cover to only round top corners of topbar
-		frame {
-			Name = "Bottom",
-			Size = UDim2.new(1, 0, 0.85083, 0),
-			Position = UDim2.new(0, 0, 0.14917, 0),
-			BackgroundColor3 = function()
-				return self.theme().TopBarBackground
-			end,
-		},
-
-		-- Logo Icon
-		imagelabel {
-			Name = "Icon",
-			Image = props.icon or "http://www.roblox.com/asset/?id=18187292776",
-			Size = UDim2.new(0.1023, 0, 1.055, 0),
-			Position = UDim2.new(-0.00147, 0, 0, 0),
-		},
-
-		-- Vertical separator line next to icon
-		frame {
-			Name = "Line",
-			Size = UDim2.new(0, 1, 0.8, 0),
-			Position = UDim2.new(0.10084, 0, 0.5, 0),
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			BackgroundColor3 = function()
-				return self.theme().LineColor or Color3.fromRGB(151, 151, 151)
-			end,
-		},
-
-		-- Title
-		textlabel {
-			Name = "Title",
-			Text = self.name,
-			Size = UDim2.new(0.5, 0, 1, 0),
-			Position = UDim2.new(0.12321, 0, -0.02193, 0),
-			TextXAlignment = Enum.TextXAlignment.Left,
-			BackgroundTransparency = 1,
-			TextColor3 = function()
-				return self.theme().TextPrimaryColor
-			end,
-			uipadding {
-				PaddingVertical = UDim.new(0.1, 0),
-				PaddingLeft = UDim.new(0.05, 0),
+		children = {
+			vide.create "UICorner" {
+				CornerRadius = UDim.new(0.2, 0),
 			},
-		},
 
-		-- Minimize button
-		textbutton {
-			Name = "Minimize",
-			Size = UDim2.new(0.1, 0, 1, 0),
-			Position = UDim2.new(0.75, 0, 0, 0),
-			BackgroundTransparency = 1,
-			Text = "-",
-			TextColor3 = function()
-				return self.theme().TextPrimaryColor
-			end,
-			uipadding {
-				PaddingVertical = UDim.new(0.1, 0),
-				PaddingLeft = UDim.new(0.05, 0),
+			-- Square bottom cover to only round top corners of topbar
+			frame {
+				Name = "Bottom",
+				Size = UDim2.new(1, 0, 0.85083, 0),
+				Position = UDim2.new(0, 0, 0.14917, 0),
+				BackgroundColor3 = function()
+					return self.theme().TopBarBackground
+				end,
 			},
-			MouseButton1Click = function()
-				minimized(not minimized())
-			end,
-		},
 
-		-- Exit button
-		textbutton {
-			Name = "Exit",
-			Size = UDim2.new(0.1, 0, 1, 0),
-			Position = UDim2.new(0.89932, 0, 0, 0),
-			BackgroundTransparency = 1,
-			Text = "X",
-			TextColor3 = function()
-				return self.theme().TextPrimaryColor
-			end,
-			uipadding {
-				PaddingVertical = UDim.new(0.1, 0),
-				PaddingLeft = UDim.new(0.05, 0),
+			-- Logo Icon
+			imagelabel {
+				Name = "Icon",
+				Image = props.icon or "http://www.roblox.com/asset/?id=18187292776",
+				Size = UDim2.new(0.1023, 0, 1.055, 0),
+				Position = UDim2.new(-0.00147, 0, 0, 0),
 			},
-			MouseButton1Click = function()
-				self:Destroy()
-			end,
-		},
 
-		-- Horizontal bottom line of topbar
-		frame {
-			Name = "Line",
-			Size = UDim2.new(1, 0, 0, 1),
-			Position = UDim2.new(0, 0, 0.99327, 0),
-			BackgroundColor3 = function()
-				return self.theme().SeparatorColor or Color3.fromRGB(204, 204, 204)
-			end,
-			Visible = function()
-				return not minimized()
-			end,
+			-- Vertical separator line next to icon
+			frame {
+				Name = "Line",
+				Size = UDim2.new(0, 1, 0.8, 0),
+				Position = UDim2.new(0.10084, 0, 0.5, 0),
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				BackgroundColor3 = function()
+					return self.theme().LineColor or Color3.fromRGB(151, 151, 151)
+				end,
+			},
+
+			-- Title
+			textlabel {
+				Name = "Title",
+				Text = self.name,
+				Size = UDim2.new(0.5, 0, 1, 0),
+				Position = UDim2.new(0.12321, 0, -0.02193, 0),
+				TextXAlignment = Enum.TextXAlignment.Left,
+				BackgroundTransparency = 1,
+				TextColor3 = function()
+					return self.theme().TextPrimaryColor
+				end,
+				children = {
+					uipadding {
+						PaddingVertical = UDim.new(0.1, 0),
+						PaddingLeft = UDim.new(0.05, 0),
+					},
+				},
+			},
+
+			-- Minimize button
+			textbutton {
+				Name = "Minimize",
+				Size = UDim2.new(0.1, 0, 1, 0),
+				Position = UDim2.new(0.75, 0, 0, 0),
+				BackgroundTransparency = 1,
+				Text = "-",
+				TextColor3 = function()
+					return self.theme().TextPrimaryColor
+				end,
+				MouseButton1Click = function()
+					minimized(not minimized())
+				end,
+				children = {
+					uipadding {
+						PaddingVertical = UDim.new(0.1, 0),
+						PaddingLeft = UDim.new(0.05, 0),
+					},
+				},
+			},
+
+			-- Exit button
+			textbutton {
+				Name = "Exit",
+				Size = UDim2.new(0.1, 0, 1, 0),
+				Position = UDim2.new(0.89932, 0, 0, 0),
+				BackgroundTransparency = 1,
+				Text = "X",
+				TextColor3 = function()
+					return self.theme().TextPrimaryColor
+				end,
+				MouseButton1Click = function()
+					self:Destroy()
+				end,
+				children = {
+					uipadding {
+						PaddingVertical = UDim.new(0.1, 0),
+						PaddingLeft = UDim.new(0.05, 0),
+					},
+				},
+			},
+
+			-- Horizontal bottom line of topbar
+			frame {
+				Name = "Line",
+				Size = UDim2.new(1, 0, 0, 1),
+				Position = UDim2.new(0, 0, 0.99327, 0),
+				BackgroundColor3 = function()
+					return self.theme().SeparatorColor or Color3.fromRGB(204, 204, 204)
+				end,
+				Visible = function()
+					return not minimized()
+				end,
+			},
 		},
 	}
 
@@ -179,11 +187,13 @@ function Window.new(lib, props)
 		Name = "Holder",
 		Size = UDim2.new(1, 0, 1, 0),
 		BackgroundTransparency = 1,
-		uipadding {
-			PaddingTop = UDim.new(0.05, 0),
-		},
-		vide.create "UIListLayout" {
-			SortOrder = Enum.SortOrder.LayoutOrder,
+		children = {
+			uipadding {
+				PaddingTop = UDim.new(0.05, 0),
+			},
+			vide.create "UIListLayout" {
+				SortOrder = Enum.SortOrder.LayoutOrder,
+			},
 		},
 	}
 
@@ -199,38 +209,40 @@ function Window.new(lib, props)
 		Visible = function()
 			return not minimized()
 		end,
-		vide.create "UICorner" {
-			CornerRadius = UDim.new(0.08, 0),
-		},
+		children = {
+			vide.create "UICorner" {
+				CornerRadius = UDim.new(0.08, 0),
+			},
 
-		-- Square hide patches so only bottom-left corner is rounded
-		frame {
-			Name = "Hide",
-			Size = UDim2.new(0.2, 0, 0.2, 0),
-			Position = UDim2.new(0, 0, 0, 0),
-			BackgroundColor3 = function()
-				return self.theme().SidebarBackground
-			end,
-		},
-		frame {
-			Name = "Hide",
-			Size = UDim2.new(0.2, 0, 0.2, 0),
-			Position = UDim2.new(0.8, 0, 0.00271, 0),
-			BackgroundColor3 = function()
-				return self.theme().SidebarBackground
-			end,
-		},
-		frame {
-			Name = "Hide",
-			Size = UDim2.new(0.2, 0, 0.2, 0),
-			Position = UDim2.new(0.9974, 0, 0.99851, 0),
-			AnchorPoint = Vector2.new(1, 1),
-			BackgroundColor3 = function()
-				return self.theme().SidebarBackground
-			end,
-		},
+			-- Square hide patches so only bottom-left corner is rounded
+			frame {
+				Name = "Hide",
+				Size = UDim2.new(0.2, 0, 0.2, 0),
+				Position = UDim2.new(0, 0, 0, 0),
+				BackgroundColor3 = function()
+					return self.theme().SidebarBackground
+				end,
+			},
+			frame {
+				Name = "Hide",
+				Size = UDim2.new(0.2, 0, 0.2, 0),
+				Position = UDim2.new(0.8, 0, 0.00271, 0),
+				BackgroundColor3 = function()
+					return self.theme().SidebarBackground
+				end,
+			},
+			frame {
+				Name = "Hide",
+				Size = UDim2.new(0.2, 0, 0.2, 0),
+				Position = UDim2.new(0.9974, 0, 0.99851, 0),
+				AnchorPoint = Vector2.new(1, 1),
+				BackgroundColor3 = function()
+					return self.theme().SidebarBackground
+				end,
+			},
 
-		tabButtonHolder,
+			tabButtonHolder,
+		},
 	}
 
 	-- Tab Pages Container
@@ -257,13 +269,15 @@ function Window.new(lib, props)
 			return self.theme().WindowBackground or self.theme().FrameBackground
 		end,
 		ClipsDescendants = true,
-		vide.create "UICorner" {
-			CornerRadius = UDim.new(0.03, 0),
-		},
+		children = {
+			vide.create "UICorner" {
+				CornerRadius = UDim.new(0.03, 0),
+			},
 
-		topbar,
-		sidebar,
-		tabContainer,
+			topbar,
+			sidebar,
+			tabContainer,
+		},
 	}
 
 	makeDraggable(topbar, mainFrame)
