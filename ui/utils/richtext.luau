@@ -127,7 +127,7 @@ type RichTextString = setmetatable<{
 
 RichTextStr.__index = RichTextStr
 
-function markdown:newString(text: string, props: RichTextProps) : RichTextString
+function markdown.newString(text: string, props: RichTextProps) : RichTextString
 	assert(props,"missing argument #2 'props'")
 	local self = setmetatable({},RichTextStr)
 	self.props = props

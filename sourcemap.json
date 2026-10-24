@@ -1,0 +1,415 @@
+{
+  "name": "game",
+  "className": "DataModel",
+  "children": [
+    {
+      "name": "ReplicatedStorage",
+      "className": "ReplicatedStorage",
+      "pluginManaged": true,
+      "children": [
+        {
+          "name": "ui",
+          "className": "Folder",
+          "pluginManaged": true,
+          "children": [
+            {
+              "name": "erm",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/erm.lua"
+              ]
+            },
+            {
+              "name": "vide",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/vide.lua"
+              ]
+            },
+            {
+              "name": "beanzui",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzui.lua"
+              ]
+            },
+            {
+              "name": "test.story",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/test.story.luau"
+              ]
+            },
+            {
+              "name": "hubtest.story",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/hubtest.story.luau"
+              ]
+            },
+            {
+              "name": "beanzlib",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "start",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/start.lua"
+                  ]
+                },
+                {
+                  "name": "primitives",
+                  "className": "Folder",
+                  "pluginManaged": true,
+                  "children": [
+                    {
+                      "name": "frame",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/frame.lua"
+                      ]
+                    },
+                    {
+                      "name": "imagebutton",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/imagebutton.lua"
+                      ]
+                    },
+                    {
+                      "name": "imagelabel",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/imagelabel.lua"
+                      ]
+                    },
+                    {
+                      "name": "scrollingframe",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/scrollingframe.lua"
+                      ]
+                    },
+                    {
+                      "name": "strokedtextbutton",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/strokedtextbutton.lua"
+                      ]
+                    },
+                    {
+                      "name": "strokedtextlabel",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/strokedtextlabel.lua"
+                      ]
+                    },
+                    {
+                      "name": "textbutton",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/textbutton.lua"
+                      ]
+                    },
+                    {
+                      "name": "textlabel",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/textlabel.lua"
+                      ]
+                    },
+                    {
+                      "name": "uipadding",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/uipadding.lua"
+                      ]
+                    },
+                    {
+                      "name": "uistroke",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/uistroke.lua"
+                      ]
+                    },
+                    {
+                      "name": "textbox",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/primitives/textbox.lua"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "components",
+                  "className": "Folder",
+                  "pluginManaged": true,
+                  "children": [
+                    {
+                      "name": "button",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/button.lua"
+                      ]
+                    },
+                    {
+                      "name": "banner",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/banner.lua"
+                      ]
+                    },
+                    {
+                      "name": "slider",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/slider.lua"
+                      ]
+                    },
+                    {
+                      "name": "dropdown",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/dropdown.lua"
+                      ]
+                    },
+                    {
+                      "name": "toggle",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/toggle.lua"
+                      ]
+                    },
+                    {
+                      "name": "textbox",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/textbox.lua"
+                      ]
+                    },
+                    {
+                      "name": "bindbutton",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/bindbutton.lua"
+                      ]
+                    },
+                    {
+                      "name": "bindkey",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/bindkey.lua"
+                      ]
+                    },
+                    {
+                      "name": "notify",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/notify.lua"
+                      ]
+                    },
+                    {
+                      "name": "drawing",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/drawing.lua"
+                      ]
+                    },
+                    {
+                      "name": "tab",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/tab.lua"
+                      ]
+                    },
+                    {
+                      "name": "window",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/window.lua"
+                      ]
+                    },
+                    {
+                      "name": "base",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/components/base.lua"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "hub",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/beanzlib/hub.lua"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "utils",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "fonts",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/fonts.lua"
+                  ]
+                },
+                {
+                  "name": "draggable",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/draggable.lua"
+                  ]
+                },
+                {
+                  "name": "richtext",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/richtext.luau"
+                  ]
+                },
+                {
+                  "name": "themes",
+                  "className": "Folder",
+                  "pluginManaged": true,
+                  "children": [
+                    {
+                      "name": "catppuccin",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/themes/catppuccin.lua"
+                      ]
+                    },
+                    {
+                      "name": "dark",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/themes/dark.lua"
+                      ]
+                    },
+                    {
+                      "name": "default",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/themes/default.lua"
+                      ]
+                    },
+                    {
+                      "name": "dracula",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/themes/dracula.lua"
+                      ]
+                    },
+                    {
+                      "name": "emerald",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/themes/emerald.lua"
+                      ]
+                    },
+                    {
+                      "name": "light",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/themes/light.lua"
+                      ]
+                    },
+                    {
+                      "name": "midnight",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/themes/midnight.lua"
+                      ]
+                    },
+                    {
+                      "name": "nord",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/themes/nord.lua"
+                      ]
+                    },
+                    {
+                      "name": "registry",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/themes/registry.lua"
+                      ]
+                    },
+                    {
+                      "name": "rose",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/utils/themes/rose.lua"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "BeantHub",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/pablo/OneDrive/Documenten/vstudioprojects/scripts/ui/BeantHub.lua"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
