@@ -1,10 +1,11 @@
-const Vide = require("../../vide-0.4.1/vide")
+const Vide = require("../../vide")
 const create = Vide.create
-return function(props : ScrollingFrame)
-	const children = props.children or {}
-	props.children = nil
+
+return function(props: ScrollingFrame & { Children: {any}? })
+	const children = props.Children
+	props.Children = nil
 	return create "ScrollingFrame" {
 		props,
-		children
+		children,
 	}
 end

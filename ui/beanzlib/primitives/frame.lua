@@ -1,10 +1,11 @@
 const Vide = require("../../vide")
 const create = Vide.create
-return function(props : Frame)
-	const children = props.children or {}
-	props.children = nil
+
+return function(props: Frame & { Children: {any}? })
+	const children = props.Children
+	props.Children = nil
 	return create "Frame" {
 		props,
-		children
+		children,
 	}
 end

@@ -1,4 +1,4 @@
-const vide = require("../../vide-0.4.1/vide")
+const vide = require("../../vide")
 const tab = require("./tab")
 const frame = require("../primitives/frame")
 const textlabel = require("../primitives/textlabel")
@@ -6,73 +6,48 @@ const textbutton = require("../primitives/textbutton")
 const imagelabel = require("../primitives/imagelabel")
 const uipadding = require("../primitives/uipadding")
 const defaultTheme = require("../../utils/themes/default")
+const Themes = require("../../utils/themes/registry")
+const notifyComponent = require("./notify")
+const drawingComponent = require("./drawing")
 
 const UserInputService = game:GetService("UserInputService")
 const RunService = game:GetService("RunService")
 const Players = game:GetService("Players")
-
-local function makeDraggable(handle: GuiObject, target: GuiObject)
-	local dragging = false
-	local dragStart = Vector3.zero
-	local startPos = target.Position
-
-	handle.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			dragging = true
-			dragStart = input.Position
-			startPos = target.Position
-
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
-		end
-	end)
-
-	UserInputService.InputChanged:Connect(function(input)
-		if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-			local delta = input.Position - dragStart
-			target.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-		end
-	end)
-end
+const makeDraggable = require("../../utils/draggable")
 
 const Window = {}
 Window.__index = Window
+Window.MakeDraggable = makeDraggable
 
 function Window.new(lib, props)
 	props = props or {}
 
+	const initialTheme = Themes.Get(props.Theme or defaultTheme)
+
 	const self = setmetatable({
-		name = props.name or "yummy beans",
-		tabs = {},
-		ondestroyed = props.ondestroyed,
-		theme = vide.context(props.theme or defaultTheme),
+		Name = props.Name or "yummy beans",
+		Tabs = {},
+		Elements = {},
+		CurrentTab = nil,
+		OnDestroyed = props.OnDestroyed,
+		Theme = vide.source(initialTheme),
 	}, Window)
 
-	if self.theme() ~= defaultTheme then
-		for k, v in defaultTheme do
-			if self.theme()[k] == nil then
-				self.theme()[k] = v
-			end
-		end
-	end
-
-	local minimized = vide.source(false)
-	self.minimized = minimized
+	self.Minimized = vide.source(false)
 
 	local defaultSize = props.Size or UDim2.new(0.3, 0, 0.3, 0)
 	local minSize = props.MinimizedSize or UDim2.new(defaultSize.X.Scale, defaultSize.X.Offset, 0.045, 0)
 
 	local topbar = frame {
 		Name = "TopBar",
-		Size = UDim2.new(1, 0, 0.11424, 0),
+		Size = function() 
+			return self.Minimized() and UDim2.fromScale(1, 1) or UDim2.fromScale(1, 0.11424)
+		end,
 		Position = UDim2.new(0, 0, -0.00234, 0),
 		BackgroundColor3 = function()
-			return self.theme().TopBarBackground
+			return self.Theme().TopBarBackground
 		end,
-		children = {
+		Children = {
 			vide.create "UICorner" {
 				CornerRadius = UDim.new(0.2, 0),
 			},
@@ -83,14 +58,14 @@ function Window.new(lib, props)
 				Size = UDim2.new(1, 0, 0.85083, 0),
 				Position = UDim2.new(0, 0, 0.14917, 0),
 				BackgroundColor3 = function()
-					return self.theme().TopBarBackground
+					return self.Theme().TopBarBackground
 				end,
 			},
 
 			-- Logo Icon
 			imagelabel {
 				Name = "Icon",
-				Image = props.icon or "http://www.roblox.com/asset/?id=18187292776",
+				Image = props.Icon or "http://www.roblox.com/asset/?id=18187292776",
 				Size = UDim2.new(0.1023, 0, 1.055, 0),
 				Position = UDim2.new(-0.00147, 0, 0, 0),
 			},
@@ -98,26 +73,26 @@ function Window.new(lib, props)
 			-- Vertical separator line next to icon
 			frame {
 				Name = "Line",
-				Size = UDim2.new(0, 1, 0.8, 0),
-				Position = UDim2.new(0.10084, 0, 0.5, 0),
+				Size = UDim2.new(0, 1, .8, 0),
+				Position = UDim2.new(0.1, 0, 0.5, 0),
 				AnchorPoint = Vector2.new(0.5, 0.5),
 				BackgroundColor3 = function()
-					return self.theme().LineColor or Color3.fromRGB(151, 151, 151)
+					return self.Theme().LineColor or Color3.fromRGB(151, 151, 151)
 				end,
 			},
 
 			-- Title
 			textlabel {
 				Name = "Title",
-				Text = self.name,
+				Text = self.Name,
 				Size = UDim2.new(0.5, 0, 1, 0),
 				Position = UDim2.new(0.12321, 0, -0.02193, 0),
 				TextXAlignment = Enum.TextXAlignment.Left,
 				BackgroundTransparency = 1,
 				TextColor3 = function()
-					return self.theme().TextPrimaryColor
+					return self.Theme().TextPrimaryColor
 				end,
-				children = {
+				Children = {
 					uipadding {
 						PaddingVertical = UDim.new(0.1, 0),
 						PaddingLeft = UDim.new(0.05, 0),
@@ -133,12 +108,12 @@ function Window.new(lib, props)
 				BackgroundTransparency = 1,
 				Text = "-",
 				TextColor3 = function()
-					return self.theme().TextPrimaryColor
+					return self.Theme().TextPrimaryColor
 				end,
 				MouseButton1Click = function()
-					minimized(not minimized())
+					self.Minimized(not self.Minimized())
 				end,
-				children = {
+				Children = {
 					uipadding {
 						PaddingVertical = UDim.new(0.1, 0),
 						PaddingLeft = UDim.new(0.05, 0),
@@ -154,12 +129,12 @@ function Window.new(lib, props)
 				BackgroundTransparency = 1,
 				Text = "X",
 				TextColor3 = function()
-					return self.theme().TextPrimaryColor
+					return self.Theme().TextPrimaryColor
 				end,
 				MouseButton1Click = function()
 					self:Destroy()
 				end,
-				children = {
+				Children = {
 					uipadding {
 						PaddingVertical = UDim.new(0.1, 0),
 						PaddingLeft = UDim.new(0.05, 0),
@@ -171,12 +146,12 @@ function Window.new(lib, props)
 			frame {
 				Name = "Line",
 				Size = UDim2.new(1, 0, 0, 1),
-				Position = UDim2.new(0, 0, 0.99327, 0),
+				Position = UDim2.new(0, 0, 1, 0),
 				BackgroundColor3 = function()
-					return self.theme().SeparatorColor or Color3.fromRGB(204, 204, 204)
+					return self.Theme().SeparatorColor or Color3.fromRGB(204, 204, 204)
 				end,
 				Visible = function()
-					return not minimized()
+					return not self.Minimized()
 				end,
 			},
 		},
@@ -187,7 +162,7 @@ function Window.new(lib, props)
 		Name = "Holder",
 		Size = UDim2.new(1, 0, 1, 0),
 		BackgroundTransparency = 1,
-		children = {
+		Children = {
 			uipadding {
 				PaddingTop = UDim.new(0.05, 0),
 			},
@@ -204,12 +179,12 @@ function Window.new(lib, props)
 		Position = UDim2.new(0.13061, 0, 0.55701, 0),
 		AnchorPoint = Vector2.new(0.5, 0.5),
 		BackgroundColor3 = function()
-			return self.theme().SidebarBackground
+			return self.Theme().SidebarBackground
 		end,
 		Visible = function()
-			return not minimized()
+			return not self.Minimized()
 		end,
-		children = {
+		Children = {
 			vide.create "UICorner" {
 				CornerRadius = UDim.new(0.08, 0),
 			},
@@ -220,7 +195,7 @@ function Window.new(lib, props)
 				Size = UDim2.new(0.2, 0, 0.2, 0),
 				Position = UDim2.new(0, 0, 0, 0),
 				BackgroundColor3 = function()
-					return self.theme().SidebarBackground
+					return self.Theme().SidebarBackground
 				end,
 			},
 			frame {
@@ -228,7 +203,7 @@ function Window.new(lib, props)
 				Size = UDim2.new(0.2, 0, 0.2, 0),
 				Position = UDim2.new(0.8, 0, 0.00271, 0),
 				BackgroundColor3 = function()
-					return self.theme().SidebarBackground
+					return self.Theme().SidebarBackground
 				end,
 			},
 			frame {
@@ -237,8 +212,17 @@ function Window.new(lib, props)
 				Position = UDim2.new(0.9974, 0, 0.99851, 0),
 				AnchorPoint = Vector2.new(1, 1),
 				BackgroundColor3 = function()
-					return self.theme().SidebarBackground
+					return self.Theme().SidebarBackground
 				end,
+			},
+			frame {
+				Name = "Line",
+				BorderSizePixel = 0,
+				BackgroundColor3 = function()
+					return self.Theme().SeparatorColor or Color3.fromRGB(204, 204, 204)
+				end,
+				Size = UDim2.new(0, 1, 1, 0),
+				Position = UDim2.new(0.99788, 0, 0.0047, 0),
 			},
 
 			tabButtonHolder,
@@ -253,7 +237,7 @@ function Window.new(lib, props)
 		AnchorPoint = Vector2.new(0.5, 0.5),
 		BackgroundTransparency = 1,
 		Visible = function()
-			return not minimized()
+			return not self.Minimized()
 		end,
 	}
 
@@ -261,62 +245,130 @@ function Window.new(lib, props)
 	local mainFrame = frame {
 		Name = "Main",
 		Size = function()
-			return if minimized() then minSize else defaultSize
+			return self.Minimized() and minSize or defaultSize
 		end,
 		Position = props.Position or UDim2.new(0.3, 0, 0.3, 0),
 		AnchorPoint = props.AnchorPoint or Vector2.zero,
 		BackgroundColor3 = function()
-			return self.theme().WindowBackground or self.theme().FrameBackground
+			return self.Theme().WindowBackground or self.Theme().FrameBackground
 		end,
 		ClipsDescendants = true,
-		children = {
+		Children = {
 			vide.create "UICorner" {
 				CornerRadius = UDim.new(0.03, 0),
 			},
-
-			topbar,
-			sidebar,
 			tabContainer,
+			sidebar,
+			topbar,
 		},
 	}
 
 	makeDraggable(topbar, mainFrame)
+	self.Instance = mainFrame
+	self.TopBar = topbar
+	self.Sidebar = sidebar
+	self.TabButtonHolder = tabButtonHolder
+	self.TabContainer = tabContainer
 
-	self.mainFrame = mainFrame
-	self.topbar = topbar
-	self.sidebar = sidebar
-	self.tabButtonHolder = tabButtonHolder
-	self.tabContainer = tabContainer
+	self.Notifier = notifyComponent(mainFrame)
 
-	local guiParent = (RunService:IsStudio() and Players.LocalPlayer and Players.LocalPlayer:WaitForChild("PlayerGui"))
-		or game:GetService("CoreGui")
+	local guiParent = props.Parent
 
-	self.screenGui = vide.create "ScreenGui" {
+	self.ScreenGui = vide.create "ScreenGui" {
 		Name = "BeanzUI",
 		ResetOnSpawn = false,
 		IgnoreGuiInset = false,
 		mainFrame,
 	}
 
-	self.destroyRoot = vide.mount(function()
-		return self.screenGui
+	self.DestroyRoot = vide.mount(function()
+		return self.ScreenGui
 	end, guiParent)
 
 	return self
 end
 
+function Window:Notify(text: string)
+	if self.Notifier then
+		self.Notifier:Notify(text)
+	end
+end
+
+function Window:Drawing(drawingoptions)
+	return drawingComponent(self.ScreenGui, drawingoptions)
+end
+
 function Window:CreateTab(props)
 	const newTab = tab.new(self, props)
-	table.insert(self.tabs, newTab)
+	table.insert(self.Tabs, newTab)
+	if self.CurrentTab == nil then
+		newTab:Activate()
+	end
 	return newTab
 end
 
-function Window:Destroy()
-	if self.ondestroyed then
-		self.ondestroyed()
+function Window:GetElement(flag: string)
+	return self.Elements[flag]
+end
+
+function Window:SetTheme(theme: string | { [string]: any })
+	local resolved = Themes.Get(theme)
+	self.Theme(resolved)
+end
+
+function Window:GetTheme()
+	return self.Theme()
+end
+
+function Window:Export(): { [string]: any }
+	local config = {}
+	for _, tab in self.Tabs do
+		if tab.Export then
+			local tabConfig = tab:Export()
+			for flag, val in tabConfig do
+				config[flag] = val
+			end
+		end
 	end
-	self.screenGui:Destroy()
-	self.destroyRoot()
+	return config
+end
+
+function Window:Import(config: { [string]: any })
+	if not config then return end
+	for _, tab in self.Tabs do
+		if tab.Import then
+			tab:Import(config)
+		end
+	end
+end
+
+function Window:ExportJSON(): string
+	local HttpService = game:GetService("HttpService")
+	return HttpService:JSONEncode(self:Export())
+end
+
+function Window:ImportJSON(jsonStr: string): boolean
+	local HttpService = game:GetService("HttpService")
+	local success, data = pcall(function()
+		return HttpService:JSONDecode(jsonStr)
+	end)
+	if success and typeof(data) == "table" then
+		self:Import(data)
+		return true
+	end
+	return false
+end
+
+function Window:Destroy()
+	if self.OnDestroyed then
+		self.OnDestroyed()
+	end
+	if self.ScreenGui then
+		self.ScreenGui:Destroy()
+	end
+	if self.DestroyRoot then
+		self.DestroyRoot()
+	end
 end
 
 return Window

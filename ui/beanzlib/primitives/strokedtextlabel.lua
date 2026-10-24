@@ -1,24 +1,18 @@
 const UIStroke = require("./uistroke")
 local TextLabel = require("./textlabel")
-return function(props : TextLabel & {
-	Bold : boolean
-	})
+
+return function(props: TextLabel & { Bold: boolean?, Children: {any}? })
 	const bold = props.Bold
 	props.Bold = nil
-	const children = props.children
-	props.children = nil
+	const children = props.Children
+	props.Children = nil
 	return TextLabel {
 		BackgroundTransparency = 1,
 		Bold = bold == nil or bold == true,
 		props,
-		children,
-		UIStroke {
+		Children = {
+			children,
+			UIStroke {},
 		},
-		--[[
-		create "UIShadow" {
-			ApplyShadowMode = Enum.ApplyShadowMode.Text
-		}
-		--]]
-		
 	}
 end

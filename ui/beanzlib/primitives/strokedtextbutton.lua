@@ -1,22 +1,21 @@
-const UIStroke = require("./UIStroke")
+const UIStroke = require("./uistroke")
 const Vide = require("../../vide")
-const TextButton = require("./TextButton")
+const TextButton = require("./textbutton")
 const create = Vide.create
-return function(props : TextLabel & {
-	Bold : boolean
-	})
+
+return function(props: TextLabel & { Bold: boolean?, Children: {any}? })
 	const bold = props.Bold
 	props.Bold = nil
-	const children = props.children
-	props.children = nil
+	const children = props.Children
+	props.Children = nil
 	return TextButton {
 		Bold = true,
 		props,
-		children,
-		UIStroke {
-			ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
-		}
-			
-		
+		Children = {
+			children,
+			UIStroke {
+				ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual,
+			},
+		},
 	}
 end

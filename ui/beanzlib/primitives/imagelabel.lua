@@ -1,12 +1,13 @@
-const Vide = require("../../vide-0.4.1/vide")
+const Vide = require("../../vide")
 const create = Vide.create
-return function(props : ImageLabel)
-	const children = props.children or {}
-	props.children = nil
+
+return function(props: ImageLabel & { Children: {any}? })
+	const children = props.Children
+	props.Children = nil
 	return create "ImageLabel" {
 		BackgroundTransparency = 1,
 		ScaleType = Enum.ScaleType.Fit,
 		props,
-		children
+		children,
 	}
 end
