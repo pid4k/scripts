@@ -494,6 +494,7 @@ local destroyRoot = Vide.mount(function()
                     Text = "",
                     TextColor3 = Color3.fromRGB(255, 255, 255),
                     BackgroundTransparency = 1,
+                    BackgroundColor3 = Color3.fromRGB(33, 116, 152),
                     Size = UDim2.fromScale(0.3, 0.6),
                     Position = UDim2.fromScale(0.62772, 0.16171),
                     Children = {
@@ -585,7 +586,6 @@ local destroyRoot = Vide.mount(function()
         speed = 0
         settingsfolder.Scroll.SkipButton.BackgroundTransparency = 0
     end
-    speed = 1
     Title.TextLabel.Visible = false
     Background.UIStroke.Enabled = false
 

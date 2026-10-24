@@ -9,7 +9,7 @@ local scripttable = {
             Description = 'Money autofarm, Part autofarm, Autotrain',
             Loadstring = [[https://raw.githubusercontent.com/pid4k/scripts/main/lifesentencenew.lua]],
             Status = OUTDATED,
-            GameId = 13083893317,
+            GameId = 4571439504,
         },
         BladeBall = {
             Text = 'BladeBall GUI',
@@ -17,7 +17,7 @@ local scripttable = {
             Description = 'AutoParry,W.I.P',
             Loadstring = [[https://raw.githubusercontent.com/pid4k/scripts/main/ATNBH.lua]],
             Status = OUTDATED,
-            GameId = 13772394625,
+            GameId = 4777817887,
         },
         UniversalAB = {
             Text = 'Universal Aimbot',
@@ -25,13 +25,12 @@ local scripttable = {
             Description = 'Sigma imbot fr',
             Loadstring = [[https://raw.githubusercontent.com/pid4k/scripts/main/universalaimbot.lua]],
             Status = WORKING,
-            GameId = nil, -- Universal script (applies to multiple games)
         },
         EmergencyHamburg = {
             Text = 'Emergency Hamburg Script',
             Title = 'Emergency Hamburg Script',
             Description = 'dsc.gg/beanzhub',
-            GameId = 7711635737,
+            GameId = 2992873140,
             Loadstring = [[https://raw.githubusercontent.com/pid4k/scripts/refs/heads/main/emergencyhamburg.lua]],
             Status = WORKING,
         },
