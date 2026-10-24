@@ -1,113 +1,44 @@
 local TweenService = game:GetService("TweenService")
-local Frame = require("./beanzlib/primitives/frame")
-local ImageLabel = require("./beanzlib/primitives/imagelabel")
-local ScrollingFrame = require("./beanzlib/primitives/scrollingframe")
-local TextBox = require("./beanzlib/primitives/textbox")
-local TextButton = require("./beanzlib/primitives/textbutton")
-local TextLabel = require("./beanzlib/primitives/textlabel")
-local UIPadding = require("./beanzlib/primitives/uipadding")
-local UIStroke = require("./beanzlib/primitives/uistroke")
-const makeDraggable = require("./utils/draggable")
-const RichText = require("./utils/richtext")
-const Vide = require("./vide")
+local Frame = require("./primitives/frame")
+local ImageLabel = require("./primitives/imagelabel")
+local ScrollingFrame = require("./primitives/scrollingframe")
+local TextBox = require("./primitives/textbox")
+local TextButton = require("./primitives/textbutton")
+local TextLabel = require("./primitives/textlabel")
+local UIPadding = require("./primitives/uipadding")
+local UIStroke = require("./primitives/uistroke")
+const makeDraggable = require("../utils/draggable")
+const RichText = require("../utils/richtext")
+const Vide = require("../vide")
 const function sandbox()
         local tbl = setmetatable({},{
 	__index = function(t,key)
 		return t
 	end,
 	__call = function(t,...)
-		local args = {...}
 		return t
 	end
 })
 	return tbl
 end
-const ConfigSystem = getgenv and loadstring("https://raw.githubusercontent.com/pid4k/scripts/main/configsystem.lua") or sandbox()
+const ConfigSystem = getgenv and loadstring(game:HttpGet("https://raw.githubusercontent.com/pid4k/scripts/main/configsystem.lua"))() or sandbox()
 const bgSize = UDim2.fromScale(1, 6.761)
 const mainFrameSize = UDim2.fromScale(0.45, 0.082)
 const mainFramePos = UDim2.fromScale(0.5, 0.324)
 const WORKING = 0
 const NOT_WORKING = 1
 const OUTDATED = 2
-local scripttable = {
-    Scripts = {
-        ["LifeSentence"] = {
-            Text = "Life Sentence GUI",
-            Title = "Life Sentence GUI v1.7",
-            Description = "Money autofarm, Part autofarm, Autotrain",
-            GameId = 7150560638, -- test (actually my gameid)
-            Loadstring = "https://raw.githubusercontent.com/pid4k/scripts/main/lifesentencenew.lua",
-            Status = OUTDATED,
-        },
-        ["BladeBall"] = {
-            Text = "BladeBall GUI",
-            Title = "BladeBall GUI",
-            Description = "AutoParry,W.I.P",
-            Loadstring = "https://raw.githubusercontent.com/pid4k/scripts/main/ATNBH.lua",
-            Status = OUTDATED,
-        },
-        ["UniversalAB"] = {
-            Text = "Universal Aimbot",
-            Title = "Universal Aimbot GUI",
-            Description = "Sigma imbot fr",
-            Loadstring = "https://raw.githubusercontent.com/pid4k/scripts/main/universalaimbot.lua",
-            Status = WORKING,
-        },
-        ["EmergencyHamburg"] = {
-            Text = "Emergency Hamburg Script",
-            Title = "Emergency Hamburg Script",
-            Description = "dsc.gg/beanzhub",
-            GameId = 1,
-            Loadstring = "https://raw.githubusercontent.com/pid4k/scripts/refs/heads/main/emergencyhamburg.lua",
-            Status = WORKING,
-        },
-        ["UntitledBoxingGame"] = {
-            Text = "Untitled Boxing Game Script",
-            Title = "UBG Script",
-            Description = "autododge & antifeint",
-            Loadstring = "https://raw.githubusercontent.com/pid4k/scripts/refs/heads/main/untitledboxinggame.lua",
-            Status = WORKING,
-        },
-    },
-    Tools = {
-        ["ChatSpy"] = {
-            Text = "Chat Spy",
-            Title = "Chat Spy",
-            Description = "Allows you to see private messages and messages on games with hidden chats.",
-            Loadstring = "https://raw.githubusercontent.com/dehoisted/Chat-Spy/main/source/main.lua",
-            Status = OUTDATED,
-        },
-        ["CBypass"] = {
-            Text = "Chat Bypass",
-            Title = "Chat Bypass",
-            Description = "Allows you to bypass roblox filter. Still W.I.P",
-            Loadstring = "https://raw.githubusercontent.com/pid4k/scripts/main/cbypass.lua",
-            Status = OUTDATED,
-        },
-        ["GuiPath"] = {
-            Text = "Gui Button Path",
-            Title = "Gui Button Path",
-            Description = "ts buns why did i make this",
-            Loadstring = "https://raw.githubusercontent.com/pid4k/scripts/main/getguibuttonpath.lua",
-            Status = OUTDATED,
-        },
-        ["InfiniteYield"] = {
-            Text = "Infinite Yield",
-            Title = "Infinite Yield",
-            Description = "zyes bery gud",
-            Loadstring = "https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source",
-            Status = WORKING,
-        },
-    },
-}
-local selectedScript = Vide.source(scripttable.Scripts.EmergencyHamburg)
+
+const scripttable = getgenv and loadstring(game:HttpGet("https://raw.githubusercontent.com/pid4k/scripts/main/allscripts.lua"))() or sandbox()
+
+local selectedScript = Vide.source(nil)
 const animatedTitle = Vide.source("Beanz")
  
 local onCopy = function()
-    setclipboard(selectedScript().Loadstring)
+    setclipboard(`loadstring(game:HttpGet("{selectedScript().Loadstring}"))()`)
 end
 local onRun = function()
-    loadstring(selectedScript().Loadstring)()
+    loadstring(game:HttpGet(selectedScript().Loadstring))()
 end
 -- Reusable button for popup actions (Copy Script / Run)
 local function popupButton(props)
@@ -197,6 +128,9 @@ local destroyRoot = Vide.mount(function()
         ClipsDescendants = true,
         Position = UDim2.fromScale(-0.789, 0),
         Visible = false,
+        UIPadding {
+            PaddingLeft = UDim.new(.05,0)
+        }
     }
 
     -- Delete button (UI["9"])
@@ -224,10 +158,8 @@ local destroyRoot = Vide.mount(function()
                 Name = "Nackground",
                 Active = true,
                 ZIndex = 2,
-                BackgroundColor3 = Color3.fromRGB(100, 100, 100),
-                Size = UDim2.fromScale(0.22235, 1),
-                Position = UDim2.fromScale(0.11117, 0.5),
-                AnchorPoint = Vector2.new(0.5, 0.5),
+                BackgroundColor3 = Color3.fromRGB(100,100,100),
+                Size = UDim2.fromScale(0.15, 1),
             },
             deleteButton,
         },
@@ -263,7 +195,7 @@ local destroyRoot = Vide.mount(function()
                 Size = UDim2.fromScale(0.71053, 0.18607),
                 Position = UDim2.fromScale(0.14208, 0.32532),
                 Text = function()
-                    return selectedScript().Description
+                    return selectedScript() and selectedScript().Description or ""
                 end,
                 TextColor3 = Color3.fromRGB(255, 255, 255),
                 Children = {
@@ -283,7 +215,7 @@ local destroyRoot = Vide.mount(function()
                         [OUTDATED] = RichText:Color("OUTDATED",Color3.fromRGB(255,255,0)),
                         [NOT_WORKING] = RichText:Color("NOT WORKING", Color3.fromRGB(255,0,0))
                     }
-                    return statuses[selectedScript().Status]
+                    return selectedScript() and statuses[selectedScript().Status] or ""
                 end,
                 Bold = true,
                 TextColor3 = Color3.fromRGB(0, 255, 0),
@@ -297,7 +229,7 @@ local destroyRoot = Vide.mount(function()
                 Name = "Title",
                 ZIndex = 5,
                 Text = function()
-                    return selectedScript().Title
+                    return selectedScript() and selectedScript().Title or ""
                 end,
                 Bold = true,
                 BackgroundTransparency = 1,
@@ -381,6 +313,7 @@ local destroyRoot = Vide.mount(function()
     end
     btn.MouseButton1Click:Connect(function()
             if selectedScript() == props.Details then return end  
+            popupbutton.Rotation = 0
                         selectedScript(props.Details)
 
                     popupbutton.Visible = true
@@ -622,7 +555,7 @@ local destroyRoot = Vide.mount(function()
         Name = "MainFrame",
         Active = true,
         BackgroundColor3 = Color3.fromRGB(100, 100, 100),
-        Size = UDim2.fromScale(0.049, 0.00163),
+        Size = UDim2.fromScale(0.06, 0.00163),
         Position = UDim2.fromScale(0.5, 0.65),
         AnchorPoint = Vector2.new(0.5, 1),
         Children = {
@@ -658,14 +591,14 @@ local destroyRoot = Vide.mount(function()
 
     local function introAnim()
         local tweeninfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In, 0, false)
-        local tween = TweenService:Create(MainFrame, tweeninfo, { Size = UDim2.fromScale(0.049, 0.103) })
+        local tween = TweenService:Create(MainFrame, tweeninfo, { Size = UDim2.fromScale(MainFrame.Size.X.Scale, 0.103) })
         tween:Play()
         tween:GetPropertyChangedSignal("PlaybackState"):Connect(function()
             if tween.PlaybackState == Enum.PlaybackState.Completed then
                 task.wait(0.4 * speed)
                 TweenService:Create(MainFrame, tweeninfo, { Size = UDim2.fromScale(0.34, 0.103) }):Play()
                 TweenService:Create(Title.ImageLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.In, 0, false), {
-                    Position = UDim2.fromScale(-0.384, 0),
+                    Position = UDim2.fromScale(-0.4, 0),
                     Rotation = -360,
                 }):Play()
                 task.wait(0.4 * speed)
@@ -725,7 +658,6 @@ local destroyRoot = Vide.mount(function()
 
     -- ====== DELETE BUTTON ======
     Title.Delete.MouseButton1Click:Connect(function()
-        print("DMON")
         gui:Destroy()
     end)
 
@@ -790,7 +722,7 @@ local destroyRoot = Vide.mount(function()
     popupbutton.MouseButton1Click:Connect(function()
         backanim:Play()
         backanimbutton:Play()
-        selectedScript(selectedScript()) -- keep current, just close popup
+        selectedScript(nil)
         if coloredbutton then
             local removecolor = TweenService:Create(coloredbutton, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In, 0, false), {
                 BackgroundColor3 = wasRecommended and recommendedColor or Color3.fromRGB(255, 255, 255),
