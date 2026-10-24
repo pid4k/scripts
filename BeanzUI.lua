@@ -1,7 +1,5 @@
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local mouse = player:GetMouse()
 local tweenService = game:GetService("TweenService")
 local uis = game:GetService("UserInputService")
 
@@ -29,7 +27,7 @@ function BeanzUI:new(args)
 
 
 	-- // StarterGui.BeanzUI \\ --
-	UI["1"] = Instance.new("ScreenGui",RunService:IsStudio() and game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui") or game:GetService("CoreGui"))
+	UI["1"] = Instance.new("ScreenGui",RunService:IsStudio() and Players.LocalPlayer:WaitForChild("PlayerGui") or game:GetService("CoreGui"))
 	UI["1"]["Name"] = [[BeanzUI]]
 	UI["1"]["ResetOnSpawn"] = false
 	UI["1"]["IgnoreGuiInset"] = false
@@ -1165,6 +1163,7 @@ function BeanzUI:new(args)
 			if slideroptions.Decimals then
 				Slider.Decimals = 10 ^ slideroptions.Decimals
 			end
+			local mouse = Players.LocalPlayer:GetMouse()
 			-- Sets the value of the slider
 			function Slider:SetValue(v:number)
 				if not v then
