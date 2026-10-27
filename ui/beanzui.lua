@@ -6979,180 +6979,192 @@ Window=t,
 Name=v,
 Content=z.Content,
 TabButton=z.TabButton,
+TitleLabel=z.Title,
 Elements={},
 Destroyed=false,
 _videDestroy=y,
+_active=w,
+_hovered=x,
+_connections={},
 },s)
 
-A._connections={}
-
-function s.RegisterElement(B,C)
-C.Tab=B
-C.Window=B.Window
-table.insert(B.Elements,C)
-if C.Flag then
-B.Window.Elements[C.Flag]=C
-end
-return C
-end
-
-function s.Activate(B)
-if w()then
-return
-end
-
-for C,D in B.Window.Tabs do
-if D~=B then
-D:Deactivate()
-end
-end
-
-w(true)
-B.Window.CurrentTab=B
-B.Window:ClosePopups()
-end
-
-function s.Deactivate(B)
-if not w()then
-return
-end
-
-w(false)
-x(false)
-if B.Window.CurrentTab==B then
-B.Window.CurrentTab=nil
-end
-B.Window:ClosePopups()
-end
-
-function s.IsActive(B):boolean
-return w()
-end
-
-function s.SetText(B,C:string)
-B.Name=C
-z.Title.Text=C
-B.TabButton.Name=C
-B.Content.Name=C
-end
-
-function s.Button(B,C)
-return B:RegisterElement(j(B.Content,C,B.Window))
-end
-
-function s.Toggle(B,C)
-return B:RegisterElement(k(B.Content,C,B.Window))
-end
-
-function s.Slider(B,C)
-return B:RegisterElement(l(B.Content,C,B.Window))
-end
-
-function s.Dropdown(B,C)
-return B:RegisterElement(m(B.Content,C,B.Window))
-end
-
-function s.TextBox(B,C)
-return B:RegisterElement(n(B.Content,C,B.Window))
-end
-
-function s.BindKey(B,C)
-return B:RegisterElement(o(B.Content,C,B.Window))
-end
-
-function s.BindButton(B,C)
-return B:RegisterElement(p(B.Content,C,B.Window))
-end
-
-function s.Warning(B,C)
-return B:RegisterElement(q(B.Content,"Warning",C,B.Window))
-end
-
-function s.Info(B,C)
-return B:RegisterElement(q(B.Content,"Info",C,B.Window))
-end
-
-function s.Message(B,C)
-return B:RegisterElement(q(B.Content,"Message",C,B.Window))
-end
-
-function s.Export(B)
-const C={}
-for D,E in B.Elements do
-if E:CanSave()then
-const F=E:Export()
-if F~=nil then
-C[E.Flag]=F
-end
-end
-end
-return C
-end
-
-function s.Import(B,C)
-if not C then
-return
-end
-for D,E in B.Elements do
-if E:CanSave()and C[E.Flag]~=nil then
-E:Import(C[E.Flag])
-end
-end
-end
-
-function s.Destroy(B)
-if B.Destroyed then
-return
-end
-B.Destroyed=true
-w(false)
-x(false)
-
-for C,D in B._connections do
-D:Disconnect()
-end
-table.clear(B._connections)
-
-if B._videDestroy then
-B._videDestroy()
-B._videDestroy=nil
-end
-
-for C,D in B.Elements do
-if D.Flag and B.Window.Elements[D.Flag]==D then
-B.Window.Elements[D.Flag]=nil
-end
-D:Destroy()
-end
-table.clear(B.Elements)
-
-const C=table.find(B.Window.Tabs,B)
-if C then
-table.remove(B.Window.Tabs,C)
-end
-if B.Window.CurrentTab==B then
-B.Window.CurrentTab=nil
-end
-
-B.TabButton:Destroy()
-B.Content:Destroy()
-
-if B.Window.CurrentTab==nil and B.Window.Tabs[1]and not B.Window.Destroying then
-B.Window.Tabs[1]:Activate()
-end
-end
-
 table.insert(A._connections,A.TabButton.MouseEnter:Connect(function()
-x(true)
+A._hovered(true)
 end))
 table.insert(A._connections,A.TabButton.MouseLeave:Connect(function()
-x(false)
+A._hovered(false)
 end))
 table.insert(A._connections,A.TabButton.MouseButton1Click:Connect(function()
 A:Activate()
 end))
 
 return A
+end
+
+function s.RegisterElement(t,u)
+u.Tab=t
+u.Window=t.Window
+table.insert(t.Elements,u)
+if u.Flag then
+t.Window.Elements[u.Flag]=u
+end
+return u
+end
+
+function s.Activate(t)
+if t._active()then
+return
+end
+
+for u,v in t.Window.Tabs do
+if v~=t then
+v:Deactivate()
+end
+end
+
+if t.Window.CurrentTab and t.Window.CurrentTab~=t then
+t.Window.CurrentTab:Deactivate()
+end
+
+t._active(true)
+t.Window.CurrentTab=t
+t.Window:ClosePopups()
+end
+
+function s.Deactivate(t)
+if not t._active()then
+return
+end
+
+t._active(false)
+t._hovered(false)
+if t.Window.CurrentTab==t then
+t.Window.CurrentTab=nil
+end
+t.Window:ClosePopups()
+end
+
+function s.IsActive(t):boolean
+return t._active()
+end
+
+function s.SetText(t,u:string)
+t.Name=u
+if t.TitleLabel then
+t.TitleLabel.Text=u
+end
+if t.TabButton then
+t.TabButton.Name=u
+end
+if t.Content then
+t.Content.Name=u
+end
+end
+
+function s.Button(t,u)
+return t:RegisterElement(j(t.Content,u,t.Window))
+end
+
+function s.Toggle(t,u)
+return t:RegisterElement(k(t.Content,u,t.Window))
+end
+
+function s.Slider(t,u)
+return t:RegisterElement(l(t.Content,u,t.Window))
+end
+
+function s.Dropdown(t,u)
+return t:RegisterElement(m(t.Content,u,t.Window))
+end
+
+function s.TextBox(t,u)
+return t:RegisterElement(n(t.Content,u,t.Window))
+end
+
+function s.BindKey(t,u)
+return t:RegisterElement(o(t.Content,u,t.Window))
+end
+
+function s.BindButton(t,u)
+return t:RegisterElement(p(t.Content,u,t.Window))
+end
+
+function s.Warning(t,u)
+return t:RegisterElement(q(t.Content,"Warning",u,t.Window))
+end
+
+function s.Info(t,u)
+return t:RegisterElement(q(t.Content,"Info",u,t.Window))
+end
+
+function s.Message(t,u)
+return t:RegisterElement(q(t.Content,"Message",u,t.Window))
+end
+
+function s.Export(t)
+const u={}
+for v,w in t.Elements do
+if w:CanSave()then
+const x=w:Export()
+if x~=nil then
+u[w.Flag]=x
+end
+end
+end
+return u
+end
+
+function s.Import(t,u)
+if not u then
+return
+end
+for v,w in t.Elements do
+if w:CanSave()and u[w.Flag]~=nil then
+w:Import(u[w.Flag])
+end
+end
+end
+
+function s.Destroy(t)
+if t.Destroyed then
+return
+end
+t.Destroyed=true
+t._active(false)
+t._hovered(false)
+
+for u,v in t._connections do
+v:Disconnect()
+end
+table.clear(t._connections)
+
+if t._videDestroy then
+t._videDestroy()
+t._videDestroy=nil
+end
+
+for u,v in t.Elements do
+if v.Flag and t.Window.Elements[v.Flag]==v then
+t.Window.Elements[v.Flag]=nil
+end
+v:Destroy()
+end
+table.clear(t.Elements)
+
+const u=table.find(t.Window.Tabs,t)
+if u then
+table.remove(t.Window.Tabs,u)
+end
+if t.Window.CurrentTab==t then
+t.Window.CurrentTab=nil
+end
+
+t.TabButton:Destroy()
+t.Content:Destroy()
+
+if t.Window.CurrentTab==nil and t.Window.Tabs[1]and not t.Window.Destroying then
+t.Window.Tabs[1]:Activate()
+end
 end
 
 return s end function a.I():typeof(__modImpl())local b=a.cache.I if not b then b={c=__modImpl()}a.cache.I=b end return b.c end end do local function __modImpl()
@@ -8162,6 +8174,9 @@ Visible=function()
 return not C()
 end,
 ZIndex=5,
+h.create"UICorner"{
+BottomLeftRadius=UDim.new(0,w)
+}
 }
 
 j{

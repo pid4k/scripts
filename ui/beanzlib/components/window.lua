@@ -346,6 +346,9 @@ function Window.new(options)
 				return not minimized()
 			end,
 			ZIndex = 5,
+			vide.create "UICorner" {
+				BottomLeftRadius = UDim.new(0,WINDOW_CORNER)
+			}
 		}
 
 		frame {

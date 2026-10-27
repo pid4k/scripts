@@ -142,180 +142,192 @@ function Tab.new(window, options)
 		Name = name,
 		Content = ui.Content,
 		TabButton = ui.TabButton,
+		TitleLabel = ui.Title,
 		Elements = {},
 		Destroyed = false,
 		_videDestroy = destroyScope,
+		_active = active,
+		_hovered = hovered,
+		_connections = {},
 	}, Tab)
 
-	self._connections = {}
-
-	function Tab:RegisterElement(element)
-		element.Tab = self
-		element.Window = self.Window
-		table.insert(self.Elements, element)
-		if element.Flag then
-			self.Window.Elements[element.Flag] = element
-		end
-		return element
-	end
-
-	function Tab:Activate()
-		if active() then
-			return
-		end
-
-		for _, other in self.Window.Tabs do
-			if other ~= self then
-				other:Deactivate()
-			end
-		end
-
-		active(true)
-		self.Window.CurrentTab = self
-		self.Window:ClosePopups()
-	end
-
-	function Tab:Deactivate()
-		if not active() then
-			return
-		end
-
-		active(false)
-		hovered(false)
-		if self.Window.CurrentTab == self then
-			self.Window.CurrentTab = nil
-		end
-		self.Window:ClosePopups()
-	end
-
-	function Tab:IsActive(): boolean
-		return active()
-	end
-
-	function Tab:SetText(text: string)
-		self.Name = text
-		ui.Title.Text = text
-		self.TabButton.Name = text
-		self.Content.Name = text
-	end
-
-	function Tab:Button(options)
-		return self:RegisterElement(buttonComponent(self.Content, options, self.Window))
-	end
-
-	function Tab:Toggle(options)
-		return self:RegisterElement(toggleComponent(self.Content, options, self.Window))
-	end
-
-	function Tab:Slider(options)
-		return self:RegisterElement(sliderComponent(self.Content, options, self.Window))
-	end
-
-	function Tab:Dropdown(options)
-		return self:RegisterElement(dropdownComponent(self.Content, options, self.Window))
-	end
-
-	function Tab:TextBox(options)
-		return self:RegisterElement(textboxComponent(self.Content, options, self.Window))
-	end
-
-	function Tab:BindKey(options)
-		return self:RegisterElement(bindkeyComponent(self.Content, options, self.Window))
-	end
-
-	function Tab:BindButton(options)
-		return self:RegisterElement(bindbuttonComponent(self.Content, options, self.Window))
-	end
-
-	function Tab:Warning(options)
-		return self:RegisterElement(bannerComponent(self.Content, "Warning", options, self.Window))
-	end
-
-	function Tab:Info(options)
-		return self:RegisterElement(bannerComponent(self.Content, "Info", options, self.Window))
-	end
-
-	function Tab:Message(options)
-		return self:RegisterElement(bannerComponent(self.Content, "Message", options, self.Window))
-	end
-
-	function Tab:Export()
-		const config = {}
-		for _, element in self.Elements do
-			if element:CanSave() then
-				const value = element:Export()
-				if value ~= nil then
-					config[element.Flag] = value
-				end
-			end
-		end
-		return config
-	end
-
-	function Tab:Import(config)
-		if not config then
-			return
-		end
-		for _, element in self.Elements do
-			if element:CanSave() and config[element.Flag] ~= nil then
-				element:Import(config[element.Flag])
-			end
-		end
-	end
-
-	function Tab:Destroy()
-		if self.Destroyed then
-			return
-		end
-		self.Destroyed = true
-		active(false)
-		hovered(false)
-
-		for _, connection in self._connections do
-			connection:Disconnect()
-		end
-		table.clear(self._connections)
-
-		if self._videDestroy then
-			self._videDestroy()
-			self._videDestroy = nil
-		end
-
-		for _, element in self.Elements do
-			if element.Flag and self.Window.Elements[element.Flag] == element then
-				self.Window.Elements[element.Flag] = nil
-			end
-			element:Destroy()
-		end
-		table.clear(self.Elements)
-
-		const index = table.find(self.Window.Tabs, self)
-		if index then
-			table.remove(self.Window.Tabs, index)
-		end
-		if self.Window.CurrentTab == self then
-			self.Window.CurrentTab = nil
-		end
-
-		self.TabButton:Destroy()
-		self.Content:Destroy()
-
-		if self.Window.CurrentTab == nil and self.Window.Tabs[1] and not self.Window.Destroying then
-			self.Window.Tabs[1]:Activate()
-		end
-	end
-
 	table.insert(self._connections, self.TabButton.MouseEnter:Connect(function()
-		hovered(true)
+		self._hovered(true)
 	end))
 	table.insert(self._connections, self.TabButton.MouseLeave:Connect(function()
-		hovered(false)
+		self._hovered(false)
 	end))
 	table.insert(self._connections, self.TabButton.MouseButton1Click:Connect(function()
 		self:Activate()
 	end))
 
 	return self
+end
+
+function Tab:RegisterElement(element)
+	element.Tab = self
+	element.Window = self.Window
+	table.insert(self.Elements, element)
+	if element.Flag then
+		self.Window.Elements[element.Flag] = element
+	end
+	return element
+end
+
+function Tab:Activate()
+	if self._active() then
+		return
+	end
+
+	for _, other in self.Window.Tabs do
+		if other ~= self then
+			other:Deactivate()
+		end
+	end
+
+	if self.Window.CurrentTab and self.Window.CurrentTab ~= self then
+		self.Window.CurrentTab:Deactivate()
+	end
+
+	self._active(true)
+	self.Window.CurrentTab = self
+	self.Window:ClosePopups()
+end
+
+function Tab:Deactivate()
+	if not self._active() then
+		return
+	end
+
+	self._active(false)
+	self._hovered(false)
+	if self.Window.CurrentTab == self then
+		self.Window.CurrentTab = nil
+	end
+	self.Window:ClosePopups()
+end
+
+function Tab:IsActive(): boolean
+	return self._active()
+end
+
+function Tab:SetText(text: string)
+	self.Name = text
+	if self.TitleLabel then
+		self.TitleLabel.Text = text
+	end
+	if self.TabButton then
+		self.TabButton.Name = text
+	end
+	if self.Content then
+		self.Content.Name = text
+	end
+end
+
+function Tab:Button(options)
+	return self:RegisterElement(buttonComponent(self.Content, options, self.Window))
+end
+
+function Tab:Toggle(options)
+	return self:RegisterElement(toggleComponent(self.Content, options, self.Window))
+end
+
+function Tab:Slider(options)
+	return self:RegisterElement(sliderComponent(self.Content, options, self.Window))
+end
+
+function Tab:Dropdown(options)
+	return self:RegisterElement(dropdownComponent(self.Content, options, self.Window))
+end
+
+function Tab:TextBox(options)
+	return self:RegisterElement(textboxComponent(self.Content, options, self.Window))
+end
+
+function Tab:BindKey(options)
+	return self:RegisterElement(bindkeyComponent(self.Content, options, self.Window))
+end
+
+function Tab:BindButton(options)
+	return self:RegisterElement(bindbuttonComponent(self.Content, options, self.Window))
+end
+
+function Tab:Warning(options)
+	return self:RegisterElement(bannerComponent(self.Content, "Warning", options, self.Window))
+end
+
+function Tab:Info(options)
+	return self:RegisterElement(bannerComponent(self.Content, "Info", options, self.Window))
+end
+
+function Tab:Message(options)
+	return self:RegisterElement(bannerComponent(self.Content, "Message", options, self.Window))
+end
+
+function Tab:Export()
+	const config = {}
+	for _, element in self.Elements do
+		if element:CanSave() then
+			const value = element:Export()
+			if value ~= nil then
+				config[element.Flag] = value
+			end
+		end
+	end
+	return config
+end
+
+function Tab:Import(config)
+	if not config then
+		return
+	end
+	for _, element in self.Elements do
+		if element:CanSave() and config[element.Flag] ~= nil then
+			element:Import(config[element.Flag])
+		end
+	end
+end
+
+function Tab:Destroy()
+	if self.Destroyed then
+		return
+	end
+	self.Destroyed = true
+	self._active(false)
+	self._hovered(false)
+
+	for _, connection in self._connections do
+		connection:Disconnect()
+	end
+	table.clear(self._connections)
+
+	if self._videDestroy then
+		self._videDestroy()
+		self._videDestroy = nil
+	end
+
+	for _, element in self.Elements do
+		if element.Flag and self.Window.Elements[element.Flag] == element then
+			self.Window.Elements[element.Flag] = nil
+		end
+		element:Destroy()
+	end
+	table.clear(self.Elements)
+
+	const index = table.find(self.Window.Tabs, self)
+	if index then
+		table.remove(self.Window.Tabs, index)
+	end
+	if self.Window.CurrentTab == self then
+		self.Window.CurrentTab = nil
+	end
+
+	self.TabButton:Destroy()
+	self.Content:Destroy()
+
+	if self.Window.CurrentTab == nil and self.Window.Tabs[1] and not self.Window.Destroying then
+		self.Window.Tabs[1]:Activate()
+	end
 end
 
 return Tab
