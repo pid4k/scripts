@@ -187,6 +187,9 @@ return function(parent, options, window)
 	function Toggle:IsLocked(): boolean
 		return locked
 	end
+	function Toggle:IsToggled()
+		return self:GetValue()
+	end
 
 	Toggle:AddConnection(ui.Row.MouseEnter:Connect(function()
 		hovered(true)

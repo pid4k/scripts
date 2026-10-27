@@ -112,6 +112,9 @@ return function(parent, options, window)
 	function Button:IsActive(): boolean
 		return active()
 	end
+	function Button:IsToggled()
+		return self:IsActive()
+	end
 
 	function Button:SetActive(value: boolean)
 		active(value == true)
