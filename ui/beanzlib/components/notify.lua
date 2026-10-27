@@ -283,7 +283,10 @@ return function(window)
 		end)
 
 		if life > 0 then
-			record.Timeout = task.delay(life, dismiss)
+			record.Timeout = task.delay(life, function()
+				record.Timeout = nil
+				dismiss()
+			end)
 		end
 
 		return record
@@ -300,6 +303,7 @@ return function(window)
 			record.Dismissed = true
 			if record.Timeout then
 				task.cancel(record.Timeout)
+				record.Timeout = nil
 			end
 			if record.FadeCleanup then
 				record.FadeCleanup()

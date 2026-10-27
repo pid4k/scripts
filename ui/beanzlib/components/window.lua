@@ -234,37 +234,17 @@ function Window.new(options)
 			ZIndex = 1,
 		}
 
-		local icon
-		if options.Icon then
-			icon = imagelabel {
-				Parent = topbar,
-				Name = "Icon",
-				Position = UDim2.fromOffset(12, 9),
-				Size = UDim2.fromOffset(22, 22),
-				BackgroundTransparency = 1,
-				BorderSizePixel = 0,
-				Image = options.Icon,
-				ScaleType = Enum.ScaleType.Fit,
-				ZIndex = 3,
-			}
-		else
-			icon = frame {
-				Parent = topbar,
-				Name = "Icon",
-				AnchorPoint = Vector2.new(0.5, 0.5),
-				Position = UDim2.new(0, 23, 0.5, 0),
-				Size = UDim2.fromOffset(10, 10),
-				BackgroundColor3 = function()
-					return theme().AccentColor
-				end,
-				BorderSizePixel = 0,
-				ZIndex = 3,
-			}
-			vide.create "UICorner" {
-				Parent = icon,
-				CornerRadius = UDim.new(1, 0),
-			}
-		end
+		imagelabel {
+			Parent = topbar,
+			Name = "Icon",
+			Position = UDim2.fromOffset(12, 9),
+			Size = UDim2.fromOffset(22, 22),
+			BackgroundTransparency = 1,
+			BorderSizePixel = 0,
+			Image = options.Icon or "rbxassetid://18187292776",
+			ScaleType = Enum.ScaleType.Fit,
+			ZIndex = 3,
+		}
 
 		const title = textlabel {
 			Parent = topbar,

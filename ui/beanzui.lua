@@ -7446,7 +7446,10 @@ A.FadeCleanup=nil
 end)
 
 if w>0 then
-A.Timeout=task.delay(w,dismiss)
+A.Timeout=task.delay(w,function()
+A.Timeout=nil
+dismiss()
+end)
 end
 
 return A
@@ -7463,6 +7466,7 @@ for s,t in table.clone(q)do
 t.Dismissed=true
 if t.Timeout then
 task.cancel(t.Timeout)
+t.Timeout=nil
 end
 if t.FadeCleanup then
 t.FadeCleanup()
@@ -8050,39 +8054,19 @@ BorderSizePixel=0,
 ZIndex=1,
 }
 
-local O
-if A.Icon then
-O=m{
+m{
 Parent=N,
 Name="Icon",
 Position=UDim2.fromOffset(12,9),
 Size=UDim2.fromOffset(22,22),
 BackgroundTransparency=1,
 BorderSizePixel=0,
-Image=A.Icon,
+Image=A.Icon or"rbxassetid://18187292776",
 ScaleType=Enum.ScaleType.Fit,
 ZIndex=3,
 }
-else
-O=j{
-Parent=N,
-Name="Icon",
-AnchorPoint=Vector2.new(0.5,0.5),
-Position=UDim2.new(0,23,0.5,0),
-Size=UDim2.fromOffset(10,10),
-BackgroundColor3=function()
-return B().AccentColor
-end,
-BorderSizePixel=0,
-ZIndex=3,
-}
-h.create"UICorner"{
-Parent=O,
-CornerRadius=UDim.new(1,0),
-}
-end
 
-const P=l{
+const O=l{
 Parent=N,
 BackgroundTransparency=1,
 Name="Title",
@@ -8102,65 +8086,65 @@ TextTruncate=Enum.TextTruncate.AtEnd,
 ZIndex=3,
 }
 
-local function makeCaptionButton(Q:string,R:string,S:number,T:Color3?)
-const U=h.source(false)
+local function makeCaptionButton(P:string,Q:string,R:number,S:Color3?)
+const T=h.source(false)
 
-const V=k{
+const U=k{
 Parent=N,
 AutoButtonColor=false,
-Name=Q,
+Name=P,
 AnchorPoint=Vector2.new(0,0.5),
-Position=UDim2.new(1,S,0.5,0),
+Position=UDim2.new(1,R,0.5,0),
 Size=UDim2.fromOffset(28,28),
 BackgroundColor3=function()
-if T then
-return T
+if S then
+return S
 end
-const V=B()
-return V.ElementHoverBackground or V.ElementBackground
+const U=B()
+return U.ElementHoverBackground or U.ElementBackground
 end,
 BackgroundTransparency=function()
-return if U()then 0 else 1
+return if T()then 0 else 1
 end,
 BorderSizePixel=0,
-Text=R,
+Text=Q,
 TextSize=15,
 TextScaled=false,
 FontFace=function()
 return B().MainFont
 end,
 TextColor3=function()
-return if U()then Color3.fromRGB(255,255,255)else B().TextPrimaryColor
+return if T()then Color3.fromRGB(255,255,255)else B().TextPrimaryColor
 end,
 ZIndex=4,
 }
 
 h.create"UICorner"{
-Parent=V,
+Parent=U,
 CornerRadius=UDim.new(0,5),
 }
 
-table.insert(I._connections,V.MouseEnter:Connect(function()
-U(true)
+table.insert(I._connections,U.MouseEnter:Connect(function()
+T(true)
 end))
-table.insert(I._connections,V.MouseLeave:Connect(function()
-U(false)
+table.insert(I._connections,U.MouseLeave:Connect(function()
+T(false)
 end))
 
-return V
+return U
 end
 
-const Q=makeCaptionButton("Minimize","-",-68)
-const R=makeCaptionButton("Close","X",-36,x)
+const P=makeCaptionButton("Minimize","-",-68)
+const Q=makeCaptionButton("Close","X",-36,x)
 
-const S=j{
+const R=j{
 Parent=M,
 Name="TopBarLine",
 Position=UDim2.fromOffset(0,u),
 Size=UDim2.new(1,0,0,1),
 BackgroundColor3=function()
-const S=B()
-return S.SeparatorColor or S.LineColor
+const R=B()
+return R.SeparatorColor or R.LineColor
 end,
 BorderSizePixel=0,
 Visible=function()
@@ -8169,7 +8153,7 @@ end,
 ZIndex=11,
 }
 
-const T=j{
+const S=j{
 Parent=M,
 Name="Sidebar",
 Position=UDim2.fromOffset(0,u),
@@ -8185,20 +8169,20 @@ ZIndex=5,
 }
 
 j{
-Parent=T,
+Parent=S,
 Name="Line",
 Position=UDim2.new(1,-1,0,0),
 Size=UDim2.new(0,1,1,0),
 BackgroundColor3=function()
-const U=B()
-return U.LineColor or U.SeparatorColor
+const T=B()
+return T.LineColor or T.SeparatorColor
 end,
 BorderSizePixel=0,
 ZIndex=1,
 }
 
-const U=n{
-Parent=T,
+const T=n{
+Parent=S,
 Name="Tabs",
 Size=UDim2.new(1,0,1,0),
 BackgroundTransparency=1,
@@ -8211,19 +8195,19 @@ ZIndex=2,
 }
 
 o{
-Parent=U,
+Parent=T,
 PaddingTop=UDim.new(0,8),
 PaddingBottom=UDim.new(0,8),
 PaddingLeft=UDim.new(0,8),
 PaddingRight=UDim.new(0,8),
 }
 h.create"UIListLayout"{
-Parent=U,
+Parent=T,
 Padding=UDim.new(0,4),
 SortOrder=Enum.SortOrder.LayoutOrder,
 }
 
-const V=j{
+const U=j{
 Parent=M,
 Name="Content",
 Position=UDim2.fromOffset(v,u),
@@ -8236,7 +8220,7 @@ end,
 ZIndex=6,
 }
 
-const W=j{
+const V=j{
 Parent=K,
 Name="DropdownLayer",
 Size=UDim2.new(1,0,1,0),
@@ -8251,14 +8235,14 @@ ScreenGui=K,
 Root=L,
 Main=M,
 TopBar=N,
-TopBarLine=S,
-Sidebar=T,
-TabButtonHolder=U,
-TabContent=V,
-DropdownLayer=W,
-TitleLabel=P,
-MinimizeButton=Q,
-CloseButton=R,
+TopBarLine=R,
+Sidebar=S,
+TabButtonHolder=T,
+TabContent=U,
+DropdownLayer=V,
+TitleLabel=O,
+MinimizeButton=P,
+CloseButton=Q,
 }
 end)
 
