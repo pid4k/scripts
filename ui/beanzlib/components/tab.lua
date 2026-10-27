@@ -34,9 +34,7 @@ function Tab.new(window, options)
 			Parent = window.TabContent,
 			Name = name,
 			Size = UDim2.new(1, 0, 1, 0),
-			Visible = function()
-				return active()
-			end,
+			Visible = active,
 			BorderSizePixel = 0,
 			BackgroundTransparency = 1,
 			ScrollBarImageColor3 = function()
@@ -100,9 +98,7 @@ function Tab.new(window, options)
 				return window:GetTheme().AccentColor
 			end,
 			BorderSizePixel = 0,
-			Visible = function()
-				return active()
-			end,
+			Visible = active,
 			ZIndex = 2,
 		}
 
@@ -315,7 +311,7 @@ function Tab.new(window, options)
 	table.insert(self._connections, self.TabButton.MouseLeave:Connect(function()
 		hovered(false)
 	end))
-	table.insert(self._connections, self.TabButton.Activated:Connect(function()
+	table.insert(self._connections, self.TabButton.MouseButton1Click:Connect(function()
 		self:Activate()
 	end))
 

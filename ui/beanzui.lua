@@ -6871,9 +6871,7 @@ const y=h{
 Parent=t.TabContent,
 Name=v,
 Size=UDim2.new(1,0,1,0),
-Visible=function()
-return w()
-end,
+Visible=w,
 BorderSizePixel=0,
 BackgroundTransparency=1,
 ScrollBarImageColor3=function()
@@ -6937,9 +6935,7 @@ BackgroundColor3=function()
 return t:GetTheme().AccentColor
 end,
 BorderSizePixel=0,
-Visible=function()
-return w()
-end,
+Visible=w,
 ZIndex=2,
 }
 
@@ -7152,7 +7148,7 @@ end))
 table.insert(A._connections,A.TabButton.MouseLeave:Connect(function()
 x(false)
 end))
-table.insert(A._connections,A.TabButton.Activated:Connect(function()
+table.insert(A._connections,A.TabButton.MouseButton1Click:Connect(function()
 A:Activate()
 end))
 
