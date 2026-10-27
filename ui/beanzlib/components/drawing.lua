@@ -3,78 +3,69 @@ const frame = require("../primitives/frame")
 const uistroke = require("../primitives/uistroke")
 const BaseElement = require("./base")
 
-return function(screenGui: Instance, options)
+return function(screenGui, options)
 	options = options or {}
 
-	const sizeVal = tonumber(options.Size) or 0.1
-	const sizeSource = vide.source(UDim2.new(sizeVal, 0, sizeVal, 0))
-	const posSource = vide.source(UDim2.new(0.5, 0, 0.5, 0))
-	const colorSource = vide.source(options.Color or Color3.fromRGB(0, 0, 0))
-	const visibleSource = vide.source(options.Visible == true)
+	local sizeValue = options.Size or 200
 
-	const drawFrame = frame {
+	const Drawing = BaseElement.new(options, "Drawing")
+	Drawing.Size = sizeValue
+
+	const drawingFrame = frame {
 		Parent = screenGui,
-		Name = "zirkul",
-		BorderSizePixel = 0,
-		BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+		Name = "Drawing",
 		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = options.Position or UDim2.fromScale(0.5, 0.5),
+		Size = UDim2.fromOffset(sizeValue, sizeValue),
 		BackgroundTransparency = 1,
-		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		Size = function()
-			return sizeSource()
-		end,
-		Position = function()
-			return posSource()
-		end,
-		Visible = function()
-			return visibleSource()
-		end,
-		Children = {
-			vide.create "UICorner" {
-				CornerRadius = UDim.new(1, 0),
-			},
-			uistroke {
-				Color = function()
-					return colorSource()
-				end,
-			},
-			vide.create "UIAspectRatioConstraint" {},
-		},
+		BorderSizePixel = 0,
+		Visible = options.Visible == true,
+		ZIndex = 5,
 	}
 
-	local Drawing = BaseElement.new(options, "Drawing")
-	Drawing.Save = if options.Save ~= nil then options.Save == true else false
-	Drawing.Instance = drawFrame
+	vide.create "UICorner" {
+		Parent = drawingFrame,
+		CornerRadius = UDim.new(1, 0),
+	}
+	vide.create "UIAspectRatioConstraint" {
+		Parent = drawingFrame,
+		AspectRatio = 1,
+	}
 
-	function Drawing:ToggleVisible(v: boolean?)
-		if v ~= nil then
-			visibleSource(v)
-		else
-			visibleSource(not visibleSource())
-		end
+	const stroke = uistroke {
+		Parent = drawingFrame,
+		Color = options.Color or Color3.fromRGB(255, 255, 255),
+		Thickness = options.Thickness or 1,
+		StrokeSizingMode = Enum.StrokeSizingMode.FixedSize,
+		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+	}
+
+	function Drawing:SetSize(value: number)
+		sizeValue = value
+		Drawing.Size = value
+		drawingFrame.Size = UDim2.fromOffset(value, value)
 	end
 
-	function Drawing:SetRadius(v: number)
-		options.Size = v
-		sizeSource(UDim2.new(v, 0, v, 0))
+	function Drawing:GetSize(): number
+		return sizeValue
 	end
 
-	function Drawing:SetColor(v: Color3)
-		options.Color = v
-		colorSource(v)
+	function Drawing:SetColor(color: Color3)
+		stroke.Color = color
 	end
 
-	function Drawing:GetPosition(): Vector2
-		return drawFrame.AbsolutePosition
+	function Drawing:SetThickness(value: number)
+		stroke.Thickness = value
 	end
 
-	function Drawing:SetPosition(v: UDim2)
-		posSource(v)
+	function Drawing:SetPosition(position: UDim2)
+		drawingFrame.Position = position
 	end
 
-	function Drawing:GetRadius(): number
-		return drawFrame.AbsoluteSize.X
+	function Drawing:GetPosition(): UDim2
+		return drawingFrame.Position
 	end
 
+	Drawing.Instance = drawingFrame
 	return Drawing
 end

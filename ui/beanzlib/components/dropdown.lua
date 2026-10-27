@@ -1,319 +1,545 @@
-const TweenService = game:GetService("TweenService")
+const UserInputService = game:GetService("UserInputService")
 const vide = require("../../vide")
-const textlabel = require("../primitives/textlabel")
+const scope = require("../scope")
+const frame = require("../primitives/frame")
 const textbutton = require("../primitives/textbutton")
-const imagelabel = require("../primitives/imagelabel")
+const textlabel = require("../primitives/textlabel")
 const scrollingframe = require("../primitives/scrollingframe")
 const uipadding = require("../primitives/uipadding")
 const uistroke = require("../primitives/uistroke")
 const BaseElement = require("./base")
 
-local defaultTweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
+const ROW_HEIGHT = 40
+const OPTION_HEIGHT = 30
+const OPTION_GAP = 4
+const POPUP_PADDING = 6
 
-local function tween(object: Instance, goal: { [string]: any }, info: TweenInfo?, callback: (() -> ())?)
-	local tw = TweenService:Create(object, info or defaultTweenInfo, goal)
-	if callback then
-		tw.Completed:Once(callback)
-	end
-	tw:Play()
-	return tw
+local function containsPoint(gui: GuiObject, position: Vector3): boolean
+	const origin = gui.AbsolutePosition
+	const size = gui.AbsoluteSize
+	return position.X >= origin.X
+		and position.X <= origin.X + size.X
+		and position.Y >= origin.Y
+		and position.Y <= origin.Y + size.Y
 end
 
-return function(parent: Instance, options, window)
+return function(parent, options, window)
 	options = options or {}
-	local theme = window.Theme
 
-	const selectedText = vide.source("")
-
-	local dropdownclosedsize = UDim2.fromScale(0.9, 0.09326)
-	local dropdownclosedtextsize = UDim2.fromScale(1, 0.4)
-	local dropdownclosedtextposition = UDim2.fromScale(0.5, 0.3)
-	local arrowclosedsize = UDim2.fromScale(0.07881, 1.18696)
-	local arrowclosedposition = UDim2.fromScale(0.87213, -0.3)
-
-	local dropdownopensize = UDim2.fromScale(0.9, 0.2376)
-	local dropdownopentextsize = UDim2.fromScale(1, 0.18954)
-	local dropdownopentextposition = UDim2.fromScale(0.5, 0.15762)
-	local arrowopensize = UDim2.fromScale(0.07635, 0.18778)
-	local arrowopenposition = UDim2.fromScale(0.87516, 0.05838)
-
-	local isAnimating = false
-	local dropdownBtn: any
-
-	local Dropdown = BaseElement.new(options, "Dropdown")
-	Dropdown.Closed = true
+	const Dropdown = BaseElement.new(options, "Dropdown")
+	Dropdown.Callback = options.Callback
 	Dropdown.Selected = nil
 	Dropdown.Options = {}
 	Dropdown.Window = window
 
-	const optionsContainer = scrollingframe {
-		Name = "Options",
-		BorderSizePixel = 0,
-		BackgroundTransparency = 1,
-		AnchorPoint = Vector2.new(0.5, 0.5),
-		AutomaticCanvasSize = Enum.AutomaticSize.Y,
-		CanvasSize = UDim2.new(0, 0, 0, 0),
-		ScrollingDirection = Enum.ScrollingDirection.Y,
-		Size = UDim2.new(0.95, 0, 0.7, 0),
-		Position = UDim2.new(0.5, 0, 0.6005, 0),
-		Visible = false,
-		Children = {
-			vide.create "UIListLayout" {
-				Padding = UDim.new(0.05, 0),
-				SortOrder = Enum.SortOrder.LayoutOrder,
-			},
-			uipadding {
-				PaddingTop = UDim.new(0.1, 0),
-			},
-		},
-	}
+	const placeholder = options.Placeholder or "Select..."
+	const hovered = vide.source(false)
+	const openState = vide.source(false)
+	const selected = vide.source(nil)
 
-	const titleLabel = textlabel {
-		Name = "Title",
-		TextWrapped = true,
-		BorderSizePixel = 0,
-		TextXAlignment = Enum.TextXAlignment.Left,
-		TextScaled = true,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-		TextColor3 = function()
-			return theme().TextPrimaryColor
-		end,
-		BackgroundTransparency = 1,
-		AnchorPoint = Vector2.new(0.5, 0.5),
-		Text = options.Name or options.Text or "Dropdown",
-		Size = dropdownclosedtextsize,
-		Position = dropdownclosedtextposition,
-		Children = {
-			uipadding {
-				PaddingLeft = UDim.new(0.05, 0),
-			},
-		},
-	}
+	local optionConnections = {}
+	local optionsDestroy = nil
 
-	const iconLabel = imagelabel {
-		Name = "Icon",
-		BorderSizePixel = 0,
-		BackgroundTransparency = 1,
-		ScaleType = Enum.ScaleType.Fit,
-		Image = "rbxassetid://107003984522008",
-		Rotation = 90,
-		Size = arrowclosedsize,
-		Position = arrowclosedposition,
-	}
-
-	const textBoxLabel = textlabel {
-		Name = "TextBox",
-		TextWrapped = true,
-		BorderSizePixel = 0,
-		TextXAlignment = Enum.TextXAlignment.Left,
-		TextScaled = true,
-		BackgroundColor3 = Color3.fromRGB(186, 186, 186),
-		TextColor3 = Color3.fromRGB(0, 0, 0),
-		Size = UDim2.new(0.90372, 0, 0.37501, 0),
-		Position = UDim2.new(0.05, 0, 0.55, 0),
-		Text = function()
-			return selectedText()
-		end,
-		Visible = true,
-		Active = false,
-		Children = {
-			vide.create "UICorner" {},
-			uipadding {
-				PaddingLeft = UDim.new(0.05, 0),
-			},
-			uistroke {
-				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-				Color = Color3.fromRGB(255, 255, 255),
-			},
-		},
-	}
-
-	local function toggleDropdown()
-		if isAnimating then return end
-		isAnimating = true
-
-		if not Dropdown.Closed then
-			-- TWEEN TO CLOSE
-			optionsContainer.Visible = false
-			textBoxLabel.Visible = true
-
-			tween(dropdownBtn, { Size = dropdownclosedsize }, nil, function()
-				Dropdown.Closed = true
-				isAnimating = false
-			end)
-			tween(titleLabel, { Size = dropdownclosedtextsize, Position = dropdownclosedtextposition })
-			tween(iconLabel, { Size = arrowclosedsize, Position = arrowclosedposition, Rotation = 90 })
-		else
-			-- TWEEN TO OPEN
-			textBoxLabel.Visible = false
-
-			tween(dropdownBtn, { Size = dropdownopensize }, nil, function()
-				optionsContainer.Visible = true
-				Dropdown.Closed = false
-				isAnimating = false
-			end)
-			tween(titleLabel, { Size = dropdownopentextsize, Position = dropdownopentextposition })
-			tween(iconLabel, { Size = arrowopensize, Position = arrowopenposition, Rotation = -90 })
-		end
-	end
-
-	dropdownBtn = textbutton {
-		Parent = parent,
-		Name = "Dropdown",
-		Text = "",
-		AutoButtonColor = false,
-		BorderSizePixel = 0,
-		BackgroundColor3 = function()
-			return options.Color or theme().ElementBackground
-		end,
-		ClipsDescendants = true,
-		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		Size = dropdownclosedsize,
-		Position = UDim2.new(0, 0, 0.24976, 0),
-		MouseButton1Click = toggleDropdown,
-		Children = {
-			vide.create "UICorner" {},
-			titleLabel,
-			iconLabel,
-			uistroke {
-				Color = function()
-					return theme().ElementStroke
-				end,
-				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-			},
-			textBoxLabel,
-			optionsContainer,
-		},
-	}
-
-	function Dropdown:Select(buzzon)
-		local targetInstance: Instance? = nil
-		local targetObj = nil
-
-		if typeof(buzzon) == "string" then
-			for _, opt in Dropdown.Options do
-				if opt.Name == buzzon or (opt.Instance and opt.Instance.Name == buzzon) then
-					targetObj = opt
-					targetInstance = opt.Instance
-					break
+	const destroyScope, ui = scope(function()
+		const row = textbutton {
+			Parent = parent,
+			AutoButtonColor = false,
+			Name = Dropdown.Name,
+			Size = UDim2.new(1, 0, 0, ROW_HEIGHT),
+			BackgroundColor3 = function()
+				if options.Color then
+					return options.Color
 				end
-			end
-		elseif typeof(buzzon) == "table" and buzzon.Instance then
-			targetObj = buzzon
-			targetInstance = buzzon.Instance
-		elseif typeof(buzzon) == "Instance" then
-			targetInstance = buzzon
-			for _, opt in Dropdown.Options do
-				if opt.Instance == buzzon then
-					targetObj = opt
-					break
+				const theme = window:GetTheme()
+				return if hovered()
+					then (theme.ElementHoverBackground or theme.ElementBackground)
+					else theme.ElementBackground
+			end,
+			BackgroundTransparency = 0,
+			BorderSizePixel = 0,
+			Text = "",
+			TextScaled = false,
+			ZIndex = 1,
+		}
+
+		vide.create "UICorner" {
+			Parent = row,
+			CornerRadius = UDim.new(0, 6),
+		}
+
+		const title = textlabel {
+			Parent = row,
+			BackgroundTransparency = 1,
+			Name = "Title",
+			Text = options.Text or options.Name or "Dropdown",
+			TextSize = 14,
+			TextScaled = false,
+			FontFace = function()
+				return window:GetTheme().MainFont
+			end,
+			TextColor3 = function()
+				return window:GetTheme().TextPrimaryColor
+			end,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			TextTruncate = Enum.TextTruncate.AtEnd,
+			Size = UDim2.new(1, -188, 1, 0),
+			Position = UDim2.fromOffset(12, 0),
+			ZIndex = 2,
+		}
+
+		const valueLabel = textlabel {
+			Parent = row,
+			BackgroundTransparency = 1,
+			Name = "Value",
+			Text = function()
+				const option = selected()
+				return if option then option.Name else placeholder
+			end,
+			TextSize = 13,
+			TextScaled = false,
+			FontFace = function()
+				return window:GetTheme().MainFont
+			end,
+			TextColor3 = function()
+				const theme = window:GetTheme()
+				if selected() then
+					return theme.TextPrimaryColor
 				end
-			end
+				return theme.TextSecondaryColor or theme.TextPrimaryColor
+			end,
+			TextXAlignment = Enum.TextXAlignment.Right,
+			TextTruncate = Enum.TextTruncate.AtEnd,
+			AnchorPoint = Vector2.new(1, 0),
+			Position = UDim2.new(1, -38, 0, 0),
+			Size = UDim2.new(0, 130, 1, 0),
+			ZIndex = 2,
+		}
+
+		const chevron = textlabel {
+			Parent = row,
+			BackgroundTransparency = 1,
+			Name = "Icon",
+			Text = function()
+				return if openState() then "^" else "v"
+			end,
+			TextSize = 12,
+			TextScaled = false,
+			FontFace = function()
+				return window:GetTheme().MainFont
+			end,
+			TextColor3 = function()
+				const theme = window:GetTheme()
+				return theme.TextSecondaryColor or theme.TextPrimaryColor
+			end,
+			TextXAlignment = Enum.TextXAlignment.Center,
+			AnchorPoint = Vector2.new(0, 0.5),
+			Position = UDim2.new(1, -26, 0.5, 0),
+			Size = UDim2.fromOffset(18, 18),
+			ZIndex = 2,
+		}
+
+		uistroke {
+			Parent = row,
+			Color = function()
+				return window:GetTheme().ElementStroke
+			end,
+			Thickness = 1,
+			StrokeSizingMode = Enum.StrokeSizingMode.FixedSize,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+		}
+
+		const popup = frame {
+			Parent = window.DropdownLayer,
+			Name = "DropdownOptions",
+			Size = UDim2.fromOffset(180, 0),
+			BackgroundColor3 = function()
+				const theme = window:GetTheme()
+				return theme.FrameBackground or theme.WindowBackground
+			end,
+			BorderSizePixel = 0,
+			ClipsDescendants = true,
+			Visible = function()
+				return openState()
+			end,
+			ZIndex = 120,
+		}
+
+		vide.create "UICorner" {
+			Parent = popup,
+			CornerRadius = UDim.new(0, 8),
+		}
+		uistroke {
+			Parent = popup,
+			Color = function()
+				return window:GetTheme().ElementStroke
+			end,
+			Thickness = 1,
+			StrokeSizingMode = Enum.StrokeSizingMode.FixedSize,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+		}
+
+		const scroll = scrollingframe {
+			Parent = popup,
+			Name = "Options",
+			Size = UDim2.new(1, 0, 1, 0),
+			BackgroundTransparency = 1,
+			BorderSizePixel = 0,
+			CanvasSize = UDim2.new(0, 0, 0, 0),
+			AutomaticCanvasSize = Enum.AutomaticSize.Y,
+			ScrollBarThickness = 3,
+			ScrollBarImageColor3 = function()
+				const theme = window:GetTheme()
+				return theme.TextSecondaryColor or theme.TextPrimaryColor
+			end,
+			ZIndex = 121,
+		}
+
+		uipadding {
+			Parent = scroll,
+			PaddingTop = UDim.new(0, POPUP_PADDING),
+			PaddingBottom = UDim.new(0, POPUP_PADDING),
+			PaddingLeft = UDim.new(0, POPUP_PADDING),
+			PaddingRight = UDim.new(0, POPUP_PADDING),
+		}
+		vide.create "UIListLayout" {
+			Parent = scroll,
+			Padding = UDim.new(0, OPTION_GAP),
+			SortOrder = Enum.SortOrder.LayoutOrder,
+		}
+
+		return {
+			Row = row,
+			Title = title,
+			ValueLabel = valueLabel,
+			Chevron = chevron,
+			Popup = popup,
+			Scroll = scroll,
+		}
+	end)
+
+	local function createOption(optionOptions)
+		if typeof(optionOptions) == "string" then
+			optionOptions = { Name = optionOptions }
 		end
 
-		if not targetInstance then return end
-
-		for _, opt in Dropdown.Options do
-			local stroke = opt.Instance:FindFirstChildOfClass("UIStroke")
-			if stroke then
-				stroke.Enabled = (opt.Instance == targetInstance)
-			end
+		const rawName = optionOptions.Name or optionOptions.Text
+		if not rawName then
+			error("Dropdown options require a Name or Text")
 		end
+		const name = tostring(rawName)
 
-		Dropdown.Selected = targetObj or targetInstance
-		selectedText(targetInstance.Name)
-
-		if targetObj and targetObj.Callback then
-			targetObj.Callback(targetInstance.Name)
-		end
-
-		if not Dropdown.Closed then
-			toggleDropdown()
-		end
+		const option = {
+			Name = name,
+			Value = if optionOptions.Value ~= nil then optionOptions.Value else name,
+			Callback = optionOptions.Callback,
+			Dropdown = Dropdown,
+			Button = nil,
+			Stroke = nil,
+			Hovered = vide.source(false),
+		}
+		table.insert(Dropdown.Options, option)
+		return option
 	end
 
-	function Dropdown:Default(buzzon)
-		Dropdown:Select(buzzon)
-	end
+	local function findOption(target)
+		if typeof(target) == "table" then
+			if target.Dropdown == Dropdown then
+				return target
+			end
+			target = if target.Value ~= nil then target.Value else target.Name
+		elseif typeof(target) == "Instance" then
+			target = target.Name
+		end
 
-	function Dropdown:GetOption(): string?
-		if Dropdown.Selected then
-			if typeof(Dropdown.Selected) == "table" and Dropdown.Selected.Instance then
-				return Dropdown.Selected.Instance.Name
-			elseif typeof(Dropdown.Selected) == "Instance" then
-				return Dropdown.Selected.Name
+		for _, option in Dropdown.Options do
+			if option.Value == target or option.Name == target then
+				return option
 			end
 		end
 		return nil
 	end
 
-	function Dropdown:GetValue(): string?
-		return self:GetOption()
+	local function selectOption(option, close, fireCallback)
+		Dropdown.Selected = option
+		selected(option)
+
+		if close then
+			Dropdown:Close()
+		end
+		if fireCallback then
+			if option.Callback then
+				option.Callback(option.Value, option)
+			end
+			if Dropdown.Callback then
+				Dropdown.Callback(option.Value, option)
+			end
+		end
 	end
 
-	function Dropdown:SetValue(v: any)
-		self:Select(v)
-	end
+	function Dropdown:Refresh()
+		if openState() then
+			Dropdown:Close()
+		end
 
-	function Dropdown:Option(optOptions)
-		optOptions = optOptions or {}
-		const optName = optOptions.Name or "Option"
+		for _, connection in optionConnections do
+			connection:Disconnect()
+		end
+		table.clear(optionConnections)
 
-		local OptionObj = {}
+		if optionsDestroy then
+			optionsDestroy()
+			optionsDestroy = nil
+		end
 
-		const optBtn = textbutton {
-			Name = optName,
-			Text = optName,
-			TextWrapped = true,
-			BorderSizePixel = 0,
-			TextXAlignment = Enum.TextXAlignment.Left,
-			TextScaled = true,
-			BackgroundColor3 = function()
-				return theme().DropdownItem
-			end,
-			TextColor3 = function()
-				return theme().TextPrimaryColor
-			end,
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			Size = UDim2.new(0.9, 0, 0.24645, 0),
-			Position = UDim2.new(0.5, 0, 0.12323, 0),
-			MouseButton1Click = function()
-				Dropdown:Select(OptionObj)
-			end,
-			Children = {
-				vide.create "UICorner" {
-					CornerRadius = UDim.new(1, 0),
-				},
-				uipadding {
-					PaddingLeft = UDim.new(0.05, 0),
-				},
-				vide.create "UIStroke" {
-					Enabled = false,
-					ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-					Thickness = 2,
-					Color = function()
-						return theme().AccentColor
+		for _, child in ui.Scroll:GetChildren() do
+			if child:IsA("GuiButton") or child.Name == "Empty" then
+				child:Destroy()
+			end
+		end
+
+		optionsDestroy = scope(function()
+			for index, option in Dropdown.Options do
+				option.Button = nil
+				option.Stroke = nil
+				option.Hovered(false)
+
+				const button = textbutton {
+					Parent = ui.Scroll,
+					AutoButtonColor = false,
+					Name = option.Name,
+					Text = option.Name,
+					Size = UDim2.new(1, 0, 0, OPTION_HEIGHT),
+					LayoutOrder = index,
+					BackgroundColor3 = function()
+						const theme = window:GetTheme()
+						return if option.Hovered()
+							then (theme.DropdownItemHover or theme.DropdownItem)
+							else theme.DropdownItem
 					end,
-				},
-			},
-		}
+					BackgroundTransparency = 0,
+					BorderSizePixel = 0,
+					TextSize = 13,
+					TextScaled = false,
+					FontFace = function()
+						return window:GetTheme().MainFont
+					end,
+					TextColor3 = function()
+						const theme = window:GetTheme()
+						return if selected() == option then theme.AccentColor else theme.TextPrimaryColor
+					end,
+					TextXAlignment = Enum.TextXAlignment.Left,
+					TextTruncate = Enum.TextTruncate.AtEnd,
+					ZIndex = 122,
+				}
 
-		optBtn.Parent = optionsContainer
-		OptionObj.Instance = optBtn
-		OptionObj.Name = optName
-		OptionObj.Callback = optOptions.Callback
+				vide.create "UICorner" {
+					Parent = button,
+					CornerRadius = UDim.new(0, 5),
+				}
+				uipadding {
+					Parent = button,
+					PaddingLeft = UDim.new(0, 8),
+					PaddingRight = UDim.new(0, 8),
+				}
 
-		function OptionObj:GetButton()
-			return optBtn
-		end
-		function OptionObj:GetName()
-			return optName
-		end
+				const stroke = uistroke {
+					Parent = button,
+					Color = function()
+						return window:GetTheme().AccentColor
+					end,
+					Thickness = 1.5,
+					StrokeSizingMode = Enum.StrokeSizingMode.FixedSize,
+					ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+					Enabled = function()
+						return selected() == option
+					end,
+				}
 
-		table.insert(Dropdown.Options, OptionObj)
-		return OptionObj
+				option.Button = button
+				option.Stroke = stroke
+
+				table.insert(optionConnections, button.MouseEnter:Connect(function()
+					option.Hovered(true)
+				end))
+				table.insert(optionConnections, button.MouseLeave:Connect(function()
+					option.Hovered(false)
+				end))
+				table.insert(optionConnections, button.MouseButton1Click:Connect(function()
+					Dropdown:Select(option.Value)
+				end))
+			end
+
+			if #Dropdown.Options == 0 then
+				textlabel {
+					Parent = ui.Scroll,
+					BackgroundTransparency = 1,
+					Name = "Empty",
+					Text = "No options",
+					Size = UDim2.new(1, 0, 0, 24),
+					TextSize = 13,
+					TextScaled = false,
+					FontFace = function()
+						return window:GetTheme().MainFont
+					end,
+					TextColor3 = function()
+						const theme = window:GetTheme()
+						return theme.TextSecondaryColor or theme.TextPrimaryColor
+					end,
+					TextXAlignment = Enum.TextXAlignment.Center,
+					ZIndex = 122,
+				}
+			end
+		end)
 	end
 
-	Dropdown.Instance = dropdownBtn
+	function Dropdown:AddOption(optionOptions)
+		const option = createOption(optionOptions or {})
+		Dropdown:Refresh()
+		return option
+	end
+
+	function Dropdown:GetOption()
+		return selected()
+	end
+
+	function Dropdown:GetValue()
+		const option = selected()
+		if option then
+			return option.Value
+		end
+		return nil
+	end
+
+	function Dropdown:SetValue(target, fireCallback: boolean?)
+		const option = findOption(target)
+		if not option then
+			error("Unknown dropdown option: " .. tostring(target))
+		end
+		selectOption(option, false, fireCallback == true)
+	end
+
+	function Dropdown:Select(target)
+		const option = findOption(target)
+		if not option then
+			error("Unknown dropdown option: " .. tostring(target))
+		end
+		selectOption(option, true, true)
+	end
+
+	function Dropdown:SetCallback(callback)
+		Dropdown.Callback = callback
+	end
+
+	function Dropdown:Open()
+		if openState() or #Dropdown.Options == 0 then
+			return
+		end
+
+		window:ClosePopups(Dropdown)
+		openState(true)
+
+		const layer = window.DropdownLayer
+		const viewport = layer.AbsoluteSize
+		const buttonPosition = ui.Row.AbsolutePosition - layer.AbsolutePosition
+		const buttonSize = ui.Row.AbsoluteSize
+
+		local popupHeight = #Dropdown.Options * OPTION_HEIGHT
+			+ (#Dropdown.Options - 1) * OPTION_GAP
+			+ POPUP_PADDING * 2
+		popupHeight = math.min(popupHeight, 220)
+
+		const width = math.min(math.max(buttonSize.X, 160), viewport.X - 16)
+		const x = math.clamp(buttonPosition.X, 8, math.max(8, viewport.X - width - 8))
+		local y = buttonPosition.Y + buttonSize.Y + 4
+		if y + popupHeight > viewport.Y - 8 then
+			y = math.max(8, buttonPosition.Y - popupHeight - 4)
+		end
+
+		ui.Popup.Position = UDim2.fromOffset(x, y)
+		ui.Popup.Size = UDim2.fromOffset(width, popupHeight)
+
+		Dropdown._outside = UserInputService.InputBegan:Connect(function(input)
+			if input.UserInputType ~= Enum.UserInputType.MouseButton1
+				and input.UserInputType ~= Enum.UserInputType.Touch
+			then
+				return
+			end
+			if containsPoint(ui.Row, input.Position) or containsPoint(ui.Popup, input.Position) then
+				return
+			end
+			Dropdown:Close()
+		end)
+	end
+
+	function Dropdown:Close()
+		if not openState() then
+			return
+		end
+
+		openState(false)
+		if Dropdown._outside then
+			Dropdown._outside:Disconnect()
+			Dropdown._outside = nil
+		end
+	end
+
+	function Dropdown:Toggle()
+		if openState() then
+			Dropdown:Close()
+		else
+			Dropdown:Open()
+		end
+	end
+
+	function Dropdown:IsOpen(): boolean
+		return openState()
+	end
+
+	const baseSetVisible = Dropdown.SetVisible
+	function Dropdown:SetVisible(visible: boolean)
+		baseSetVisible(self, visible)
+		if not visible then
+			self:Close()
+		end
+	end
+
+	if options.Options then
+		for _, optionOptions in options.Options do
+			createOption(optionOptions)
+		end
+	end
+	Dropdown:Refresh()
+
+	if options.Default ~= nil then
+		Dropdown:SetValue(options.Default)
+	end
+
+	Dropdown:AddConnection(ui.Row.MouseEnter:Connect(function()
+		hovered(true)
+	end))
+	Dropdown:AddConnection(ui.Row.MouseLeave:Connect(function()
+		hovered(false)
+	end))
+	Dropdown:AddConnection(ui.Row.MouseButton1Click:Connect(function()
+		Dropdown:Toggle()
+	end))
+	Dropdown:AddCleanup(function()
+		for _, connection in optionConnections do
+			connection:Disconnect()
+		end
+		table.clear(optionConnections)
+		if optionsDestroy then
+			optionsDestroy()
+			optionsDestroy = nil
+		end
+		Dropdown:Close()
+		window:UnregisterPopup(Dropdown)
+		ui.Popup:Destroy()
+	end)
+	Dropdown:AddCleanup(destroyScope)
+
+	window:RegisterPopup(Dropdown)
+	Dropdown.Label = ui.Title
+	Dropdown.Instance = ui.Row
 	return Dropdown
 end

@@ -1,142 +1,209 @@
 const vide = require("../../vide")
+const Animation = require("../animation")
+const scope = require("../scope")
 const frame = require("../primitives/frame")
-const textlabel = require("../primitives/textlabel")
 const textbutton = require("../primitives/textbutton")
-const uipadding = require("../primitives/uipadding")
+const textlabel = require("../primitives/textlabel")
 const uistroke = require("../primitives/uistroke")
 const BaseElement = require("./base")
 
-return function(parent: Instance, options, window: any?)
+const ROW_HEIGHT = 40
+const ON_POSITION = UDim2.fromOffset(18, 2)
+const OFF_POSITION = UDim2.fromOffset(2, 2)
+
+return function(parent, options, window)
 	options = options or {}
 
-	const isToggledSource = vide.source(options.Toggled == true)
-	local isLocked = false
-
-	const buttonSize = (options.Mini and UDim2.new(0.9, 0, 0.04, 0))
-		or (options.Small and UDim2.new(0.9, 0, 0.05, 0))
-		or UDim2.new(0.9, 0, 0.06, 0)
-
-	local Toggle = BaseElement.new(options, "Toggle")
-	Toggle.Locked = false
+	const Toggle = BaseElement.new(options, "Toggle")
 	Toggle.Callback = options.Callback
+	Toggle.Locked = options.Locked == true
 	Toggle.Window = window
-	local theme = window.Theme
 
-	function Toggle:SetCallback(fnc: (boolean) -> ())
-		Toggle.Callback = fnc
-	end
+	const state = vide.source(options.Default == true)
+	const hovered = vide.source(false)
+	local locked = Toggle.Locked
 
-	function Toggle:IsToggled(): boolean
-		return isToggledSource()
+	const destroyScope, ui = scope(function()
+		const row = textbutton {
+			Parent = parent,
+			AutoButtonColor = false,
+			Name = Toggle.Name,
+			Size = UDim2.new(1, 0, 0, ROW_HEIGHT),
+			BackgroundColor3 = function()
+				if options.Color then
+					return options.Color
+				end
+				const theme = window:GetTheme()
+				return if hovered()
+					then (theme.ElementHoverBackground or theme.ElementBackground)
+					else theme.ElementBackground
+			end,
+			BackgroundTransparency = 0,
+			BorderSizePixel = 0,
+			Text = "",
+			TextScaled = false,
+			ZIndex = 1,
+		}
+
+		vide.create "UICorner" {
+			Parent = row,
+			CornerRadius = UDim.new(0, 6),
+		}
+
+		const title = textlabel {
+			Parent = row,
+			BackgroundTransparency = 1,
+			Name = "Title",
+			Text = options.Text or options.Name or "Toggle",
+			TextSize = 14,
+			TextScaled = false,
+			FontFace = function()
+				return window:GetTheme().MainFont
+			end,
+			TextColor3 = function()
+				return window:GetTheme().TextPrimaryColor
+			end,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			TextTruncate = Enum.TextTruncate.AtEnd,
+			Size = UDim2.new(1, -70, 1, 0),
+			Position = UDim2.fromOffset(12, 0),
+			ZIndex = 2,
+		}
+
+		const track = frame {
+			Parent = row,
+			Name = "Track",
+			AnchorPoint = Vector2.new(0, 0.5),
+			Position = UDim2.new(1, -48, 0.5, 0),
+			Size = UDim2.fromOffset(36, 20),
+			BackgroundColor3 = function()
+				const theme = window:GetTheme()
+				return if state()
+					then (options.IndicatorColor or theme.AccentColor)
+					else theme.DropdownItem
+			end,
+			BorderSizePixel = 0,
+			ZIndex = 2,
+		}
+
+		vide.create "UICorner" {
+			Parent = track,
+			CornerRadius = UDim.new(1, 0),
+		}
+
+		uistroke {
+			Parent = track,
+			Color = function()
+				const theme = window:GetTheme()
+				return if state() then theme.AccentColor else theme.ElementStroke
+			end,
+			Thickness = 1,
+			StrokeSizingMode = Enum.StrokeSizingMode.FixedSize,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+		}
+
+		const knob = frame {
+			Parent = track,
+			Name = "Knob",
+			Position = if state() then ON_POSITION else OFF_POSITION,
+			Size = UDim2.fromOffset(16, 16),
+			BackgroundColor3 = function()
+				return window:GetTheme().TextPrimaryColor
+			end,
+			BorderSizePixel = 0,
+			ZIndex = 3,
+		}
+
+		vide.create "UICorner" {
+			Parent = knob,
+			CornerRadius = UDim.new(1, 0),
+		}
+
+		uistroke {
+			Parent = row,
+			Color = function()
+				return window:GetTheme().ElementStroke
+			end,
+			Thickness = 1,
+			StrokeSizingMode = Enum.StrokeSizingMode.FixedSize,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+		}
+
+		return {
+			Row = row,
+			Title = title,
+			Knob = knob,
+		}
+	end)
+
+	const knobSpring = Animation.createSpring(ui.Knob.Position, Animation.config.figmaQuick)
+	const knobDisconnect = knobSpring:onChange(function(position)
+		ui.Knob.Position = position
+	end)
+	knobSpring:start()
+
+	local function updateKnob(animate: boolean)
+		const goal = if state() then ON_POSITION else OFF_POSITION
+		if animate then
+			knobSpring:setGoal(goal)
+		else
+			knobSpring:stop()
+			knobSpring:setPosition(goal)
+			knobSpring:start()
+		end
 	end
 
 	function Toggle:GetValue(): boolean
-		return self:IsToggled()
+		return state()
 	end
 
-	function Toggle:SetValue(v: boolean)
-		self:Toggle(v)
+	function Toggle:SetValue(value: boolean, fireCallback: boolean?)
+		Toggle:Toggle(value, fireCallback == true)
 	end
 
-	function Toggle:Toggle(v: boolean?)
-		if isLocked then return end
-		local newState: boolean
-		if v ~= nil then
-			newState = v
-		else
-			newState = not isToggledSource()
+	function Toggle:SetCallback(callback)
+		Toggle.Callback = callback
+	end
+
+	function Toggle:Toggle(value: boolean?, fireCallback: boolean?)
+		if locked then
+			return
 		end
-		isToggledSource(newState)
-		if Toggle.Callback then
-			Toggle.Callback(newState)
+
+		const newValue = if value ~= nil then value == true else not state()
+		state(newValue)
+		updateKnob(true)
+
+		if fireCallback ~= false and Toggle.Callback then
+			Toggle.Callback(newValue)
 		end
 	end
 
-	function Toggle:Lock()
-		isLocked = true
-		Toggle.Locked = true
-	end
-
-	function Toggle:Unlock()
-		isLocked = false
-		Toggle.Locked = false
+	function Toggle:SetLocked(value: boolean)
+		locked = value
+		Toggle.Locked = value
 	end
 
 	function Toggle:IsLocked(): boolean
-		return isLocked
+		return locked
 	end
 
-	const btnInstance = textbutton {
-		Parent = parent,
-		Name = "Toggle",
-		Text = "",
-		BorderSizePixel = 0,
-		BackgroundColor3 = function()
-			return options.Color or theme().ElementBackground
-		end,
-		Size = buttonSize,
-		Position = UDim2.new(0, 0, 0.0101, 0),
-		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		MouseButton1Click = function()
-			Toggle:Toggle()
-		end,
-		Children = {
-			vide.create "UICorner" {},
+	Toggle:AddConnection(ui.Row.MouseEnter:Connect(function()
+		hovered(true)
+	end))
+	Toggle:AddConnection(ui.Row.MouseLeave:Connect(function()
+		hovered(false)
+	end))
+	Toggle:AddConnection(ui.Row.MouseButton1Click:Connect(function()
+		Toggle:Toggle()
+	end))
+	Toggle:AddCleanup(destroyScope)
+	Toggle:AddCleanup(function()
+		knobDisconnect()
+		knobSpring:destroy()
+	end)
 
-			textlabel {
-				Name = "Title",
-				TextWrapped = true,
-				BorderSizePixel = 0,
-				TextXAlignment = Enum.TextXAlignment.Left,
-				TextScaled = true,
-				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-				TextColor3 = function()
-					return theme().TextPrimaryColor
-				end,
-				BackgroundTransparency = 1,
-				AnchorPoint = Vector2.new(0.5, 0.5),
-				Size = UDim2.new(1, 0, 0.7, 0),
-				Position = UDim2.new(0.5, 0, 0.5, 0),
-				Text = options.Text or "Toggle",
-				Children = {
-					uipadding {
-						PaddingLeft = UDim.new(0.05, 0),
-					},
-				},
-			},
-
-			uistroke {
-				Color = function()
-					return theme().ElementStroke
-				end,
-				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-			},
-
-			frame {
-				Name = "Bool",
-				BorderSizePixel = 0,
-				BackgroundColor3 = function()
-					return options.IndicatorColor or theme().AccentColor
-				end,
-				Size = UDim2.new(0.05914, 0, 0.61915, 0),
-				Position = UDim2.new(0.88391, 0, 0.18468, 0),
-				BorderColor3 = Color3.fromRGB(0, 0, 0),
-				BackgroundTransparency = function()
-					return if isToggledSource() then 0 else 1
-				end,
-				Children = {
-					vide.create "UICorner" {
-						CornerRadius = UDim.new(0.2, 0),
-					},
-					vide.create "UIStroke" {
-						Color = Color3.fromRGB(255, 255, 255),
-					},
-					vide.create "UIAspectRatioConstraint" {},
-				},
-			},
-		},
-	}
-
-	Toggle.Instance = btnInstance
+	Toggle.Label = ui.Title
+	Toggle.Instance = ui.Row
 	return Toggle
 end

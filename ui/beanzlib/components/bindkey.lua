@@ -1,167 +1,284 @@
+const UserInputService = game:GetService("UserInputService")
 const vide = require("../../vide")
+const scope = require("../scope")
 const frame = require("../primitives/frame")
-const textlabel = require("../primitives/textlabel")
 const textbutton = require("../primitives/textbutton")
-const uipadding = require("../primitives/uipadding")
+const textlabel = require("../primitives/textlabel")
 const uistroke = require("../primitives/uistroke")
 const BaseElement = require("./base")
 
-const UserInputService = game:GetService("UserInputService")
+const ROW_HEIGHT = 40
 
-return function(parent: Instance, options, window)
+const MOUSE_BINDS = {
+	MouseButton1 = true,
+	MouseButton2 = true,
+	MouseButton3 = true,
+	LMB = true,
+	RMB = true,
+	MMB = true,
+}
+
+const MOUSE_ALIASES = {
+	LMB = "MouseButton1",
+	RMB = "MouseButton2",
+	MMB = "MouseButton3",
+}
+
+const MOUSE_LABELS = {
+	MouseButton1 = "LMB",
+	MouseButton2 = "RMB",
+	MouseButton3 = "MMB",
+}
+
+local function containsPoint(gui: GuiObject, position: Vector3): boolean
+	const origin = gui.AbsolutePosition
+	const size = gui.AbsoluteSize
+	return position.X >= origin.X
+		and position.X <= origin.X + size.X
+		and position.Y >= origin.Y
+		and position.Y <= origin.Y + size.Y
+end
+
+return function(parent, options, window)
 	options = options or {}
-	local theme = window.Theme
 
-	const bindSource = vide.source(options.Bind or "")
-	const isKeySource = vide.source(options.Bind and #options.Bind == 1 or false)
-	local isFocused = false
-
-	local KeyBind = BaseElement.new(options, "KeyBind")
-	KeyBind.Bind = options.Bind
-	KeyBind.IsKey = isKeySource()
-	KeyBind.UseProc = false
-	KeyBind.Callback = nil
+	const KeyBind = BaseElement.new(options, "Keybind")
+	KeyBind.Callback = options.Callback
+	KeyBind.Processed = options.Processed == true
 	KeyBind.Window = window
 
-	function KeyBind:SetCallback(fnc: () -> (), proc: boolean?)
-		KeyBind.UseProc = proc == true
-		KeyBind.Callback = fnc
-	end
+	const placeholder = options.Placeholder or "Bind"
+	const hovered = vide.source(false)
+	const listening = vide.source(false)
+	const bind = vide.source(nil)
+	const isKey = vide.source(false)
 
-	function KeyBind:GetBind(): string?
-		return KeyBind.Bind
+	local allowProcessed = KeyBind.Processed
+	local ignoreClick = false
+
+	const destroyScope, ui = scope(function()
+		const row = frame {
+			Parent = parent,
+			Name = KeyBind.Name,
+			Size = UDim2.new(1, 0, 0, ROW_HEIGHT),
+			BackgroundColor3 = function()
+				if options.Color then
+					return options.Color
+				end
+				const theme = window:GetTheme()
+				return if hovered()
+					then (theme.ElementHoverBackground or theme.ElementBackground)
+					else theme.ElementBackground
+			end,
+			BorderSizePixel = 0,
+			ZIndex = 1,
+		}
+
+		vide.create "UICorner" {
+			Parent = row,
+			CornerRadius = UDim.new(0, 6),
+		}
+
+		const title = textlabel {
+			Parent = row,
+			BackgroundTransparency = 1,
+			Name = "Title",
+			Text = options.Text or options.Name or "Keybind",
+			TextSize = 14,
+			TextScaled = false,
+			FontFace = function()
+				return window:GetTheme().MainFont
+			end,
+			TextColor3 = function()
+				return window:GetTheme().TextPrimaryColor
+			end,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			TextTruncate = Enum.TextTruncate.AtEnd,
+			Size = UDim2.new(1, -116, 1, 0),
+			Position = UDim2.fromOffset(12, 0),
+			ZIndex = 2,
+		}
+
+		const bindButton = textbutton {
+			Parent = row,
+			AutoButtonColor = false,
+			Name = "Bind",
+			AnchorPoint = Vector2.new(0, 0.5),
+			Position = UDim2.new(1, -102, 0.5, 0),
+			Size = UDim2.fromOffset(90, 28),
+			BackgroundColor3 = function()
+				const theme = window:GetTheme()
+				return if listening() then theme.AccentColor else theme.DropdownItem
+			end,
+			BackgroundTransparency = 0,
+			BorderSizePixel = 0,
+			Text = function()
+				if listening() then
+					return "..."
+				end
+				const current = bind()
+				if current == nil then
+					return placeholder
+				end
+				return if isKey() then current else (MOUSE_LABELS[current] or current)
+			end,
+			TextSize = 12,
+			TextScaled = false,
+			FontFace = function()
+				return window:GetTheme().MainFont
+			end,
+			TextColor3 = function()
+				const theme = window:GetTheme()
+				return if listening() then Color3.fromRGB(255, 255, 255) else theme.TextPrimaryColor
+			end,
+			TextXAlignment = Enum.TextXAlignment.Center,
+			ZIndex = 2,
+		}
+
+		vide.create "UICorner" {
+			Parent = bindButton,
+			CornerRadius = UDim.new(0, 5),
+		}
+		uistroke {
+			Parent = row,
+			Color = function()
+				return window:GetTheme().ElementStroke
+			end,
+			Thickness = 1,
+			StrokeSizingMode = Enum.StrokeSizingMode.FixedSize,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+		}
+		uistroke {
+			Parent = bindButton,
+			Color = function()
+				const theme = window:GetTheme()
+				return if listening() then theme.AccentColor else theme.ElementStroke
+			end,
+			Thickness = 1,
+			StrokeSizingMode = Enum.StrokeSizingMode.FixedSize,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+		}
+
+		return {
+			Row = row,
+			Title = title,
+			BindButton = bindButton,
+		}
+	end)
+
+	local function setBind(value: string?, keyboard: boolean)
+		bind(value)
+		isKey(keyboard)
+		KeyBind.Bind = value
+		KeyBind.IsKey = keyboard
 	end
 
 	function KeyBind:GetValue(): string?
-		return self:GetBind()
+		return bind()
 	end
 
-	function KeyBind:SetValue(v: string)
-		KeyBind.Bind = tostring(v)
-		KeyBind.IsKey = #tostring(v) == 1
-		bindSource(tostring(v))
-		isKeySource(KeyBind.IsKey)
-		if KeyBind.Callback then
-			KeyBind.Callback(tostring(v))
+	function KeyBind:SetValue(value: string | EnumItem | nil)
+		if value == nil or value == "" then
+			setBind(nil, false)
+			return
+		end
+
+		if typeof(value) == "EnumItem" then
+			if value.EnumType == Enum.KeyCode then
+				setBind(value.Name, true)
+			elseif value.EnumType == Enum.UserInputType and MOUSE_BINDS[value.Name] == true then
+				setBind(MOUSE_ALIASES[value.Name] or value.Name, false)
+			else
+				error("Keybind value must be a KeyCode or mouse button")
+			end
+			return
+		end
+
+		if typeof(value) ~= "string" then
+			error("Keybind value must be a string or EnumItem")
+		end
+
+		if MOUSE_ALIASES[value] then
+			setBind(MOUSE_ALIASES[value], false)
+		elseif MOUSE_BINDS[value] then
+			setBind(value, false)
+		elseif Enum.KeyCode[value] then
+			setBind(value, true)
+		else
+			error("Unknown keybind: " .. value)
 		end
 	end
 
-	const bindContainer = frame {
-		Parent = parent,
-		Name = options.Name or "Keybind",
-		BorderSizePixel = 0,
-		BackgroundColor3 = function()
-			return options.Color or theme().ElementBackground
-		end,
-		Size = UDim2.new(0.9, 0, 0.07, 0),
-		Position = UDim2.new(0, 0, 0.51186, 0),
-		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		Children = {
-			vide.create "UICorner" {},
+	function KeyBind:SetCallback(callback)
+		KeyBind.Callback = callback
+	end
 
-			textlabel {
-				Name = "Title",
-				TextWrapped = true,
-				BorderSizePixel = 0,
-				TextXAlignment = Enum.TextXAlignment.Left,
-				TextScaled = true,
-				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-				TextColor3 = function()
-					return theme().TextPrimaryColor
-				end,
-				BackgroundTransparency = 1,
-				Size = UDim2.new(1, 0, 0.45282, 0),
-				Position = UDim2.new(0, 0, 0.26446, 0),
-				Text = options.Name or "Keybind",
-				Children = {
-					uipadding {
-						PaddingLeft = UDim.new(0.05, 0),
-					},
-				},
-			},
+	function KeyBind:SetProcessed(processed: boolean)
+		allowProcessed = processed
+		KeyBind.Processed = processed
+	end
 
-			uistroke {
-				Color = function()
-					return theme().ElementStroke
-				end,
-			},
-
-			textbutton {
-				Name = "TextBox",
-				TextWrapped = true,
-				BorderSizePixel = 0,
-				TextScaled = true,
-				BackgroundColor3 = Color3.fromRGB(185, 185, 185),
-				TextColor3 = Color3.fromRGB(0, 0, 0),
-				Size = UDim2.new(0.17467, 0, 0.71728, 0),
-				Position = UDim2.new(0.80257, 0, 0.13354, 0),
-				Text = function()
-					const b = bindSource()
-					return if b and #b > 0 then b else (options.Placeholder or "Bind")
-				end,
-				MouseButton1Click = function()
-					isFocused = true
-					bindSource("...")
-				end,
-				Children = {
-					uistroke {
-						ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-						Color = Color3.fromRGB(255, 255, 255),
-					},
-					vide.create "UICorner" {},
-					uipadding {
-						PaddingLeft = UDim.new(0.05, 0),
-					},
-				},
-			},
-		},
-	}
-
-	UserInputService.InputBegan:Connect(function(input, proc)
-		if isFocused then
+	KeyBind:AddConnection(ui.Row.MouseEnter:Connect(function()
+		hovered(true)
+	end))
+	KeyBind:AddConnection(ui.Row.MouseLeave:Connect(function()
+		hovered(false)
+	end))
+	KeyBind:AddConnection(ui.BindButton.Activated:Connect(function()
+		if ignoreClick then
+			ignoreClick = false
+			return
+		end
+		listening(not listening())
+	end))
+	KeyBind:AddConnection(UserInputService.InputBegan:Connect(function(input, processed)
+		if listening() then
 			if input.UserInputType == Enum.UserInputType.Keyboard then
 				if input.KeyCode ~= Enum.KeyCode.Escape then
-					const keyName = input.KeyCode.Name
-					bindSource(keyName)
-					KeyBind.Bind = keyName
-					KeyBind.IsKey = true
-				else
-					bindSource(KeyBind.Bind or "")
+					setBind(input.KeyCode.Name, true)
 				end
+				listening(false)
 			elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
-				bindSource("LMB")
-				KeyBind.Bind = "MouseButton1"
-				KeyBind.IsKey = false
+				setBind("MouseButton1", false)
+				listening(false)
+				if containsPoint(ui.BindButton, input.Position) then
+					ignoreClick = true
+				end
 			elseif input.UserInputType == Enum.UserInputType.MouseButton2 then
-				bindSource("RMB")
-				KeyBind.Bind = "MouseButton2"
-				KeyBind.IsKey = false
+				setBind("MouseButton2", false)
+				listening(false)
 			elseif input.UserInputType == Enum.UserInputType.MouseButton3 then
-				bindSource("MMB")
-				KeyBind.Bind = "MouseButton3"
-				KeyBind.IsKey = false
+				setBind("MouseButton3", false)
+				listening(false)
 			end
-			isFocused = false
-		else
-			if proc and not KeyBind.UseProc then return end
-			if not KeyBind.Bind then return end
-
-			if KeyBind.IsKey then
-				if input.KeyCode.Name == KeyBind.Bind then
-					if KeyBind.Callback then
-						KeyBind.Callback()
-					end
-				end
-			else
-				if input.UserInputType.Name == KeyBind.Bind then
-					if KeyBind.Callback then
-						KeyBind.Callback()
-					end
-				end
-			end
+			return
 		end
+
+		if processed and not allowProcessed then
+			return
+		end
+		if not bind() then
+			return
+		end
+
+		local triggered = false
+		if isKey() then
+			triggered = input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode.Name == bind()
+		else
+			triggered = input.UserInputType.Name == bind()
+		end
+
+		if triggered and KeyBind.Callback then
+			KeyBind.Callback(bind())
+		end
+	end))
+	KeyBind:AddCleanup(destroyScope)
+	KeyBind:AddCleanup(function()
+		listening(false)
 	end)
 
-	KeyBind.Instance = bindContainer
+	KeyBind:SetValue(options.Default)
+	KeyBind.Label = ui.Title
+	KeyBind.Instance = ui.Row
 	return KeyBind
 end

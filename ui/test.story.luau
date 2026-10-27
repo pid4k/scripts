@@ -3,56 +3,59 @@ const vide = require("./vide")
 
 local story = {
 	vide = vide,
-	story = function(props)
-		local window = start:CreateWindow {
-			Size = UDim2.fromScale(.5,.5),
-			Name = "BeanzUI Test",
-			Parent = props.target,
+	story = function(_props)
+		local window = start.CreateWindow {
+			Title = "BeanzUI Test",
+			Size = UDim2.fromScale(0.5, 0.5),
 		}
+
+		vide.cleanup(function()
+			window:Destroy()
+		end)
 
 		local tab1 = window:CreateTab {
 			Name = "Elements",
 		}
 
-		local btn = tab1:Button {
+		tab1:Button {
 			Text = "Click Me",
 			Callback = function()
 				window:Notify("Button was clicked!")
 			end,
 		}
 
-		local tog = tab1:Toggle {
+		tab1:Toggle {
 			Text = "Enable Feature",
-			Toggled = true,
-			Callback = function(v)
-				window:Notify("Toggle is now: " .. tostring(v))
+			Default = true,
+			Callback = function(value)
+				window:Notify("Toggle is now: " .. tostring(value))
 			end,
 		}
 
-		local slider = tab1:Slider {
+		tab1:Slider {
 			Text = "WalkSpeed",
 			Min = 16,
 			Max = 200,
 			Default = 50,
 			Decimals = 0,
-			Callback = function(v)
-				print("Slider value:", v)
+			Callback = function(value)
+				print("Slider value:", value)
 			end,
 		}
 
-		local dd = tab1:Dropdown {
+		local weaponDropdown = tab1:Dropdown {
 			Name = "Select Weapon",
 		}
-		local opt1 = dd:Option { Name = "AK-47" }
-		local opt2 = dd:Option { Name = "M4A1" }
-		local opt3 = dd:Option { Name = "AWP" }
-		dd:Select(opt1)
+		local ak = weaponDropdown:AddOption { Name = "AK-47" }
+		weaponDropdown:AddOption { Name = "M4A1" }
+		weaponDropdown:AddOption { Name = "AWP" }
+		weaponDropdown:Select(ak)
 
-		local tb = tab1:TextBox {
+		tab1:TextBox {
 			Text = "Custom Name",
-			PlaceholderText = "Enter name...",
-			Callback = function(txt)
-				window:Notify("Input: " .. txt)
+			Placeholder = "Enter name...",
+			Callback = function(text)
+				window:Notify("Input: " .. text)
 			end,
 		}
 
@@ -61,7 +64,7 @@ local story = {
 		}
 
 		tab1:Info {
-			Text = "Info: Ported cleanly to Vide reactive system.",
+			Text = "Info: Ported cleanly to the Ripple animation library.",
 		}
 
 		tab1:Message {
@@ -70,7 +73,7 @@ local story = {
 
 		tab1:BindKey {
 			Name = "Teleport Key",
-			Bind = "T",
+			Default = "T",
 			Callback = function()
 				window:Notify("Teleport key pressed!")
 			end,
@@ -78,14 +81,15 @@ local story = {
 
 		tab1:BindButton {
 			Name = "Mobile Lock",
-			Text = "Lock",
+			Text = "Mobile Lock",
+			ButtonText = "Lock",
 			Visible = true,
 		}
 
-		local unsavedTog = tab1:Toggle {
+		tab1:Toggle {
 			Text = "Unsaved Toggle",
 			Save = false,
-			Toggled = false,
+			Default = false,
 		}
 
 		local tab2 = window:CreateTab {
@@ -100,27 +104,30 @@ local story = {
 				window:Notify("Exported: " .. json)
 			end,
 		}
-		local themeDrop = tab2:Dropdown{
-			Name = "Theme"
+
+		local themeDropdown = tab2:Dropdown {
+			Name = "Theme",
 		}
-		local registry = require("./utils/themes/registry")
-		local themeOpts = {}
+		const registry = require("./utils/themes/registry")
+		const themeOptions = {}
 		for themeName, theme in registry do
-			if typeof(theme) == "function" then continue end
-			const opt =  themeDrop:Option{
+			if typeof(theme) == "function" then
+				continue
+			end
+			themeOptions[themeName] = themeDropdown:AddOption {
 				Name = themeName,
 				Callback = function()
 					window:SetTheme(themeName)
 				end,
 			}
-			themeOpts[themeName] = opt
 		end
-		themeDrop:Select(themeOpts.Default)
+		themeDropdown:Select(themeOptions.Default)
+
 		tab2:Button {
 			Text = "Load Preset Config",
 			Callback = function()
 				window:Import({
-					["WalkSpeed"] = 120,
+					WalkSpeed = 120,
 					["Select Weapon"] = "AWP",
 					["Enable Feature"] = false,
 					["Custom Name"] = "LoadedUser",
@@ -128,8 +135,6 @@ local story = {
 				window:Notify("Loaded Preset Config!")
 			end,
 		}
-
-		return window.Instance
 	end,
 }
 
